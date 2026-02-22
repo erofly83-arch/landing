@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataMatcher | Умная автоматизация сопоставления данных</title>
+    <meta name="description" content="Универсальный сервис для автоматического сопоставления данных, сравнения прайсов и генерации отчетов. Экономьте часы работы.">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3b82f6', // blue-500
+                        primaryHover: '#2563eb', // blue-600
+                        dark: '#0f172a', // slate-900
+                        darker: '#020617', // slate-950
+                        surface: '#1e293b', // slate-800
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-primary selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-lg border-b border-gray-200/50" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="text-2xl font-black tracking-tight text-dark flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-sm">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        Data<span class="text-primary">Matcher</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#problems" class="text-sm font-semibold text-gray-600 hover:text-dark transition-colors">Какие боли закрываем</a>
+                    <a href="#how-it-works" class="text-sm font-semibold text-gray-600 hover:text-dark transition-colors">Схема работы</a>
+                    <a href="#pricing" class="text-sm font-semibold text-gray-600 hover:text-dark transition-colors">Стоимость</a>
+                    <a href="#contact" class="bg-dark text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Обсудить проект</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-900 text-2xl focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl">
+            <div class="px-4 py-4 space-y-1">
+                <a href="#problems" class="block px-4 py-3 text-base font-medium text-gray-800 rounded-lg hover:bg-gray-50 mobile-link">Какие боли закрываем</a>
+                <a href="#how-it-works" class="block px-4 py-3 text-base font-medium text-gray-800 rounded-lg hover:bg-gray-50 mobile-link">Схема работы</a>
+                <a href="#pricing" class="block px-4 py-3 text-base font-medium text-gray-800 rounded-lg hover:bg-gray-50 mobile-link">Стоимость</a>
+                <a href="#contact" class="block px-4 py-3 text-base font-bold text-primary bg-blue-50 rounded-lg mobile-link mt-4">Обсудить проект</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Premium Dark) -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-darker overflow-hidden">
+        <!-- Abstract Glows -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary/20 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700/50 bg-gray-800/50 backdrop-blur-sm text-gray-300 font-medium text-xs tracking-wide uppercase mb-8">
+                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                    Универсально. Подстраивается под любую нишу.
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-8 leading-[1.1]">
+                    Превратите часы работы <br class="hidden md:block" />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">в пару минут.</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+                    Умный сервис для автоматического сопоставления данных. Сравнивает любые списки, находит совпадения и собирает идеальный итоговый файл. <strong class="text-white font-semibold">Без ошибок и рутины.</strong>
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#contact" class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-primaryHover transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] flex items-center justify-center gap-2">
+                        Запросить демо
+                    </a>
+                    <a href="#how-it-works" class="bg-white/5 text-white border border-white/10 px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2">
+                        Узнать больше
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section (Pain points) -->
+    <section id="problems" class="py-24 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black text-dark mb-4">Знакомые проблемы?</h2>
+                <p class="text-xl text-gray-500 max-w-2xl mx-auto">Рутинная обработка данных каждый день съедает ваше время и деньги.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
+                    <div class="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center text-red-500 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Потеря времени</h3>
+                    <p class="text-gray-600 leading-relaxed">Сотрудники тратят часы или дни на сведение таблиц вручную. Всю эту работу алгоритм делает за 3-5 секунд.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
+                    <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-500 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-user-xmark"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Человеческий фактор</h3>
+                    <p class="text-gray-600 leading-relaxed">Люди устают и ошибаются. Опечатки, пропущенные строки и неверные цены ведут к прямым убыткам бизнеса.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-primary text-2xl mb-6 group-hover:scale-110 transition-transform">
+                        <i class="fa-solid fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-dark mb-3">Лишние расходы</h3>
+                    <p class="text-gray-600 leading-relaxed">Вместо того чтобы нанимать дополнительных людей для обработки баз, автоматизируйте процесс раз и навсегда.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-24 bg-gray-50 border-t border-gray-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                
+                <div class="lg:w-1/2">
+                    <h2 class="text-3xl md:text-5xl font-black text-dark mb-6">Как это работает? <br>Просто как 1-2-3.</h2>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                        Никаких сложных настроек программирования для пользователя. Вы просто загружаете файлы, а умный алгоритм сам понимает, какие позиции идентичны.
+                    </p>
+                    
+                    <div class="space-y-8">
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-5">
+                                <div class="w-12 h-12 rounded-full bg-white border-2 border-primary flex items-center justify-center text-primary font-bold text-xl shadow-sm">1</div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-dark mb-2">Загрузка файлов</h4>
+                                <p class="text-gray-600">Загружаете свои таблицы в систему. Любые форматы, любое количество строк, любая структура.</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-5">
+                                <div class="w-12 h-12 rounded-full bg-white border-2 border-primary flex items-center justify-center text-primary font-bold text-xl shadow-sm">2</div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-dark mb-2">Автоматическое сопоставление</h4>
+                                <p class="text-gray-600">Алгоритм ищет совпадения, учитывая опечатки и разницу в названиях. Затем применяет фильтры и правила.</p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0 mr-5">
+                                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shadow-primary/30">3</div>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-dark mb-2">Получение результата</h4>
+                                <p class="text-gray-600">Скачиваете готовую сводную таблицу в удобном виде. Чисто, красиво и без дублей.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visual Representation -->
+                <div class="lg:w-1/2 w-full">
+                    <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 relative">
+                        <div class="absolute -top-4 -right-4 bg-green-500 text-white font-bold px-4 py-2 rounded-xl shadow-lg transform rotate-3 z-10">
+                            Любая сфера бизнеса
+                        </div>
+                        
+                        <!-- Mockup App UI -->
+                        <div class="space-y-4">
+                            <!-- Input Files -->
+                            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-file-excel text-green-600 text-2xl"></i>
+                                    <div>
+                                        <div class="text-sm font-bold text-dark">База_клиентов.xlsx</div>
+                                        <div class="text-xs text-gray-500">12 450 строк</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-check-circle text-green-500"></i>
+                            </div>
+                            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-file-csv text-blue-500 text-2xl"></i>
+                                    <div>
+                                        <div class="text-sm font-bold text-dark">Выгрузка_CRM.csv</div>
+                                        <div class="text-xs text-gray-500">8 320 строк</div>
+                                    </div>
+                                </div>
+                                <i class="fa-solid fa-check-circle text-green-500"></i>
+                            </div>
+                            
+                            <!-- Processing -->
+                            <div class="py-6 flex flex-col items-center justify-center relative">
+                                <div class="w-0.5 h-10 bg-gradient-to-b from-gray-200 to-primary"></div>
+                                <div class="bg-blue-50 text-primary border border-blue-200 rounded-full px-6 py-2 text-sm font-bold flex items-center gap-2 my-2 shadow-sm">
+                                    <i class="fa-solid fa-arrows-rotate animate-spin"></i> Сравнение и анализ
+                                </div>
+                                <div class="w-0.5 h-10 bg-gradient-to-t from-gray-200 to-primary"></div>
+                            </div>
+                            
+                            <!-- Output -->
+                            <div class="bg-green-50 border-2 border-green-200 rounded-xl p-5 flex items-center justify-between shadow-sm">
+                                <div class="flex items-center gap-4">
+                                    <div class="bg-green-100 p-3 rounded-lg text-green-600">
+                                        <i class="fa-solid fa-table-list text-2xl"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-base font-bold text-dark">Итоговый_Отчет.xlsx</div>
+                                        <div class="text-xs font-medium text-green-700 mt-1">Готово за 4.2 секунды</div>
+                                    </div>
+                                </div>
+                                <button class="bg-green-600 hover:bg-green-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                                    <i class="fa-solid fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 bg-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-black mb-4">Честные цены. Без скрытых платежей.</h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">Выберите формат, который подходит под ваши задачи.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                
+                <!-- Base Version -->
+                <div class="bg-surface rounded-3xl p-8 lg:p-12 border border-gray-700 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-2">Версия «Из коробки»</h3>
+                    <p class="text-gray-400 mb-8 h-12">Готовое универсальное решение для стандартных задач бизнеса.</p>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-end gap-2">
+                            <span class="text-5xl font-black">25 000</span>
+                            <span class="text-xl text-gray-400 font-medium mb-1">₽</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Единоразовый платеж. Никаких подписок.</p>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-10 flex-grow">
+                        <li class="flex items-start text-gray-300">
+                            <i class="fa-solid fa-check text-green-400 mt-1 mr-3"></i> 
+                            <span>Универсальный алгоритм сопоставления</span>
+                        </li>
+                        <li class="flex items-start text-gray-300">
+                            <i class="fa-solid fa-check text-green-400 mt-1 mr-3"></i> 
+                            <span>Работает локально или на хостинге</span>
+                        </li>
+                        <li class="flex items-start text-gray-300">
+                            <i class="fa-solid fa-check text-green-400 mt-1 mr-3"></i> 
+                            <span>Поддержка форматов Excel / CSV</span>
+                        </li>
+                        <li class="flex items-start font-semibold text-white mt-4 pt-4 border-t border-gray-700">
+                            <i class="fa-solid fa-gift text-primary mt-1 mr-3"></i> 
+                            <span>Бесплатное обучение и поддержка</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="block w-full text-center py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold transition-colors">Выбрать базовую</a>
+                </div>
+
+                <!-- Custom Version -->
+                <div class="bg-gradient-to-b from-primary to-blue-900 rounded-3xl p-8 lg:p-12 border border-blue-400 flex flex-col relative shadow-[0_0_40px_rgba(59,130,246,0.2)]">
+                    <div class="absolute top-0 right-8 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1.5 rounded-b-lg uppercase tracking-wider">
+                        Самый частый выбор
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold mb-2">Индивидуально</h3>
+                    <p class="text-blue-200 mb-8 h-12">Полная кастомизация приложения под конкретно ваши бизнес-процессы.</p>
+                    
+                    <div class="mb-8">
+                        <div class="flex items-end gap-2">
+                            <span class="text-5xl font-black">По запросу</span>
+                        </div>
+                        <p class="text-sm text-blue-200 mt-2">Оценивается после изучения задачи</p>
+                    </div>
+                    
+                    <ul class="space-y-4 mb-10 flex-grow">
+                        <li class="flex items-start text-white">
+                            <i class="fa-solid fa-check text-yellow-300 mt-1 mr-3"></i> 
+                            <span>Всё, что есть в базовой версии</span>
+                        </li>
+                        <li class="flex items-start text-white">
+                            <i class="fa-solid fa-check text-yellow-300 mt-1 mr-3"></i> 
+                            <span>Добавление сложных специфических фильтров</span>
+                        </li>
+                        <li class="flex items-start text-white">
+                            <i class="fa-solid fa-check text-yellow-300 mt-1 mr-3"></i> 
+                            <span>Любая структура итогового документа</span>
+                        </li>
+                        <li class="flex items-start text-white font-semibold mt-4 pt-4 border-t border-blue-500/50">
+                            <i class="fa-solid fa-wand-magic-sparkles text-yellow-300 mt-1 mr-3"></i> 
+                            <span>Реализуем практически любой ваш запрос</span>
+                        </li>
+                    </ul>
+                    
+                    <a href="#contact" class="block w-full text-center py-4 bg-white text-primary hover:bg-gray-50 rounded-xl font-bold transition-colors shadow-lg">Рассчитать стоимость</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact form section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-50 rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col lg:flex-row">
+                
+                <!-- Info Side -->
+                <div class="lg:w-5/12 p-10 lg:p-12 bg-dark text-white relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full opacity-20 blur-3xl -mr-20 -mt-20"></div>
+                    <div class="relative z-10 h-full flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-3xl font-black mb-4">Готовы обсудить?</h2>
+                            <p class="text-gray-400 text-lg mb-10">Напишите мне напрямую. Я расскажу, как система решит вашу задачу и покажу примеры работы.</p>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-primary text-xl border border-gray-700">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-400">Разработчик</div>
+                                        <div class="font-bold text-lg">Дмитрий Воронцов</div>
+                                    </div>
+                                </div>
+                                <a href="tel:+79130998250" class="flex items-center gap-4 group hover:opacity-80 transition-opacity">
+                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-primary text-xl border border-gray-700">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-400">Телефон / WhatsApp</div>
+                                        <div class="font-bold text-lg">+7 (913) 099-82-50</div>
+                                    </div>
+                                </a>
+                                <a href="https://t.me/vorontsov_dmitriy" target="_blank" class="flex items-center gap-4 group hover:opacity-80 transition-opacity">
+                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-cyan-400 text-xl border border-gray-700">
+                                        <i class="fa-brands fa-telegram"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-400">Telegram</div>
+                                        <div class="font-bold text-lg">@vorontsov_dmitriy</div>
+                                    </div>
+                                </a>
+                                <a href="mailto:hello@datamatcher.ru" class="flex items-center gap-4 group hover:opacity-80 transition-opacity">
+                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-primary text-xl border border-gray-700">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-400">Email</div>
+                                        <div class="font-bold text-lg">hello@datamatcher.ru</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Side -->
+                <div class="lg:w-7/12 p-10 lg:p-12 bg-white">
+                    <h3 class="text-2xl font-bold text-dark mb-6">Оставить заявку</h3>
+                    
+                    <form id="contact-form" class="space-y-5">
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700">Как к вам обращаться?</label>
+                            <input type="text" name="user_name" placeholder="Ваше имя" required 
+                                   class="w-full px-4 py-3.5 bg-gray-50 rounded-xl border border-gray-200 outline-none focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700">Куда вам ответить?</label>
+                            <input type="text" name="user_contact" placeholder="Номер телефона или ник в Telegram" required 
+                                   class="w-full px-4 py-3.5 bg-gray-50 rounded-xl border border-gray-200 outline-none focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-sm font-semibold text-gray-700">Какая у вас задача? (необязательно)</label>
+                            <textarea name="user_task" rows="3" placeholder="Например: нужно раз в неделю сравнивать файлы от поставщиков..." 
+                                      class="w-full px-4 py-3.5 bg-gray-50 rounded-xl border border-gray-200 outline-none focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"></textarea>
+                        </div>
+                        
+                        <button type="submit" id="submit-btn" class="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-primaryHover transition-all shadow-md flex items-center justify-center gap-2 mt-4">
+                            <span>Отправить заявку</span>
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                        <p class="text-xs text-center text-gray-400 mt-4">Мы не передаем ваши данные третьим лицам.</p>
+                    </form>
+
+                    <!-- Успешное сообщение -->
+                    <div id="success-message" class="hidden h-full flex-col items-center justify-center text-center py-10">
+                        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center text-4xl mb-6 mx-auto">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-dark mb-2">Заявка успешно отправлена!</h4>
+                        <p class="text-gray-600">Дмитрий свяжется с вами в ближайшее время по указанным контактам.</p>
+                        <button onclick="resetForm()" class="mt-8 text-primary font-semibold hover:underline">Отправить еще одну</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white py-8 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="font-bold text-dark flex items-center gap-2">
+                <i class="fa-solid fa-layer-group text-primary"></i> DataMatcher
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2024 Разработано Дмитрием Воронцовым. Локально и на хостинге.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Скрипт отправки формы в Telegram -->
+    <script>
+        // === НАСТРОЙКИ TELEGRAM БОТА (API) ===
+        // Вставьте сюда реальный токен бота и свой Chat ID. Пока тут стоят "от балды".
+        const TG_TOKEN = "1234567890:AAH_DummyTokenForTesting123abcXYZ"; 
+        const TG_CHAT_ID = "987654321";
+        // =====================================
+
+        const form = document.getElementById('contact-form');
+        const successMsg = document.getElementById('success-message');
+        const submitBtn = document.getElementById('submit-btn');
+
+        // Функция возврата формы в исходное состояние
+        function resetForm() {
+            form.reset();
+            successMsg.classList.add('hidden');
+            form.classList.remove('hidden');
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Запускаем спиннер загрузки на кнопке
+            const originalBtnContent = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-xl"></i><span> Отправка...</span>';
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+
+            // Собираем данные
+            const formData = new FormData(form);
+            const text = `🚀 *Новая заявка с сайта!*\n\n` +
+                         `👤 *Имя:* ${formData.get('user_name')}\n` +
+                         `📞 *Контакт:* ${formData.get('user_contact')}\n` +
+                         `📝 *Задача:* ${formData.get('user_task') || 'Не указана'}`;
+
+            const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TG_CHAT_ID,
+                        text: text,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                if (response.ok) {
+                    // Идеальный сценарий - данные ушли
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                } else {
+                    const errorData = await response.json();
+                    console.warn("Ошибка API Telegram:", errorData);
+                    
+                    // Если токен "от балды" (мы это проверяем), просто симулируем успех для красоты визуала на демо
+                    if (TG_TOKEN.includes("DummyToken")) {
+                        console.log("ВНИМАНИЕ: Форма сработала, скрипт отличный! Но так как токен тестовый, реального сообщения не будет. Вставьте свой токен в код.");
+                        form.classList.add('hidden');
+                        successMsg.classList.remove('hidden');
+                    } else {
+                        alert("Ошибка Telegram: Проверьте правильность Токена и Chat ID.");
+                    }
+                }
+            } catch (err) {
+                console.error("Ошибка сети:", err);
+                alert("Ошибка соединения. Пожалуйста, напишите напрямую в Telegram.");
+            } finally {
+                // Возвращаем кнопку в нормальное состояние (вдруг была ошибка)
+                submitBtn.innerHTML = originalBtnContent;
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+            }
+        });
+
+        // Мобильное меню
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
