@@ -1,535 +1,952 @@
 <!DOCTYPE html>
-<html lang="ru" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataMatcher | Умная автоматизация сопоставления данных</title>
-    <meta name="description" content="Универсальный сервис для автоматического сопоставления данных, сравнения прайсов и генерации отчетов. Экономьте часы работы.">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#3b82f6', // blue-500
-                        primaryHover: '#2563eb', // blue-600
-                        dark: '#0f172a', // slate-900
-                        darker: '#020617', // slate-950
-                        surface: '#1e293b', // slate-800
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body class="font-sans text-gray-800 antialiased bg-gray-50 selection:bg-primary selection:text-white">
+<html lang="ru" class=""><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ПрайсМастер — Автоматическое сравнение прайс-листов</title>
+<meta name="description" content="ПрайсМастер — автоматическое сопоставление прайс-листов поставщиков. 3 часа ручной работы за 7 минут.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+/* ===================== VARIABLES ===================== */
+:root {
+  --blue:       #1566EF;
+  --blue-d:     #0F55D4;
+  --blue-l:     #3D84F7;
+  --blue-bg:    #EBF1FD;
+  --blue-bg2:   #F0F6FF;
+  --green:      #0DE7A8;
+  --green-bg:   #E6FDF6;
+  --navy:       #0A1628;
+  --gray-6:     #64748B;
+  --gray-4:     #94A3B8;
+  --gray-3:     #CBD5E1;
+  --gray-2:     #E2E8F0;
+  --gray-1:     #F1F5F9;
+  --gray-05:    #F8FAFC;
+  --white:      #FFFFFF;
+  --text:       #0F172A;
+  --sh:         0 2px 12px rgba(21,102,239,.10);
+  --sh-md:      0 8px 32px rgba(21,102,239,.13);
+  --sh-lg:      0 20px 64px rgba(21,102,239,.16);
+  --sh-card:    0 4px 24px rgba(15,23,42,.07);
+  --sh-card-h:  0 12px 48px rgba(15,23,42,.13);
+  --r:          18px;
+  --r-sm:       12px;
+  --tr:         .3s cubic-bezier(.4,0,.2,1);
+}
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-lg border-b border-gray-200/50" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="text-2xl font-black tracking-tight text-dark flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-sm">
-                            <i class="fa-solid fa-layer-group"></i>
-                        </div>
-                        Data<span class="text-primary">Matcher</span>
-                    </a>
-                </div>
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#problems" class="text-sm font-semibold text-gray-600 hover:text-dark transition-colors">Какие боли закрываем</a>
-                    <a href="#how-it-works" class="text-sm font-semibold text-gray-600 hover:text-dark transition-colors">Схема работы</a>
-                    <a href="#pricing" class="text-sm font-semibold text-gray-600 hover:text-dark transition-colors">Стоимость</a>
-                    <a href="#contact" class="bg-dark text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-gray-800 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Обсудить проект</a>
-                </div>
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-900 text-2xl focus:outline-none">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                </div>
-            </div>
+/* ===================== RESET ===================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:'Manrope',sans-serif;color:var(--text);background:var(--white);line-height:1.65;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+ul{list-style:none}
+::selection{background:var(--blue);color:#fff}
+
+/* ===================== UTILITIES ===================== */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section{padding:104px 0}
+.section-sm{padding:72px 0}
+
+/* ===================== KEYFRAMES ===================== */
+@keyframes fadeUp   {from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn   {from{opacity:0}to{opacity:1}}
+@keyframes scaleIn  {from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes float    {0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes floatR   {0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+@keyframes spin     {from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes pulse    {0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes gradMove {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes countUp  {}
+@keyframes ripple   {from{transform:scale(0);opacity:.6}to{transform:scale(3);opacity:0}}
+@keyframes shimmer  {from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes blink    {0%,100%{opacity:1}50%{opacity:0}}
+
+/* ===================== REVEAL (scroll) ===================== */
+.rv{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:translateY(0)}
+.rv-l{opacity:0;transform:translateX(-36px);transition:opacity .7s ease,transform .7s ease}
+.rv-l.in{opacity:1;transform:translateX(0)}
+.rv-r{opacity:0;transform:translateX(36px);transition:opacity .7s ease,transform .7s ease}
+.rv-r.in{opacity:1;transform:translateX(0)}
+.rv-s{opacity:0;transform:scale(.94);transition:opacity .6s ease,transform .6s ease}
+.rv-s.in{opacity:1;transform:scale(1)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+.d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
+
+/* ===================== TAG ===================== */
+.tag{display:inline-flex;align-items:center;gap:7px;background:var(--blue-bg);color:var(--blue);font-size:12px;font-weight:700;padding:6px 14px;border-radius:50px;letter-spacing:.06em;text-transform:uppercase}
+.tag-green{background:var(--green-bg);color:#059669}
+
+/* ===================== SECTION HEADER ===================== */
+.sec-hd{text-align:center;max-width:700px;margin:0 auto 72px}
+.sec-hd h2{font-family:'Unbounded',sans-serif;font-size:clamp(26px,3.8vw,42px);font-weight:700;line-height:1.18;color:var(--navy);margin:14px 0 18px}
+.sec-hd p{font-size:17px;color:var(--gray-6);line-height:1.75}
+
+/* ===================== BUTTONS ===================== */
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Manrope',sans-serif;font-weight:700;cursor:pointer;border:none;transition:all var(--tr);white-space:nowrap;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,0);transition:background var(--tr)}
+.btn:hover::after{background:rgba(255,255,255,.08)}
+.btn-primary{background:var(--blue);color:#fff;padding:14px 28px;border-radius:var(--r-sm);font-size:15px}
+.btn-primary:hover{background:var(--blue-d);box-shadow:0 8px 24px rgba(21,102,239,.35);transform:translateY(-2px)}
+.btn-primary:active{transform:translateY(0)}
+.btn-primary-lg{padding:18px 36px;font-size:16px;border-radius:14px}
+.btn-outline{background:transparent;color:var(--blue);padding:14px 28px;border-radius:var(--r-sm);font-size:15px;border:2px solid var(--gray-2)}
+.btn-outline:hover{border-color:var(--blue);background:var(--blue-bg);transform:translateY(-2px)}
+.btn-green{background:var(--green);color:var(--navy);padding:14px 28px;border-radius:var(--r-sm);font-size:15px}
+.btn-green:hover{background:#0bcf96;box-shadow:0 8px 24px rgba(13,231,168,.35);transform:translateY(-2px)}
+
+/* ===================== HEADER ===================== */
+header{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color var(--tr),box-shadow var(--tr)}
+header.scrolled{border-color:var(--gray-2);box-shadow:0 2px 20px rgba(15,23,42,.06)}
+.hd-inner{display:flex;align-items:center;justify-content:space-between;height:70px;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:36px;height:36px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;transition:transform var(--tr)}
+.logo:hover .logo-mark{transform:rotate(-6deg) scale(1.08)}
+.logo-mark svg{width:20px;height:20px}
+.logo-name{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.logo-name span{color:var(--blue)}
+nav{display:flex;align-items:center;gap:28px}
+nav a{font-size:14px;font-weight:600;color:var(--gray-6);transition:color var(--tr);position:relative}
+nav a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:center;transition:transform var(--tr)}
+nav a:hover{color:var(--blue)}
+nav a:hover::after{transform:scaleX(1)}
+.hd-right{display:flex;align-items:center;gap:12px}
+.lang-sw{display:flex;align-items:center;background:var(--gray-1);border-radius:8px;padding:3px;gap:2px}
+.lang-btn{padding:5px 10px;border-radius:6px;font-size:12px;font-weight:700;color:var(--gray-6);transition:all var(--tr);cursor:pointer;border:none;background:none;font-family:inherit}
+.lang-btn.active{background:var(--white);color:var(--blue);box-shadow:0 1px 6px rgba(0,0,0,.1)}
+.burger{display:none;flex-direction:column;gap:5px;width:26px;cursor:pointer;padding:4px 0}
+.burger span{display:block;height:2px;background:var(--navy);border-radius:2px;transition:all var(--tr)}
+
+/* ===================== MOBILE NAV ===================== */
+.mob-nav{display:none;position:fixed;top:70px;inset-inline:0;bottom:0;background:#fff;z-index:999;padding:32px 24px;flex-direction:column;gap:6px;overflow-y:auto;border-top:1px solid var(--gray-2)}
+.mob-nav.open{display:flex}
+.mob-nav a{font-size:17px;font-weight:600;color:var(--navy);padding:14px 16px;border-radius:12px;transition:all var(--tr)}
+.mob-nav a:hover{background:var(--blue-bg);color:var(--blue)}
+.mob-nav .mob-cta{margin-top:16px}
+
+/* ===================== HERO ===================== */
+.hero{padding:80px 0 100px;position:relative;overflow:hidden;background:var(--white)}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-blob1{position:absolute;top:-180px;right:-120px;width:700px;height:700px;background:radial-gradient(circle,rgba(21,102,239,.08) 0%,transparent 65%)}
+.hero-blob2{position:absolute;bottom:-100px;left:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(13,231,168,.07) 0%,transparent 65%)}
+.hero-grid-line{position:absolute;inset:0;background-image:linear-gradient(var(--gray-2) 1px,transparent 1px),linear-gradient(90deg,var(--gray-2) 1px,transparent 1px);background-size:48px 48px;opacity:.35;mask-image:radial-gradient(ellipse 80% 60% at 60% 40%,black 0%,transparent 80%)}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;z-index:1}
+.hero-badge{margin-bottom:22px;animation:fadeUp .6s ease both}
+.hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(30px,4.2vw,54px);font-weight:900;line-height:1.08;color:var(--navy);margin-bottom:22px;animation:fadeUp .7s .1s ease both}
+.hero h1 .hl{background:linear-gradient(135deg,var(--blue),var(--blue-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p.lead{font-size:17px;color:var(--gray-6);line-height:1.78;margin-bottom:36px;animation:fadeUp .7s .2s ease both}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:52px;animation:fadeUp .7s .3s ease both}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;padding-top:32px;border-top:1px solid var(--gray-2);animation:fadeUp .7s .4s ease both}
+.hero-stat{padding:0 24px;border-right:1px solid var(--gray-2)}
+.hero-stat:first-child{padding-left:0}
+.hero-stat:last-child{border-right:none}
+.hs-num{font-family:'Unbounded',sans-serif;font-size:30px;font-weight:900;color:var(--navy);line-height:1;display:flex;align-items:baseline;gap:4px}
+.hs-num .u{font-size:16px;color:var(--blue)}
+.hs-lbl{font-size:13px;color:var(--gray-4);margin-top:6px}
+/* Hero Visual */
+.hero-visual{position:relative;animation:scaleIn .8s .15s ease both}
+.screen-wrap{background:#fff;border-radius:20px;box-shadow:0 24px 80px rgba(15,23,42,.14),0 0 0 1px var(--gray-2);overflow:hidden}
+.screen-bar{background:var(--gray-05);padding:11px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gray-2)}
+.dots{display:flex;gap:6px}
+.dots span{width:11px;height:11px;border-radius:50%}
+.dots span:nth-child(1){background:#FC5154}
+.dots span:nth-child(2){background:#FCBB40}
+.dots span:nth-child(3){background:#42C95F}
+.bar-title{font-size:12px;color:var(--gray-4);font-weight:600;margin:0 auto}
+.screen-ph{background:linear-gradient(135deg,var(--blue-bg2) 0%,#f5f8ff 100%);aspect-ratio:16/10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--blue);font-size:13px;font-weight:600;position:relative;overflow:hidden}
+.screen-ph::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);animation:shimmer 3s 2s infinite}
+.ph-ic{width:52px;height:52px;background:rgba(21,102,239,.1);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+/* Float badges */
+.float-badge{position:absolute;background:#fff;border-radius:14px;box-shadow:var(--sh-md);padding:12px 16px;display:flex;align-items:center;gap:10px;border:1px solid var(--gray-2);animation:float 4s ease-in-out infinite}
+.fb-left{bottom:-16px;left:-28px;animation-delay:.5s}
+.fb-right{top:24px;right:-24px;animation:floatR 5s ease-in-out infinite}
+.fb-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.fb-icon-green{background:var(--green-bg)}
+.fb-icon-blue{background:var(--blue-bg)}
+.fb-val{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:var(--navy);line-height:1}
+.fb-lbl{font-size:11px;color:var(--gray-4);margin-top:2px}
+
+/* ===================== NUMBERS TICKER ===================== */
+.number-ticker{display:inline-block}
+
+/* ===================== PAIN SECTION ===================== */
+.pain-section{background:var(--gray-05);border-top:1px solid var(--gray-2);border-bottom:1px solid var(--gray-2)}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.pain-eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-4);margin-bottom:14px}
+.pain-grid h2{font-family:'Unbounded',sans-serif;font-size:clamp(24px,3.2vw,38px);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:20px}
+.pain-grid h2 .red{color:#EF4444}
+.pain-grid p{font-size:16px;color:var(--gray-6);line-height:1.78}
+.pain-items{margin-top:32px;display:flex;flex-direction:column;gap:14px}
+.pain-item{display:flex;align-items:flex-start;gap:14px;padding:16px 20px;background:#fff;border:1px solid var(--gray-2);border-radius:14px;transition:all var(--tr)}
+.pain-item:hover{box-shadow:var(--sh-card);transform:translateX(4px)}
+.pi-ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;background:var(--gray-1)}
+.pain-item p{font-size:14px;color:var(--gray-6);line-height:1.65}
+.pain-item strong{color:var(--navy)}
+/* Transform box */
+.transform-box{background:#fff;border:1px solid var(--gray-2);border-radius:22px;padding:40px;box-shadow:var(--sh-card)}
+.tb-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:24px;display:flex;align-items:center;gap:8px}
+.transform-row{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.time-blk{flex:1;text-align:center;padding:24px 14px;border-radius:14px}
+.time-blk.before{background:var(--gray-1);border:1px solid var(--gray-2)}
+.time-blk.after{background:linear-gradient(135deg,#E6FDF6,#F0FDF8);border:1px solid rgba(13,231,168,.3)}
+.tb-val{font-family:'Unbounded',sans-serif;font-size:34px;font-weight:900;line-height:1}
+.time-blk.before .tb-val{color:var(--gray-3);text-decoration:line-through}
+.time-blk.after .tb-val{color:#059669}
+.tb-sub{font-size:12px;color:var(--gray-4);margin-top:6px}
+.tb-arrow{font-size:24px;flex-shrink:0;color:var(--gray-3)}
+.tb-sols{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.tb-sol{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--gray-6);padding:10px 14px;background:var(--gray-05);border-radius:10px;border:1px solid var(--gray-2)}
+.tb-sol svg{flex-shrink:0;color:var(--green)}
+.saving-pill{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--green-bg),#F0FDF8);border:1px solid rgba(13,231,168,.4);color:#059669;font-size:14px;font-weight:700;padding:10px 20px;border-radius:50px;margin-top:20px}
+
+/* ===================== HOW IT WORKS ===================== */
+.how-section{background:#fff}
+.steps-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative}
+.steps-connector{position:absolute;top:52px;left:calc(16.667% + 20px);right:calc(16.667% + 20px);height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue-l) 100%);z-index:0;opacity:.25}
+.step-card{background:#fff;border:1px solid var(--gray-2);border-radius:22px;padding:36px 28px;position:relative;z-index:1;transition:all var(--tr)}
+.step-card:hover{box-shadow:var(--sh-md);transform:translateY(-6px);border-color:rgba(21,102,239,.3)}
+.step-num{width:52px;height:52px;background:var(--blue);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;color:#fff;margin-bottom:22px;transition:transform var(--tr)}
+.step-card:hover .step-num{transform:scale(1.1) rotate(-4deg)}
+.step-card h3{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.3}
+.step-card p{font-size:14px;color:var(--gray-6);line-height:1.72}
+.step-pill{margin-top:18px;display:inline-flex;align-items:center;gap:6px;background:var(--blue-bg);color:var(--blue);font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px}
+/* Tech grid */
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:64px}
+.tech-card{background:var(--gray-05);border:1px solid var(--gray-2);border-radius:18px;padding:28px 24px;transition:all var(--tr)}
+.tech-card:hover{background:#fff;box-shadow:var(--sh-card-h);transform:translateY(-4px);border-color:rgba(21,102,239,.2)}
+.tech-ic{font-size:32px;margin-bottom:14px}
+.tech-card h4{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;line-height:1.3}
+.tech-card p{font-size:13px;color:var(--gray-6);line-height:1.7}
+
+/* ===================== FEATURES ===================== */
+.features-section{background:var(--gray-05);border-top:1px solid var(--gray-2);border-bottom:1px solid var(--gray-2)}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feat-card{background:#fff;border:1px solid var(--gray-2);border-radius:20px;padding:32px;transition:all var(--tr);position:relative;overflow:hidden}
+.feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--blue-bg2),transparent);opacity:0;transition:opacity var(--tr)}
+.feat-card:hover{box-shadow:var(--sh-md);transform:translateY(-5px);border-color:rgba(21,102,239,.25)}
+.feat-card:hover::before{opacity:1}
+.feat-ic{width:52px;height:52px;border-radius:14px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:24px;transition:transform var(--tr);position:relative;z-index:1}
+.feat-card:hover .feat-ic{transform:scale(1.12) rotate(-5deg)}
+.feat-card h3{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.35;position:relative;z-index:1}
+.feat-card p{font-size:14px;color:var(--gray-6);line-height:1.72;position:relative;z-index:1}
+
+/* ===================== INDUSTRIES ===================== */
+.ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ind-card{border-radius:20px;padding:30px 26px;position:relative;overflow:hidden;transition:all var(--tr);cursor:default}
+.ind-card:hover{transform:translateY(-5px);box-shadow:var(--sh-card-h)}
+.ind-card.c1{background:linear-gradient(135deg,#EBF1FD,#DBEAFE)}
+.ind-card.c2{background:linear-gradient(135deg,#F0FDF4,#DCFCE7)}
+.ind-card.c3{background:linear-gradient(135deg,#FFF7ED,#FFEDD5)}
+.ind-card.c4{background:linear-gradient(135deg,#F5F3FF,#EDE9FE)}
+.ind-card.c5{background:linear-gradient(135deg,#ECFDF5,#D1FAE5)}
+.ind-card.c6{background:linear-gradient(135deg,#FEFCE8,#FEF08A55)}
+.ind-ic{font-size:34px;margin-bottom:14px;display:block;transition:transform var(--tr)}
+.ind-card:hover .ind-ic{transform:scale(1.15)}
+.ind-card h3{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.ind-card p{font-size:13px;color:var(--gray-6);line-height:1.65;margin-bottom:14px}
+.ind-tag{display:inline-flex;padding:4px 12px;background:rgba(255,255,255,.65);backdrop-filter:blur(4px);border-radius:50px;font-size:11px;font-weight:700;color:var(--navy)}
+
+/* ===================== SCREENSHOTS ===================== */
+.sc-section{background:#fff}
+.sc-scroll{display:flex;gap:22px;overflow-x:auto;padding:4px 24px 28px;scrollbar-width:thin;scrollbar-color:var(--gray-2) transparent;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.sc-scroll::-webkit-scrollbar{height:4px}
+.sc-scroll::-webkit-scrollbar-track{background:transparent}
+.sc-scroll::-webkit-scrollbar-thumb{background:var(--gray-2);border-radius:4px}
+.sc-item{flex-shrink:0;width:540px;scroll-snap-align:start}
+.sc-frame{background:#fff;border:1px solid var(--gray-2);border-radius:16px;overflow:hidden;box-shadow:var(--sh-card);transition:all var(--tr)}
+.sc-item:hover .sc-frame{box-shadow:var(--sh-md);transform:translateY(-4px)}
+.sc-bar{background:var(--gray-05);padding:10px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--gray-2)}
+.sc-dots{display:flex;gap:5px}
+.sc-dots span{width:9px;height:9px;border-radius:50%}
+.sc-dots span:nth-child(1){background:#FC5154}
+.sc-dots span:nth-child(2){background:#FCBB40}
+.sc-dots span:nth-child(3){background:#42C95F}
+.sc-body{aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--blue-bg2),var(--gray-05));color:var(--blue);font-size:13px;font-weight:600;position:relative;overflow:hidden}
+.sc-body::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%);animation:shimmer 4s infinite}
+.sc-ico{font-size:28px;opacity:.6}
+.sc-cap{margin-top:16px}
+.sc-cap h4{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.sc-cap p{font-size:13px;color:var(--gray-6)}
+.sc-hint{font-size:11px;color:var(--gray-4);font-style:italic;margin-top:6px;padding:6px 10px;background:var(--gray-05);border-radius:6px;border:1px dashed var(--gray-2)}
+
+/* ===================== PRICING ===================== */
+.price-section{background:var(--gray-05);border-top:1px solid var(--gray-2);border-bottom:1px solid var(--gray-2)}
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:860px;margin:0 auto}
+.price-card{background:#fff;border:2px solid var(--gray-2);border-radius:24px;padding:40px;transition:all var(--tr)}
+.price-card:hover{box-shadow:var(--sh-card-h);transform:translateY(-4px)}
+.price-card.featured{border-color:var(--blue);box-shadow:0 0 0 4px rgba(21,102,239,.08);position:relative}
+.featured-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:50px;white-space:nowrap}
+.pc-plan{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:10px}
+.pc-price{font-family:'Unbounded',sans-serif;font-size:38px;font-weight:900;color:var(--navy);line-height:1;margin-bottom:4px}
+.pc-price .cur{font-size:22px}
+.pc-price .ask{font-size:26px}
+.pc-desc{font-size:14px;color:var(--gray-6);line-height:1.65;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--gray-2)}
+.pc-feats{display:flex;flex-direction:column;gap:12px;margin-bottom:32px}
+.pf{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text)}
+.pf-ck{width:20px;height:20px;border-radius:50%;background:var(--green-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pf-ck svg{width:11px;height:11px;color:#059669}
+.pc-note{font-size:12px;color:var(--gray-4);text-align:center;margin-top:10px}
+
+/* ===================== TESTIMONIALS ===================== */
+.test-section{background:#fff}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.test-card{background:var(--gray-05);border:1px solid var(--gray-2);border-radius:22px;padding:32px;transition:all var(--tr);position:relative;overflow:hidden}
+.test-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blue-l));opacity:0;transition:opacity var(--tr)}
+.test-card:hover{background:#fff;box-shadow:var(--sh-md);transform:translateY(-5px)}
+.test-card:hover::before{opacity:1}
+.test-stars{display:flex;gap:3px;margin-bottom:16px}
+.star{color:#F59E0B;font-size:15px}
+.test-quote{font-size:36px;color:var(--blue-bg);font-family:Georgia,serif;line-height:1;margin-bottom:8px}
+.test-text{font-size:15px;color:var(--text);line-height:1.78;margin-bottom:22px}
+.test-author{display:flex;align-items:center;gap:12px;padding-top:20px;border-top:1px solid var(--gray-2)}
+.ta-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-l));display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
+.ta-name{font-size:14px;font-weight:700;color:var(--navy)}
+.ta-role{font-size:12px;color:var(--gray-4);margin-top:2px}
+
+/* ===================== FAQ ===================== */
+.faq-section{background:var(--gray-05);border-top:1px solid var(--gray-2);border-bottom:1px solid var(--gray-2)}
+.faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.faq-item{background:#fff;border:1px solid var(--gray-2);border-radius:14px;overflow:hidden;transition:box-shadow var(--tr)}
+.faq-item:hover{box-shadow:var(--sh-card)}
+.faq-item.open{border-color:rgba(21,102,239,.3);box-shadow:0 4px 20px rgba(21,102,239,.08)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;font-size:15px;font-weight:600;color:var(--navy);text-align:left;cursor:pointer;background:none;border:none;font-family:inherit;transition:color var(--tr)}
+.faq-q:hover{color:var(--blue)}
+.faq-ic{width:28px;height:28px;border-radius:50%;background:var(--gray-1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--tr)}
+.faq-ic svg{width:14px;height:14px;color:var(--gray-6);transition:transform var(--tr)}
+.faq-item.open .faq-ic{background:var(--blue);transform:rotate(180deg)}
+.faq-item.open .faq-ic svg{color:#fff}
+.faq-ans{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-ans-in{padding:0 24px 20px;font-size:15px;color:var(--gray-6);line-height:1.78}
+.faq-item.open .faq-ans{max-height:400px}
+
+/* ===================== CONTACT ===================== */
+.contact-section{background:var(--blue-bg2);border-top:1px solid var(--gray-2)}
+.contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.contact-left h2{font-family:'Unbounded',sans-serif;font-size:clamp(24px,3.2vw,36px);font-weight:700;color:var(--navy);margin:14px 0 18px;line-height:1.2}
+.contact-left p{font-size:16px;color:var(--gray-6);line-height:1.75;margin-bottom:36px}
+.ci-list{display:flex;flex-direction:column;gap:14px}
+.ci-item{display:flex;align-items:center;gap:14px;padding:14px 18px;background:#fff;border:1px solid var(--gray-2);border-radius:12px;transition:all var(--tr)}
+.ci-item:hover{box-shadow:var(--sh);border-color:rgba(21,102,239,.2);transform:translateX(4px)}
+.ci-ic{width:38px;height:38px;border-radius:10px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.ci-txt strong{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-4);display:block;margin-bottom:2px}
+.ci-txt span{font-size:14px;color:var(--navy);font-weight:600}
+.ci-txt a{font-size:14px;color:var(--blue);font-weight:600}
+/* Contact Form */
+.c-form-wrap{background:#fff;border-radius:24px;padding:40px;box-shadow:var(--sh-md);border:1px solid var(--gray-2)}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f-group{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.f-group label{font-size:13px;font-weight:700;color:var(--navy)}
+.f-group input,.f-group select,.f-group textarea{border:1.5px solid var(--gray-2);border-radius:10px;padding:12px 16px;font-family:'Manrope',sans-serif;font-size:15px;color:var(--text);transition:all var(--tr);background:#fff;width:100%}
+.f-group input:focus,.f-group select:focus,.f-group textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(21,102,239,.08)}
+.f-group textarea{resize:vertical;min-height:96px}
+.form-success{display:none;text-align:center;padding:28px;background:var(--green-bg);border-radius:14px;color:#059669;border:1px solid rgba(13,231,168,.3)}
+.form-success.show{display:block}
+.f-privacy{font-size:12px;color:var(--gray-4);text-align:center;margin-top:14px}
+
+/* ===================== FOOTER ===================== */
+footer{background:var(--navy);padding:64px 0 32px}
+.ft-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.ft-brand .logo-name{color:#fff}
+.ft-brand p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.72;margin-top:14px;max-width:256px}
+.ft-col h4{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin-bottom:18px}
+.ft-col li{margin-bottom:10px}
+.ft-col li a{font-size:14px;color:rgba(255,255,255,.45);transition:color var(--tr)}
+.ft-col li a:hover{color:#fff}
+.ft-bottom{margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ft-bottom p{font-size:13px;color:rgba(255,255,255,.25)}
+.ft-social{display:flex;gap:10px}
+.soc-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:16px;color:rgba(255,255,255,.4);transition:all var(--tr)}
+.soc-btn:hover{background:var(--blue);color:#fff;transform:translateY(-2px)}
+
+/* ===================== NOTIFICATION ===================== */
+.notif{position:fixed;bottom:100px;right:24px;background:#fff;border-radius:14px;box-shadow:var(--sh-lg);padding:14px 18px;display:flex;align-items:center;gap:12px;max-width:300px;z-index:9998;transform:translateX(130%);transition:transform .5s cubic-bezier(.4,0,.2,1);border:1px solid var(--gray-2)}
+.notif.show{transform:translateX(0)}
+.notif-ic{width:38px;height:38px;background:var(--green-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.notif-txt strong{font-size:14px;font-weight:700;color:var(--navy);display:block}
+.notif-txt span{font-size:13px;color:var(--gray-6)}
+
+/* ===================== EDITOR PANEL ===================== */
+#pm-panel{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;background:#fff;border:1px solid var(--gray-2);border-radius:18px;padding:8px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 40px rgba(15,23,42,.15);font-family:'Manrope',sans-serif;white-space:nowrap;user-select:none}
+.pm-sep{width:1px;height:26px;background:var(--gray-2);flex-shrink:0}
+.pm-b{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all .2s}
+.pm-b-tog{background:var(--gray-1);color:var(--gray-6)}
+.pm-b-tog:hover{background:var(--gray-2);color:var(--navy)}
+.pm-b-tog.on{background:var(--blue);color:#fff}
+.pm-b-undo{background:var(--gray-1);color:var(--gray-4)}
+.pm-b-undo:hover:not(:disabled){background:var(--gray-2);color:var(--navy)}
+.pm-b-undo:disabled{opacity:.35;cursor:default}
+.pm-b-save{background:var(--blue-bg);color:var(--blue)}
+.pm-b-save:hover{background:rgba(21,102,239,.2)}
+.pm-b-srv{background:var(--green);color:var(--navy)}
+.pm-b-srv:hover{background:#0bcf96}
+.pm-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-4);padding:0 4px}
+/* Edit mode styles */
+body.edit-on [data-e]:not(img):hover{outline:2px dashed rgba(21,102,239,.5);outline-offset:2px;cursor:text;border-radius:3px}
+body.edit-on [data-e]:not(img):focus{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offset:4px;cursor:pointer;position:relative}
+/* Image modal */
+#pm-img-mod{display:none;position:fixed;inset:0;z-index:10001;background:rgba(15,23,42,.6);align-items:center;justify-content:center}
+#pm-img-mod.open{display:flex}
+#pm-img-box{background:#fff;border-radius:20px;padding:32px;width:90%;max-width:460px;box-shadow:0 24px 80px rgba(15,23,42,.25)}
+#pm-img-box h3{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:20px}
+.pm-drop{border:2px dashed var(--gray-2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px}
+.pm-drop:hover,.pm-drop.dov{border-color:var(--blue);background:var(--blue-bg)}
+.pm-drop p{font-size:14px;color:var(--gray-6);margin-top:8px}
+.pm-url-row{display:flex;gap:8px;margin-bottom:18px}
+.pm-url-row input{flex:1;border:1.5px solid var(--gray-2);border-radius:10px;padding:10px 14px;font-family:'Manrope',sans-serif;font-size:14px;color:var(--navy);outline:none}
+.pm-url-row input:focus{border-color:var(--blue)}
+.pm-url-row button{background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.pm-mod-actions{display:flex;justify-content:flex-end}
+.pm-cancel{background:var(--gray-1);color:var(--gray-6);border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+/* Toast */
+#pm-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);z-index:10002;background:var(--navy);color:#fff;padding:11px 22px;border-radius:50px;font-size:14px;font-weight:600;font-family:'Manrope',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,.25);transition:transform .4s cubic-bezier(.4,0,.2,1);pointer-events:none;white-space:nowrap}
+#pm-toast.show{transform:translateX(-50%) translateY(0)}
+#pm-toast.ok{background:var(--green);color:var(--navy)}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:56px}
+  .hero-visual{order:-1}
+  .fb-left{left:-12px;bottom:-12px}
+  .fb-right{right:-12px}
+  .pain-grid{grid-template-columns:1fr;gap:48px}
+  .steps-row{grid-template-columns:1fr;gap:16px}
+  .steps-connector{display:none}
+  .tech-grid{grid-template-columns:repeat(2,1fr)}
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .test-grid{grid-template-columns:1fr 1fr}
+  .price-grid{grid-template-columns:1fr;max-width:480px}
+  .contact-inner{grid-template-columns:1fr;gap:48px}
+  .ft-inner{grid-template-columns:1fr 1fr;gap:32px}
+  .ind-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .section{padding:64px 0}
+  .section-sm{padding:48px 0}
+  nav{display:none}
+  .hd-right .btn{display:none}
+  .burger{display:flex}
+  .hero{padding:52px 0 64px}
+  .hero-stats{grid-template-columns:repeat(3,1fr)}
+  .hero-stat{padding:0 12px}
+  .hs-num{font-size:22px}
+  .feat-grid{grid-template-columns:1fr}
+  .test-grid{grid-template-columns:1fr}
+  .ind-grid{grid-template-columns:1fr 1fr}
+  .ft-inner{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:repeat(2,1fr)}
+  #pm-panel{width:calc(100% - 32px);flex-wrap:wrap;justify-content:center;gap:6px;bottom:16px}
+  .sc-item{width:calc(100vw - 56px)}
+  .f-row{grid-template-columns:1fr}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{justify-content:center}
+}
+@media(max-width:480px){
+  .container{padding:0 16px}
+  .hero h1{font-size:28px}
+  .hero-stat{padding:0 8px}
+  .ind-grid{grid-template-columns:1fr}
+  .tech-grid{grid-template-columns:1fr}
+  .hero-stats{gap:0;border-top:none;padding-top:0}
+  .hero-stat{padding:12px 0;border-right:none;border-bottom:1px solid var(--gray-2)}
+  .hero-stat:last-child{border-bottom:none}
+  .float-badge{display:none}
+  #pm-panel .pm-lbl{display:none}
+  #pm-panel .pm-sep{display:none}
+}
+</style>
+<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style><link type="text/css" rel="stylesheet" charset="UTF-8" href="https://www.gstatic.com/_/translate_http/_/ss/k=translate_http.tr.2f3WBw8L4SI.L.W.O/am=AAAM/d=0/rs=AN8SPfp0Aw7R6LuNGcvWztc4ZbKYxlauww/m=el_main_css"></head>
+<body>
+
+<!-- HEADER -->
+<header id="hdr" class="">
+  <div class="container">
+    <div class="hd-inner">
+      <a href="#" class="logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" fill="white"></rect><rect x="11" y="2" width="7" height="7" rx="1.5" fill="white" opacity=".6"></rect><rect x="2" y="11" width="7" height="7" rx="1.5" fill="white" opacity=".6"></rect><rect x="11" y="11" width="7" height="7" rx="1.5" fill="white" opacity=".3"></rect></svg>
         </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl">
-            <div class="px-4 py-4 space-y-1">
-                <a href="#problems" class="block px-4 py-3 text-base font-medium text-gray-800 rounded-lg hover:bg-gray-50 mobile-link">Какие боли закрываем</a>
-                <a href="#how-it-works" class="block px-4 py-3 text-base font-medium text-gray-800 rounded-lg hover:bg-gray-50 mobile-link">Схема работы</a>
-                <a href="#pricing" class="block px-4 py-3 text-base font-medium text-gray-800 rounded-lg hover:bg-gray-50 mobile-link">Стоимость</a>
-                <a href="#contact" class="block px-4 py-3 text-base font-bold text-primary bg-blue-50 rounded-lg mobile-link mt-4">Обсудить проект</a>
-            </div>
+        <div class="logo-name">Прайс<span>Мастер</span></div>
+      </a>
+      <nav>
+        <a href="#how" data-i18n="nav_how">Как работает</a>
+        <a href="#features" data-i18n="nav_feat">Возможности</a>
+        <a href="#industries" data-i18n="nav_ind">Отрасли</a>
+        <a href="#pricing" data-i18n="nav_price">Цены</a>
+        <a href="#contact" data-i18n="nav_contact">Контакты</a>
+      </nav>
+      <div class="hd-right">
+        <div class="lang-sw">
+          <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+          <button class="lang-btn" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" onclick="setLang('zh')">中文</button>
         </div>
-    </nav>
+        <a href="#contact" class="btn btn-primary" style="font-size:13px;padding:10px 20px">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path></svg>
+          <span data-i18n="nav_cta">Получить демо</span>
+        </a>
+        <div class="burger" id="burger" onclick="toggleBurger()"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <!-- Hero Section (Premium Dark) -->
-    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 bg-darker overflow-hidden">
-        <!-- Abstract Glows -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary/20 blur-[120px] rounded-full pointer-events-none"></div>
-        
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center max-w-4xl mx-auto">
-                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-700/50 bg-gray-800/50 backdrop-blur-sm text-gray-300 font-medium text-xs tracking-wide uppercase mb-8">
-                    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                    Универсально. Подстраивается под любую нишу.
-                </div>
-                
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-8 leading-[1.1]">
-                    Превратите часы работы <br class="hidden md:block" />
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">в пару минут.</span>
-                </h1>
-                
-                <p class="text-lg md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-                    Умный сервис для автоматического сопоставления данных. Сравнивает любые списки, находит совпадения и собирает идеальный итоговый файл. <strong class="text-white font-semibold">Без ошибок и рутины.</strong>
-                </p>
-                
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="#contact" class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-primaryHover transition-all shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] flex items-center justify-center gap-2">
-                        Запросить демо
-                    </a>
-                    <a href="#how-it-works" class="bg-white/5 text-white border border-white/10 px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2">
-                        Узнать больше
-                    </a>
-                </div>
-            </div>
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <a href="#how" data-i18n="nav_how" onclick="closeBurger()">Как работает</a>
+  <a href="#features" data-i18n="nav_feat" onclick="closeBurger()">Возможности</a>
+  <a href="#industries" data-i18n="nav_ind" onclick="closeBurger()">Отрасли</a>
+  <a href="#pricing" data-i18n="nav_price" onclick="closeBurger()">Цены</a>
+  <a href="#contact" data-i18n="nav_contact" onclick="closeBurger()">Контакты</a>
+  <a href="#contact" class="btn btn-primary mob-cta" style="justify-content:center" onclick="closeBurger()">
+    <span data-i18n="nav_cta">Получить демо</span>
+  </a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"><div class="hero-blob1"></div><div class="hero-blob2"></div><div class="hero-grid-line"></div></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="tag">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+            <span data-i18n="h_badge">Автоматизация прайс-листов</span>
+          </span>
         </div>
-    </section>
-
-    <!-- Problems Section (Pain points) -->
-    <section id="problems" class="py-24 bg-white relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-black text-dark mb-4">Знакомые проблемы?</h2>
-                <p class="text-xl text-gray-500 max-w-2xl mx-auto">Рутинная обработка данных каждый день съедает ваше время и деньги.</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
-                    <div class="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center text-red-500 text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-hourglass-half"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark mb-3">Потеря времени</h3>
-                    <p class="text-gray-600 leading-relaxed">Сотрудники тратят часы или дни на сведение таблиц вручную. Всю эту работу алгоритм делает за 3-5 секунд.</p>
-                </div>
-                <!-- Card 2 -->
-                <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
-                    <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-500 text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-user-xmark"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark mb-3">Человеческий фактор</h3>
-                    <p class="text-gray-600 leading-relaxed">Люди устают и ошибаются. Опечатки, пропущенные строки и неверные цены ведут к прямым убыткам бизнеса.</p>
-                </div>
-                <!-- Card 3 -->
-                <div class="bg-gray-50 rounded-3xl p-8 border border-gray-100 hover:shadow-xl transition-shadow duration-300 group">
-                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center text-primary text-2xl mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-money-bill-wave"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-dark mb-3">Лишние расходы</h3>
-                    <p class="text-gray-600 leading-relaxed">Вместо того чтобы нанимать дополнительных людей для обработки баз, автоматизируйте процесс раз и навсегда.</p>
-                </div>
-            </div>
+        <h1>
+          <span data-i18n="h_h1a">Сравнение прайсов</span><br>
+          <span class="hl" data-i18n="h_h1b">за 7 минут</span><br>
+          <span data-i18n="h_h1c">вместо 3 часов</span>
+        </h1>
+        <p class="lead" data-i18n="h_lead">ПрайсМастер автоматически находит одинаковые позиции по штрихкодам, артикулам и названиям — и формирует единую сводную таблицу. Никакого ручного труда.</p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary btn-primary-lg">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path></svg>
+            <span data-i18n="h_cta1">Оставить заявку</span>
+          </a>
+          <a href="#how" class="btn btn-outline">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+            <span data-i18n="h_cta2">Как это работает</span>
+          </a>
         </div>
-    </section>
-
-    <!-- How It Works -->
-    <section id="how-it-works" class="py-24 bg-gray-50 border-t border-gray-200/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row items-center gap-16">
-                
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl md:text-5xl font-black text-dark mb-6">Как это работает? <br>Просто как 1-2-3.</h2>
-                    <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-                        Никаких сложных настроек программирования для пользователя. Вы просто загружаете файлы, а умный алгоритм сам понимает, какие позиции идентичны.
-                    </p>
-                    
-                    <div class="space-y-8">
-                        <div class="flex">
-                            <div class="flex-shrink-0 mr-5">
-                                <div class="w-12 h-12 rounded-full bg-white border-2 border-primary flex items-center justify-center text-primary font-bold text-xl shadow-sm">1</div>
-                            </div>
-                            <div>
-                                <h4 class="text-xl font-bold text-dark mb-2">Загрузка файлов</h4>
-                                <p class="text-gray-600">Загружаете свои таблицы в систему. Любые форматы, любое количество строк, любая структура.</p>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="flex-shrink-0 mr-5">
-                                <div class="w-12 h-12 rounded-full bg-white border-2 border-primary flex items-center justify-center text-primary font-bold text-xl shadow-sm">2</div>
-                            </div>
-                            <div>
-                                <h4 class="text-xl font-bold text-dark mb-2">Автоматическое сопоставление</h4>
-                                <p class="text-gray-600">Алгоритм ищет совпадения, учитывая опечатки и разницу в названиях. Затем применяет фильтры и правила.</p>
-                            </div>
-                        </div>
-                        <div class="flex">
-                            <div class="flex-shrink-0 mr-5">
-                                <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl shadow-md shadow-primary/30">3</div>
-                            </div>
-                            <div>
-                                <h4 class="text-xl font-bold text-dark mb-2">Получение результата</h4>
-                                <p class="text-gray-600">Скачиваете готовую сводную таблицу в удобном виде. Чисто, красиво и без дублей.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Visual Representation -->
-                <div class="lg:w-1/2 w-full">
-                    <div class="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 relative">
-                        <div class="absolute -top-4 -right-4 bg-green-500 text-white font-bold px-4 py-2 rounded-xl shadow-lg transform rotate-3 z-10">
-                            Любая сфера бизнеса
-                        </div>
-                        
-                        <!-- Mockup App UI -->
-                        <div class="space-y-4">
-                            <!-- Input Files -->
-                            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-file-excel text-green-600 text-2xl"></i>
-                                    <div>
-                                        <div class="text-sm font-bold text-dark">База_клиентов.xlsx</div>
-                                        <div class="text-xs text-gray-500">12 450 строк</div>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-check-circle text-green-500"></i>
-                            </div>
-                            <div class="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="fa-solid fa-file-csv text-blue-500 text-2xl"></i>
-                                    <div>
-                                        <div class="text-sm font-bold text-dark">Выгрузка_CRM.csv</div>
-                                        <div class="text-xs text-gray-500">8 320 строк</div>
-                                    </div>
-                                </div>
-                                <i class="fa-solid fa-check-circle text-green-500"></i>
-                            </div>
-                            
-                            <!-- Processing -->
-                            <div class="py-6 flex flex-col items-center justify-center relative">
-                                <div class="w-0.5 h-10 bg-gradient-to-b from-gray-200 to-primary"></div>
-                                <div class="bg-blue-50 text-primary border border-blue-200 rounded-full px-6 py-2 text-sm font-bold flex items-center gap-2 my-2 shadow-sm">
-                                    <i class="fa-solid fa-arrows-rotate animate-spin"></i> Сравнение и анализ
-                                </div>
-                                <div class="w-0.5 h-10 bg-gradient-to-t from-gray-200 to-primary"></div>
-                            </div>
-                            
-                            <!-- Output -->
-                            <div class="bg-green-50 border-2 border-green-200 rounded-xl p-5 flex items-center justify-between shadow-sm">
-                                <div class="flex items-center gap-4">
-                                    <div class="bg-green-100 p-3 rounded-lg text-green-600">
-                                        <i class="fa-solid fa-table-list text-2xl"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-base font-bold text-dark">Итоговый_Отчет.xlsx</div>
-                                        <div class="text-xs font-medium text-green-700 mt-1">Готово за 4.2 секунды</div>
-                                    </div>
-                                </div>
-                                <button class="bg-green-600 hover:bg-green-700 text-white w-10 h-10 rounded-full flex items-center justify-center transition-colors">
-                                    <i class="fa-solid fa-download"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hs-num"><span class="number-ticker" data-target="7">7</span><span class="u"> мин</span></div>
+            <div class="hs-lbl" data-i18n="hs1">полная обработка</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hs-num">∞</div>
+            <div class="hs-lbl" data-i18n="hs2">файлов одновременно</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hs-num"><span class="number-ticker" data-target="96">96</span><span class="u">%</span></div>
+            <div class="hs-lbl" data-i18n="hs3">экономия времени</div>
+          </div>
         </div>
-    </section>
-
-    <!-- Pricing -->
-    <section id="pricing" class="py-24 bg-dark text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-black mb-4">Честные цены. Без скрытых платежей.</h2>
-                <p class="text-xl text-gray-400 max-w-2xl mx-auto">Выберите формат, который подходит под ваши задачи.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                
-                <!-- Base Version -->
-                <div class="bg-surface rounded-3xl p-8 lg:p-12 border border-gray-700 flex flex-col">
-                    <h3 class="text-2xl font-bold mb-2">Версия «Из коробки»</h3>
-                    <p class="text-gray-400 mb-8 h-12">Готовое универсальное решение для стандартных задач бизнеса.</p>
-                    
-                    <div class="mb-8">
-                        <div class="flex items-end gap-2">
-                            <span class="text-5xl font-black">25 000</span>
-                            <span class="text-xl text-gray-400 font-medium mb-1">₽</span>
-                        </div>
-                        <p class="text-sm text-gray-500 mt-2">Единоразовый платеж. Никаких подписок.</p>
-                    </div>
-                    
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li class="flex items-start text-gray-300">
-                            <i class="fa-solid fa-check text-green-400 mt-1 mr-3"></i> 
-                            <span>Универсальный алгоритм сопоставления</span>
-                        </li>
-                        <li class="flex items-start text-gray-300">
-                            <i class="fa-solid fa-check text-green-400 mt-1 mr-3"></i> 
-                            <span>Работает локально или на хостинге</span>
-                        </li>
-                        <li class="flex items-start text-gray-300">
-                            <i class="fa-solid fa-check text-green-400 mt-1 mr-3"></i> 
-                            <span>Поддержка форматов Excel / CSV</span>
-                        </li>
-                        <li class="flex items-start font-semibold text-white mt-4 pt-4 border-t border-gray-700">
-                            <i class="fa-solid fa-gift text-primary mt-1 mr-3"></i> 
-                            <span>Бесплатное обучение и поддержка</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="#contact" class="block w-full text-center py-4 bg-gray-700 hover:bg-gray-600 rounded-xl font-bold transition-colors">Выбрать базовую</a>
-                </div>
-
-                <!-- Custom Version -->
-                <div class="bg-gradient-to-b from-primary to-blue-900 rounded-3xl p-8 lg:p-12 border border-blue-400 flex flex-col relative shadow-[0_0_40px_rgba(59,130,246,0.2)]">
-                    <div class="absolute top-0 right-8 bg-yellow-400 text-yellow-900 text-xs font-bold px-3 py-1.5 rounded-b-lg uppercase tracking-wider">
-                        Самый частый выбор
-                    </div>
-                    
-                    <h3 class="text-2xl font-bold mb-2">Индивидуально</h3>
-                    <p class="text-blue-200 mb-8 h-12">Полная кастомизация приложения под конкретно ваши бизнес-процессы.</p>
-                    
-                    <div class="mb-8">
-                        <div class="flex items-end gap-2">
-                            <span class="text-5xl font-black">По запросу</span>
-                        </div>
-                        <p class="text-sm text-blue-200 mt-2">Оценивается после изучения задачи</p>
-                    </div>
-                    
-                    <ul class="space-y-4 mb-10 flex-grow">
-                        <li class="flex items-start text-white">
-                            <i class="fa-solid fa-check text-yellow-300 mt-1 mr-3"></i> 
-                            <span>Всё, что есть в базовой версии</span>
-                        </li>
-                        <li class="flex items-start text-white">
-                            <i class="fa-solid fa-check text-yellow-300 mt-1 mr-3"></i> 
-                            <span>Добавление сложных специфических фильтров</span>
-                        </li>
-                        <li class="flex items-start text-white">
-                            <i class="fa-solid fa-check text-yellow-300 mt-1 mr-3"></i> 
-                            <span>Любая структура итогового документа</span>
-                        </li>
-                        <li class="flex items-start text-white font-semibold mt-4 pt-4 border-t border-blue-500/50">
-                            <i class="fa-solid fa-wand-magic-sparkles text-yellow-300 mt-1 mr-3"></i> 
-                            <span>Реализуем практически любой ваш запрос</span>
-                        </li>
-                    </ul>
-                    
-                    <a href="#contact" class="block w-full text-center py-4 bg-white text-primary hover:bg-gray-50 rounded-xl font-bold transition-colors shadow-lg">Рассчитать стоимость</a>
-                </div>
-            </div>
+      </div>
+      <div class="hero-visual">
+        <div class="screen-wrap">
+          <div class="screen-bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="bar-title">ПрайсМастер</div>
+          </div>
+          <div class="screen-ph">
+            <div class="ph-ic"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M9 21V9"></path></svg></div>
+            <span>📸 Главный экран интерфейса</span>
+          </div>
         </div>
-    </section>
-
-    <!-- Contact form section -->
-    <section id="contact" class="py-24 bg-white">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-gray-50 rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col lg:flex-row">
-                
-                <!-- Info Side -->
-                <div class="lg:w-5/12 p-10 lg:p-12 bg-dark text-white relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-primary rounded-full opacity-20 blur-3xl -mr-20 -mt-20"></div>
-                    <div class="relative z-10 h-full flex flex-col justify-between">
-                        <div>
-                            <h2 class="text-3xl font-black mb-4">Готовы обсудить?</h2>
-                            <p class="text-gray-400 text-lg mb-10">Напишите мне напрямую. Я расскажу, как система решит вашу задачу и покажу примеры работы.</p>
-                            
-                            <div class="space-y-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-primary text-xl border border-gray-700">
-                                        <i class="fa-solid fa-user"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-sm text-gray-400">Разработчик</div>
-                                        <div class="font-bold text-lg">Дмитрий Воронцов</div>
-                                    </div>
-                                </div>
-                                <a href="tel:+79130998250" class="flex items-center gap-4 group hover:opacity-80 transition-opacity">
-                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-primary text-xl border border-gray-700">
-                                        <i class="fa-solid fa-phone"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-sm text-gray-400">Телефон / WhatsApp</div>
-                                        <div class="font-bold text-lg">+7 (913) 099-82-50</div>
-                                    </div>
-                                </a>
-                                <a href="https://t.me/vorontsov_dmitriy" target="_blank" class="flex items-center gap-4 group hover:opacity-80 transition-opacity">
-                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-cyan-400 text-xl border border-gray-700">
-                                        <i class="fa-brands fa-telegram"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-sm text-gray-400">Telegram</div>
-                                        <div class="font-bold text-lg">@vorontsov_dmitriy</div>
-                                    </div>
-                                </a>
-                                <a href="mailto:hello@datamatcher.ru" class="flex items-center gap-4 group hover:opacity-80 transition-opacity">
-                                    <div class="w-12 h-12 bg-surface rounded-xl flex items-center justify-center text-primary text-xl border border-gray-700">
-                                        <i class="fa-solid fa-envelope"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-sm text-gray-400">Email</div>
-                                        <div class="font-bold text-lg">hello@datamatcher.ru</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Form Side -->
-                <div class="lg:w-7/12 p-10 lg:p-12 bg-white">
-                    <h3 class="text-2xl font-bold text-dark mb-6">Оставить заявку</h3>
-                    
-                    <form id="contact-form" class="space-y-5">
-                        <div class="space-y-2">
-                            <label class="text-sm font-semibold text-gray-700">Как к вам обращаться?</label>
-                            <input type="text" name="user_name" placeholder="Ваше имя" required 
-                                   class="w-full px-4 py-3.5 bg-gray-50 rounded-xl border border-gray-200 outline-none focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                        </div>
-                        
-                        <div class="space-y-2">
-                            <label class="text-sm font-semibold text-gray-700">Куда вам ответить?</label>
-                            <input type="text" name="user_contact" placeholder="Номер телефона или ник в Telegram" required 
-                                   class="w-full px-4 py-3.5 bg-gray-50 rounded-xl border border-gray-200 outline-none focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all">
-                        </div>
-                        
-                        <div class="space-y-2">
-                            <label class="text-sm font-semibold text-gray-700">Какая у вас задача? (необязательно)</label>
-                            <textarea name="user_task" rows="3" placeholder="Например: нужно раз в неделю сравнивать файлы от поставщиков..." 
-                                      class="w-full px-4 py-3.5 bg-gray-50 rounded-xl border border-gray-200 outline-none focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"></textarea>
-                        </div>
-                        
-                        <button type="submit" id="submit-btn" class="w-full bg-primary text-white font-bold text-lg py-4 rounded-xl hover:bg-primaryHover transition-all shadow-md flex items-center justify-center gap-2 mt-4">
-                            <span>Отправить заявку</span>
-                            <i class="fa-solid fa-paper-plane"></i>
-                        </button>
-                        <p class="text-xs text-center text-gray-400 mt-4">Мы не передаем ваши данные третьим лицам.</p>
-                    </form>
-
-                    <!-- Успешное сообщение -->
-                    <div id="success-message" class="hidden h-full flex-col items-center justify-center text-center py-10">
-                        <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center text-4xl mb-6 mx-auto">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold text-dark mb-2">Заявка успешно отправлена!</h4>
-                        <p class="text-gray-600">Дмитрий свяжется с вами в ближайшее время по указанным контактам.</p>
-                        <button onclick="resetForm()" class="mt-8 text-primary font-semibold hover:underline">Отправить еще одну</button>
-                    </div>
-                </div>
-            </div>
+        <div class="float-badge fb-left">
+          <div class="fb-icon fb-icon-green">⚡</div>
+          <div>
+            <div class="fb-val">–96%</div>
+            <div class="fb-lbl" data-i18n="fb1">времени сэкономлено</div>
+          </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-white py-8 border-t border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="font-bold text-dark flex items-center gap-2">
-                <i class="fa-solid fa-layer-group text-primary"></i> DataMatcher
-            </div>
-            <div class="text-gray-500 text-sm">
-                &copy; 2024 Разработано Дмитрием Воронцовым. Локально и на хостинге.
-            </div>
+        <div class="float-badge fb-right">
+          <div class="fb-icon fb-icon-blue">✅</div>
+          <div>
+            <div class="fb-val" style="font-size:13px;font-family:'Manrope',sans-serif;font-weight:700" data-i18n="fb2">Готово!</div>
+            <div class="fb-lbl" data-i18n="fb3">сводная таблица</div>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Скрипт отправки формы в Telegram -->
-    <script>
-        // === НАСТРОЙКИ TELEGRAM БОТА (API) ===
-        // Вставьте сюда реальный токен бота и свой Chat ID. Пока тут стоят "от балды".
-        const TG_TOKEN = "1234567890:AAH_DummyTokenForTesting123abcXYZ"; 
-        const TG_CHAT_ID = "987654321";
-        // =====================================
+<!-- PAIN -->
+<section class="section pain-section" id="pain">
+  <div class="container">
+    <div class="pain-grid">
+      <div>
+        <div class="pain-eyebrow rv in" data-i18n="pa_eye">Проблема</div>
+        <h2 class="rv d1 in"><span data-i18n="pa_h2a">Ручная работа — это</span> <span class="red" data-i18n="pa_h2b">дорого и ненадёжно</span></h2>
+        <p class="rv d2 in" data-i18n="pa_p">Каждый раз, когда нужно сравнить прайс-листы поставщиков, сотрудник часами сидит в Excel. Копирует, ищет совпадения, допускает ошибки. А конкурент тем временем уже принял решение.</p>
+        <div class="pain-items">
+          <div class="pain-item rv d2 in"><div class="pi-ic">⏱</div><p><strong data-i18n="pi1t">3–5 часов</strong> <span data-i18n="pi1p">уходит на ручное сравнение даже небольшого числа прайсов</span></p></div>
+          <div class="pain-item rv d3 in"><div class="pi-ic">❌</div><p><strong data-i18n="pi2t">Ошибки неизбежны</strong> <span data-i18n="pi2p">при копировании вручную — и они стоят реальных денег</span></p></div>
+          <div class="pain-item rv d4 in"><div class="pi-ic">💸</div><p><strong data-i18n="pi3t">Зарплата сотрудника</strong> <span data-i18n="pi3p">тратится на рутину вместо задач, которые приносят прибыль</span></p></div>
+          <div class="pain-item rv d5 in"><div class="pi-ic">📉</div><p><strong data-i18n="pi4t">Медленные решения</strong> <span data-i18n="pi4p">— пока считаете, конкурент уже купил дешевле</span></p></div>
+        </div>
+      </div>
+      <div class="rv-r d1 in">
+        <div class="transform-box">
+          <div class="tb-label">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span data-i18n="sol_label">Решение ПрайсМастер</span>
+          </div>
+          <div class="transform-row">
+            <div class="time-blk before"><div class="tb-val">3 ч</div><div class="tb-sub" data-i18n="tb_before">Было раньше</div></div>
+            <div class="tb-arrow">→</div>
+            <div class="time-blk after"><div class="tb-val">7 мин</div><div class="tb-sub" data-i18n="tb_after">Стало сейчас</div></div>
+          </div>
+          <div class="tb-sols">
+            <div class="tb-sol"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg><span data-i18n="sol1">Загрузите файлы — система сделает всё сама</span></div>
+            <div class="tb-sol"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg><span data-i18n="sol2">Работает с .xls, .xlsx, .csv любой структуры</span></div>
+            <div class="tb-sol"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg><span data-i18n="sol3">Сводная таблица одним кликом — скачать и готово</span></div>
+          </div>
+          <div style="text-align:center">
+            <div class="saving-pill">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+              <span data-i18n="saving_pill">Экономия 96% рабочего времени</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        const form = document.getElementById('contact-form');
-        const successMsg = document.getElementById('success-message');
-        const submitBtn = document.getElementById('submit-btn');
+<!-- HOW IT WORKS -->
+<section class="section how-section" id="how">
+  <div class="container">
+    <div class="sec-hd rv in">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span data-i18n="how_tag">Простой процесс</span></div>
+      <h2 data-i18n="how_h2">Три шага до результата</h2>
+      <p data-i18n="how_p">Никаких специальных знаний. Загрузили — получили результат.</p>
+    </div>
+    <div class="steps-row">
+      <div class="steps-connector"></div>
+      <div class="step-card rv d1 in">
+        <div class="step-num">1</div>
+        <h3 data-i18n="st1h">Загрузите прайс-листы</h3>
+        <p data-i18n="st1p">Выберите файлы Excel или CSV от ваших поставщиков — их может быть сколько угодно. Система принимает любые форматы без предварительной подготовки.</p>
+        <div class="step-pill">📁 <span data-i18n="st1d">.xls · .xlsx · .csv</span></div>
+      </div>
+      <div class="step-card rv d3 in">
+        <div class="step-num">2</div>
+        <h3 data-i18n="st2h">Система находит совпадения</h3>
+        <p data-i18n="st2p">Сопоставление идёт по штрихкодам EAN/UPC, артикулам и SKU — с точностью 100%. Если кода нет — алгоритм находит совпадения по названию, даже при опечатках.</p>
+        <div class="step-pill">🧠 <span data-i18n="st2d">Штрихкод / артикул / название</span></div>
+      </div>
+      <div class="step-card rv d5 in">
+        <div class="step-num">3</div>
+        <h3 data-i18n="st3h">Скачайте сводную таблицу</h3>
+        <p data-i18n="st3p">Готовый Excel-файл: каждый товар — одна строка, цены всех поставщиков — в отдельных столбцах. Сразу видно лучшее предложение.</p>
+        <div class="step-pill">📊 <span data-i18n="st3d">Готовый Excel на выходе</span></div>
+      </div>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card rv d1 in">
+        <div class="tech-ic">🔢</div>
+        <h4 data-i18n="tc1h">Штрихкоды и артикулы</h4>
+        <p data-i18n="tc1p">Если в прайсах есть штрихкод EAN/UPC, SKU или артикул — система использует его как главный ключ. Один код = одна позиция. Точность 100%, никаких ошибок.</p>
+      </div>
+      <div class="tech-card rv d2 in">
+        <div class="tech-ic">🔤</div>
+        <h4 data-i18n="tc2h">Нормализация текста</h4>
+        <p data-i18n="tc2p">Все названия приводятся к единому виду: убираются лишние символы, пробелы, различия в регистре. «Болт М8» и «болт м8х1.25» — система понимает, что это одно и то же.</p>
+      </div>
+      <div class="tech-card rv d3 in">
+        <div class="tech-ic">📐</div>
+        <h4 data-i18n="tc3h">Нечёткое сравнение</h4>
+        <p data-i18n="tc3p">Алгоритм измеряет «похожесть» строк и находит совпадения даже при опечатках или незначительных различиях. Идеально для случаев, когда артикула нет.</p>
+      </div>
+      <div class="tech-card rv d4 in">
+        <div class="tech-ic">📋</div>
+        <h4 data-i18n="tc4h">Формирование свода</h4>
+        <p data-i18n="tc4p">После сопоставления система собирает итоговую таблицу: каждая строка — один товар, каждый столбец — цена конкретного поставщика. Ячейки без цены помечаются отдельно.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Функция возврата формы в исходное состояние
-        function resetForm() {
-            form.reset();
-            successMsg.classList.add('hidden');
-            form.classList.remove('hidden');
-        }
+<!-- FEATURES -->
+<section class="section features-section" id="features">
+  <div class="container">
+    <div class="sec-hd rv in">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span data-i18n="feat_tag">Возможности</span></div>
+      <h2 data-i18n="feat_h2">Всё, что нужно бизнесу</h2>
+      <p data-i18n="feat_p">Универсальный инструмент для любой сферы, где у товаров есть единый идентификатор — штрихкод, артикул, SKU</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card rv d1 in"><div class="feat-ic">📁</div><h3 data-i18n="f1h">Без ограничений по файлам</h3><p data-i18n="f1p">Загружайте столько прайс-листов, сколько нужно. Ограничение зависит только от мощности вашего компьютера или хостинга — обычно это практически неограниченно.</p></div>
+      <div class="feat-card rv d2 in"><div class="feat-ic">🔧</div><h3 data-i18n="f2h">Гибкая настройка</h3><p data-i18n="f2p">Добавляем фильтры по категориям, меняем структуру итоговой таблицы, подключаем расчёт наценки и минимальной цены. Практически любой запрос — реализуем.</p></div>
+      <div class="feat-card rv d3 in"><div class="feat-ic">💻</div><h3 data-i18n="f3h">Локально или в облаке</h3><p data-i18n="f3p">Работает на вашем компьютере без интернета — данные никуда не уходят. Или разворачивается на сервере и доступна с любого устройства через браузер.</p></div>
+      <div class="feat-card rv d1 in"><div class="feat-ic">🌐</div><h3 data-i18n="f4h">Любая отрасль</h3><p data-i18n="f4p">Не привязана к конкретным товарам. Работает там, где у позиций есть штрихкод EAN/UPC, артикул или уникальный код — стройматериалы, продукты, запчасти, фарма и другие.</p></div>
+      <div class="feat-card rv d2 in"><div class="feat-ic">⚡</div><h3 data-i18n="f5h">Высокая скорость</h3><p data-i18n="f5p">Тысячи позиций из десятков файлов обрабатываются за 5–10 минут. То, что сотрудник делал 3–5 часов — теперь делает система пока вы пьёте кофе.</p></div>
+      <div class="feat-card rv d3 in"><div class="feat-ic">📊</div><h3 data-i18n="f6h">Привычный Excel на выходе</h3><p data-i18n="f6p">Итоговый файл открывается в привычном Excel. Ничего дополнительно устанавливать не нужно — получили файл и сразу работаете с ним.</p></div>
+    </div>
+  </div>
+</section>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // Запускаем спиннер загрузки на кнопке
-            const originalBtnContent = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin text-xl"></i><span> Отправка...</span>';
-            submitBtn.disabled = true;
-            submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+<!-- INDUSTRIES -->
+<section class="section" id="industries" style="background:#fff">
+  <div class="container">
+    <div class="sec-hd rv in">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg><span data-i18n="ind_tag">Отрасли</span></div>
+      <h2 data-i18n="ind_h2">Работает там, где есть прайс-листы</h2>
+      <p data-i18n="ind_p">Подходит для любого бизнеса, где товары имеют стандартизированные коды или уникальные названия</p>
+    </div>
+    <div class="ind-grid">
+      <div class="ind-card c1 rv d1 in"><span class="ind-ic">🏪</span><h3 data-i18n="i1h">Оптовая торговля</h3><p data-i18n="i1p">Десятки поставщиков, тысячи позиций — сводная таблица с ценами всех партнёров за несколько минут.</p><span class="ind-tag" data-i18n="i1t">Опт / дистрибуция</span></div>
+      <div class="ind-card c2 rv d2 in"><span class="ind-ic">🛒</span><h3 data-i18n="i2h">Розничные сети</h3><p data-i18n="i2p">Контроль закупочных цен и мониторинг изменений. Мгновенно видно, где подорожало и где лучшее предложение.</p><span class="ind-tag" data-i18n="i2t">Ритейл</span></div>
+      <div class="ind-card c3 rv d3 in"><span class="ind-ic">🏗️</span><h3 data-i18n="i3h">Строительство</h3><p data-i18n="i3p">Сравнение цен на стройматериалы при подготовке сметы. Экономия на закупках 10–20% только за счёт выбора поставщика.</p><span class="ind-tag" data-i18n="i3t">Стройматериалы</span></div>
+      <div class="ind-card c4 rv d1 in"><span class="ind-ic">🍽️</span><h3 data-i18n="i4h">HoReCa и продукты</h3><p data-i18n="i4p">Ежедневное сравнение прайсов продуктовых поставщиков. Цены меняются каждый день — система успевает.</p><span class="ind-tag" data-i18n="i4t">Рестораны / кафе</span></div>
+      <div class="ind-card c5 rv d2 in"><span class="ind-ic">🔩</span><h3 data-i18n="i5h">Промышленность</h3><p data-i18n="i5p">Закупка комплектующих и оборудования. Артикулы и коды позволяют сопоставлять позиции с точностью 100%.</p><span class="ind-tag" data-i18n="i5t">Производство</span></div>
+      <div class="ind-card c6 rv d3 in"><span class="ind-ic">💊</span><h3 data-i18n="i6h">Фармацевтика</h3><p data-i18n="i6p">Сравнение цен на медикаменты по МНН или штрихкоду. Строгое совпадение — без путаницы в наименованиях.</p><span class="ind-tag" data-i18n="i6t">Аптеки / клиники</span></div>
+    </div>
+  </div>
+</section>
 
-            // Собираем данные
-            const formData = new FormData(form);
-            const text = `🚀 *Новая заявка с сайта!*\n\n` +
-                         `👤 *Имя:* ${formData.get('user_name')}\n` +
-                         `📞 *Контакт:* ${formData.get('user_contact')}\n` +
-                         `📝 *Задача:* ${formData.get('user_task') || 'Не указана'}`;
+<!-- SCREENSHOTS -->
+<section class="section-sm sc-section" id="screenshots">
+  <div class="container">
+    <div class="sec-hd rv in">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg><span data-i18n="sc_tag">Интерфейс</span></div>
+      <h2 data-i18n="sc_h2">Просто и понятно</h2>
+      <p data-i18n="sc_p">Любой сотрудник разберётся без обучения</p>
+    </div>
+  </div>
+  <div class="sc-scroll">
+    <div class="sc-item rv d1 in">
+      <div class="sc-frame">
+        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+        <div class="sc-body"><div class="sc-ico">📂</div><span data-i18n="sc1ph">Загрузка файлов</span></div>
+      </div>
+      <div class="sc-cap"><h4 data-i18n="sc1h">Загрузка прайс-листов</h4><p data-i18n="sc1p">Перетащите файлы или выберите вручную — любой формат</p><div class="sc-hint">📸 Скриншот: drag&amp;drop зона + список загруженных файлов</div></div>
+    </div>
+    <div class="sc-item rv d2 in">
+      <div class="sc-frame">
+        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+        <div class="sc-body"><div class="sc-ico">⚙️</div><span data-i18n="sc2ph">Обработка</span></div>
+      </div>
+      <div class="sc-cap"><h4 data-i18n="sc2h">Автоматическая обработка</h4><p data-i18n="sc2p">Прогресс виден в реальном времени</p><div class="sc-hint">📸 Скриншот: прогресс-бар и лог найденных совпадений</div></div>
+    </div>
+    <div class="sc-item rv d3 in">
+      <div class="sc-frame">
+        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+        <div class="sc-body"><div class="sc-ico">📊</div><span data-i18n="sc3ph">Сводная таблица</span></div>
+      </div>
+      <div class="sc-cap"><h4 data-i18n="sc3h">Готовая сводная таблица</h4><p data-i18n="sc3p">Все цены в одном месте — лучшее предложение сразу видно</p><div class="sc-hint">📸 Скриншот: таблица с подсветкой минимальных цен</div></div>
+    </div>
+    <div class="sc-item rv d4 in">
+      <div class="sc-frame">
+        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+        <div class="sc-body"><div class="sc-ico">🔧</div><span data-i18n="sc4ph">Настройки</span></div>
+      </div>
+      <div class="sc-cap"><h4 data-i18n="sc4h">Гибкие настройки</h4><p data-i18n="sc4p">Фильтры, колонки, параметры сопоставления</p><div class="sc-hint">📸 Скриншот: панель настроек и фильтров</div></div>
+    </div>
+    <div class="sc-item rv d5 in">
+      <div class="sc-frame">
+        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+        <div class="sc-body"><div class="sc-ico">📥</div><span data-i18n="sc5ph">Экспорт</span></div>
+      </div>
+      <div class="sc-cap"><h4 data-i18n="sc5h">Экспорт в Excel</h4><p data-i18n="sc5p">Скачайте и откройте в привычном Excel — без лишних шагов</p><div class="sc-hint">📸 Скриншот: кнопка скачивания + пример итогового файла</div></div>
+    </div>
+  </div>
+</section>
 
-            const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`;
-            
-            try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: TG_CHAT_ID,
-                        text: text,
-                        parse_mode: 'Markdown'
-                    })
-                });
+<!-- PRICING -->
+<section class="section price-section" id="pricing">
+  <div class="container">
+    <div class="sec-hd rv in">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path></svg><span data-i18n="pr_tag">Стоимость</span></div>
+      <h2 data-i18n="pr_h2">Прозрачные условия</h2>
+      <p data-i18n="pr_p">Разовая оплата. Без подписки. Без скрытых платежей.</p>
+    </div>
+    <div class="price-grid">
+      <div class="price-card rv d1 in">
+        <div class="pc-plan" data-i18n="p1plan">Стандарт</div>
+        <div class="pc-price"><span class="cur">₽</span>25 000</div>
+        <div class="pc-desc" data-i18n="p1desc">Готовое решение «из коробки» — устанавливается за один день, работает сразу</div>
+        <div class="pc-feats">
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf11">Неограниченное число файлов</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf12">Поддержка .xls, .xlsx, .csv</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf13">Сопоставление по штрихкоду, артикулу, названию</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf14">Экспорт в Excel</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf15">Локально или на хостинге</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf16">Бесплатное обучение</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf17">Бесплатная поддержка</span></div>
+        </div>
+        <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center"><span data-i18n="p1btn">Заказать</span></a>
+        <div class="pc-note" data-i18n="p1note">Разовый платёж. Без подписки.</div>
+      </div>
+      <div class="price-card featured rv d2 in">
+        <div class="featured-badge" data-i18n="p2badge">Рекомендуем</div>
+        <div class="pc-plan" data-i18n="p2plan">Индивидуальный</div>
+        <div class="pc-price"><span class="ask" data-i18n="p2price">По запросу</span></div>
+        <div class="pc-desc" data-i18n="p2desc">Кастомизация под задачи вашего бизнеса. Любая сложность — реализуем практически любой запрос.</div>
+        <div class="pc-feats">
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf21">Всё из тарифа «Стандарт»</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf22">Дополнительные фильтры и столбцы</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf23">Расчёт наценки и минимальной цены</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf24">Интеграция с ERP / 1С</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf25">Автоматический импорт по расписанию</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf26">Индивидуальный дизайн интерфейса</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf27">Приоритетная поддержка</span></div>
+        </div>
+        <a href="#contact" class="btn btn-primary" style="width:100%;justify-content:center"><span data-i18n="p2btn">Обсудить задачу</span></a>
+        <div class="pc-note" data-i18n="p2note">Стоимость зависит от объёма доработок</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-                if (response.ok) {
-                    // Идеальный сценарий - данные ушли
-                    form.classList.add('hidden');
-                    successMsg.classList.remove('hidden');
-                } else {
-                    const errorData = await response.json();
-                    console.warn("Ошибка API Telegram:", errorData);
-                    
-                    // Если токен "от балды" (мы это проверяем), просто симулируем успех для красоты визуала на демо
-                    if (TG_TOKEN.includes("DummyToken")) {
-                        console.log("ВНИМАНИЕ: Форма сработала, скрипт отличный! Но так как токен тестовый, реального сообщения не будет. Вставьте свой токен в код.");
-                        form.classList.add('hidden');
-                        successMsg.classList.remove('hidden');
-                    } else {
-                        alert("Ошибка Telegram: Проверьте правильность Токена и Chat ID.");
-                    }
-                }
-            } catch (err) {
-                console.error("Ошибка сети:", err);
-                alert("Ошибка соединения. Пожалуйста, напишите напрямую в Telegram.");
-            } finally {
-                // Возвращаем кнопку в нормальное состояние (вдруг была ошибка)
-                submitBtn.innerHTML = originalBtnContent;
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-            }
-        });
+<!-- TESTIMONIALS -->
+<section class="section test-section" id="testimonials">
+  <div class="container">
+    <div class="sec-hd rv in">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg><span data-i18n="te_tag">Отзывы</span></div>
+      <h2 data-i18n="te_h2">Что говорят предприниматели</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card rv d1 in">
+        <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="test-quote">"</div>
+        <div class="test-text" data-i18n="te1txt">У нас 14 поставщиков стройматериалов, каждый шлёт прайс в своём формате. Раньше менеджер тратил на сравнение полный рабочий день. Теперь загружает файлы, через 8 минут готова сводная таблица. Сэкономили минимум 5 часов в неделю. Окупилось с первого месяца.</div>
+        <div class="test-author">
+          <div class="ta-av">АК</div>
+          <div>
+            <div class="ta-name" data-i18n="te1name">Алексей Константинов</div>
+            <div class="ta-role" data-i18n="te1role">Директор, оптовая база стройматериалов, Новосибирск</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card rv d3 in">
+        <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="test-quote">"</div>
+        <div class="test-text" data-i18n="te2txt">Я держу три кофейни и ресторан. Поставщики меняют цены чуть ли не каждую неделю. Теперь раз в неделю запускаю сравнение всех прайсов — вижу, кто поднял цену, и сразу договариваюсь с альтернативным поставщиком. За полгода сэкономил около 180 тысяч на закупках.</div>
+        <div class="test-author">
+          <div class="ta-av">МС</div>
+          <div>
+            <div class="ta-name" data-i18n="te2name">Михаил Савченко</div>
+            <div class="ta-role" data-i18n="te2role">Владелец, сеть кофеен и ресторан, Екатеринбург</div>
+          </div>
+        </div>
+      </div>
+      <div class="test-card rv d5 in">
+        <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="test-quote">"</div>
+        <div class="test-text" data-i18n="te3txt">Мы производим металлоконструкции, закупаем сотни наименований метизов у 9 поставщиков. Артикулы у всех одинаковые — ГОСТ-нормы. Система сопоставляет за 4 минуты то, что снабженец делал 4 часа. Попросили доработать — добавили расчёт минимальной цены. Дмитрий сделал за день.</div>
+        <div class="test-author">
+          <div class="ta-av">ВП</div>
+          <div>
+            <div class="ta-name" data-i18n="te3name">Виктор Прохоров</div>
+            <div class="ta-role" data-i18n="te3role">Собственник, завод металлоконструкций, Челябинск</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        // Мобильное меню
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-        
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-        
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-    </script>
-</body>
-</html>
+<!-- FAQ -->
+<section class="section faq-section" id="faq">
+  <div class="container">
+    <div class="sec-hd rv in">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span data-i18n="fq_tag">Вопросы и ответы</span></div>
+      <h2 data-i18n="fq_h2">Часто задаваемые вопросы</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item rv in"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq1q">Нужны ли специальные знания для работы с системой?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq1a">Нет. Интерфейс рассчитан на обычных пользователей. Если вы умеете работать с Excel и загружать файлы — этого достаточно. Мы также проводим бесплатное обучение при внедрении.</div></div></div>
+      <div class="faq-item rv d1 in"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq2q">Для каких отраслей подходит система?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq2a">Для любой сферы, где у товаров есть единый идентификатор — штрихкод EAN/UPC, артикул, SKU или код. Лучше всего работает в оптовой торговле, строительстве, промышленных закупках, HoReCa и фармацевтике.</div></div></div>
+      <div class="faq-item rv in"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq3q">В каком формате нужно подготовить прайс-листы?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq3a">Никакой подготовки не нужно — загружайте файлы в том виде, в каком их присылают поставщики. Система принимает .xls, .xlsx и .csv любой структуры.</div></div></div>
+      <div class="faq-item rv d1 in"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq4q">Данные передаются куда-то? Это безопасно?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq4a">При локальной установке все данные остаются только на вашем компьютере. При облачной установке сервер находится на вашем собственном хостинге — вы полностью контролируете доступ.</div></div></div>
+      <div class="faq-item rv in"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq5q">Можно ли адаптировать под нашу специфику?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq5a">Да — это одно из главных преимуществ. Добавляем фильтры, меняем структуру таблицы, подключаем расчёт наценок, интегрируем с 1С. Реализуем практически любой запрос.</div></div></div>
+      <div class="faq-item rv d1 in"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq6q">Как быстро внедряется и сколько стоит обслуживание?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq6a">Стандартная версия устанавливается за один рабочий день. Кастомная разработка — от нескольких дней до нескольких недель. Поддержка — бесплатно при покупке стандартной версии.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="rv-l in">
+        <div class="tag" style="margin-bottom:14px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path></svg><span data-i18n="ct_tag">Обратная связь</span></div>
+        <h2 data-i18n="ct_h2">Обсудим вашу задачу?</h2>
+        <p data-i18n="ct_p">Расскажите о своём бизнесе — и мы предложим оптимальное решение. Ответим в течение рабочего дня.</p>
+        <div class="ci-list">
+          <div class="ci-item"><div class="ci-ic">📞</div><div class="ci-txt"><strong data-i18n="ci1l">Телефон</strong><a href="tel:+79130998250">+7 913 099 82 50</a></div></div>
+          <div class="ci-item"><div class="ci-ic">✈️</div><div class="ci-txt"><strong>Telegram</strong><a href="https://t.me/vorontsov_dmitriy">@vorontsov_dmitriy</a></div></div>
+          <div class="ci-item"><div class="ci-ic">✉️</div><div class="ci-txt"><strong data-i18n="ci2l">Email</strong><a href="mailto:info@pricemaster.ru">info@pricemaster.ru</a></div></div>
+          <div class="ci-item"><div class="ci-ic">👤</div><div class="ci-txt"><strong data-i18n="ci3l">Контакт</strong><span>Дмитрий Воронцов</span></div></div>
+        </div>
+      </div>
+      <div class="rv-r d1 in">
+        <div class="c-form-wrap">
+          <div id="formOk" class="form-success">
+            <div style="font-size:36px;margin-bottom:8px">✅</div>
+            <strong data-i18n="fs_title">Заявка отправлена!</strong><br>
+            <span data-i18n="fs_sub">Дмитрий свяжется с вами в ближайшее время.</span>
+          </div>
+          <form id="cForm" onsubmit="sendForm(event)">
+            <div class="f-row">
+              <div class="f-group"><label data-i18n="fl_name">Ваше имя *</label><input type="text" name="name" required="" placeholder="Александр"></div>
+              <div class="f-group"><label data-i18n="fl_phone">Телефон *</label><input type="tel" name="phone" required="" placeholder="+7 (___) ___-__-__"></div>
+            </div>
+            <div class="f-group"><label data-i18n="fl_biz">Бизнес / сфера</label><input type="text" name="business" placeholder="Оптовая торговля стройматериалами"></div>
+            <div class="f-group"><label data-i18n="fl_msg">Задача или вопрос</label><textarea name="message" placeholder="Опишите кратко: сколько поставщиков, какой объём данных, особые требования..."></textarea></div>
+            <button type="submit" class="btn btn-primary btn-primary-lg" id="fBtn" style="width:100%;justify-content:center">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              <span data-i18n="fl_send">Отправить заявку</span>
+            </button>
+            <div class="f-privacy" data-i18n="fl_priv">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ft-inner">
+      <div class="ft-brand">
+        <div class="logo"><div class="logo-mark"><svg viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="1.5" fill="white"></rect><rect x="11" y="2" width="7" height="7" rx="1.5" fill="white" opacity=".6"></rect><rect x="2" y="11" width="7" height="7" rx="1.5" fill="white" opacity=".6"></rect><rect x="11" y="11" width="7" height="7" rx="1.5" fill="white" opacity=".3"></rect></svg></div><div class="logo-name">Прайс<span>Мастер</span></div></div>
+        <p data-i18n="ft_desc">Автоматическое сопоставление прайс-листов поставщиков. Сокращаем часы ручной работы до минут.</p>
+      </div>
+      <div class="ft-col"><h4 data-i18n="ft_prod">Продукт</h4><ul><li><a href="#how" data-i18n="ft_how">Как работает</a></li><li><a href="#features" data-i18n="ft_feat">Возможности</a></li><li><a href="#screenshots" data-i18n="ft_sc">Интерфейс</a></li><li><a href="#pricing" data-i18n="ft_price">Цены</a></li></ul></div>
+      <div class="ft-col"><h4 data-i18n="ft_comp">Компания</h4><ul><li><a href="#industries" data-i18n="ft_ind">Отрасли</a></li><li><a href="#testimonials" data-i18n="ft_test">Отзывы</a></li><li><a href="#faq" data-i18n="ft_faq">FAQ</a></li><li><a href="#contact" data-i18n="ft_cont">Контакты</a></li></ul></div>
+      <div class="ft-col"><h4 data-i18n="ft_ctc">Контакты</h4><ul><li><a href="tel:+79130998250">+7 913 099 82 50</a></li><li><a href="https://t.me/vorontsov_dmitriy">Telegram</a></li><li><a href="mailto:info@pricemaster.ru">info@pricemaster.ru</a></li></ul></div>
+    </div>
+    <div class="ft-bottom">
+      <p data-i18n="ft_copy">© 2025 ПрайсМастер. Все права защищены.</p>
+      <div class="ft-social"><a href="https://t.me/vorontsov_dmitriy" class="soc-btn">✈️</a><a href="https://wa.me/79130998250" class="soc-btn">💬</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- NOTIFICATION -->
+<div class="notif" id="notif"><div class="notif-ic">📩</div><div class="notif-txt"><strong data-i18n="nt_title">Заявка принята!</strong><span data-i18n="nt_body">Дмитрий получил уведомление</span></div></div>
+
+<!-- ===== EDITOR PANEL ===== -->
+
+
+
+<!-- Image modal -->
+
+
+
+<!-- ===== SCRIPTS ===== -->
+<div id="goog-gt-tt" class="VIpgJd-yAWNEb-L7lbkb skiptranslate" style="border-radius: 12px; margin: 0 0 0 -23px; padding: 0; font-family: 'Google Sans', Arial, sans-serif;" data-id=""><div id="goog-gt-vt" class="VIpgJd-yAWNEb-hvhgNd"><div class="VIpgJd-yAWNEb-hvhgNd-Ud7fr"><img src="https://fonts.gstatic.com/s/i/productlogos/translate/v14/24px.svg" width="24" height="24" alt=""><div class=" VIpgJd-yAWNEb-hvhgNd-IuizWc-i3jM8c " dir="ltr">Исходный текст</div></div><div class="VIpgJd-yAWNEb-hvhgNd-k77Iif"><div id="goog-gt-original-text" class="VIpgJd-yAWNEb-nVMfcd-fmcmS VIpgJd-yAWNEb-hvhgNd-axAV1"></div></div><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid ltr"><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid-B7I4Od ltr" dir="ltr"><div class="VIpgJd-yAWNEb-hvhgNd-UTujCb">Оцените этот перевод</div><div class="VIpgJd-yAWNEb-hvhgNd-eO9mKe">Ваш отзыв поможет нам улучшить Google Переводчик</div></div><div class="VIpgJd-yAWNEb-hvhgNd-xgov5 ltr"><button id="goog-gt-thumbUpButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="Хороший перевод" aria-label="Хороший перевод" aria-pressed="false"><span id="goog-gt-thumbUpIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7H2v13h16c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM7 18H4V9h3v9zm14-7l-3 7H9V8l4.34-4.34L12 9h9v2z"></path></svg></span><span id="goog-gt-thumbUpIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7v13h11c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM5 7H1v13h4V7z"></path></svg></span></button><button id="goog-gt-thumbDownButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="Плохой перевод" aria-label="Плохой перевод" aria-pressed="false"><span id="goog-gt-thumbDownIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7h5V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zM17 6h3v9h-3V6zM3 13l3-7h9v10l-4.34 4.34L12 15H3v-2z"></path></svg></span><span id="goog-gt-thumbDownIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zm16 0h4V4h-4v13z"></path></svg></span></button></div></div><div id="goog-gt-votingHiddenPane" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><form id="goog-gt-votingForm" action="//translate.googleapis.com/translate_voting?client=te_lib" method="post" target="votingFrame" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><input type="text" name="sl" id="goog-gt-votingInputSrcLang"><input type="text" name="tl" id="goog-gt-votingInputTrgLang"><input type="text" name="query" id="goog-gt-votingInputSrcText"><input type="text" name="gtrans" id="goog-gt-votingInputTrgText"><input type="text" name="vote" id="goog-gt-votingInputVote"></form><iframe name="votingFrame" frameborder="0"></iframe></div></div></div>
+
+
+</body></html>
