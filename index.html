@@ -6,7 +6,9 @@
 <title>ПрайсМастер — Автоматическое сравнение прайс-листов</title>
 <meta name="description" content="ПрайсМастер — автоматическое сопоставление прайс-листов поставщиков. 3 часа ручной работы за 7 минут."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <style>
 /* ===================== VARIABLES ===================== */
 :root {
@@ -83,7 +85,7 @@ ul{list-style:none}
 
 /* ===================== SECTION HEADER ===================== */
 .sec-hd{text-align:center;max-width:700px;margin:0 auto 72px}
-.sec-hd h2{font-family:'Unbounded',sans-serif;font-size:clamp(26px,3.8vw,42px);font-weight:700;line-height:1.18;color:var(--navy);margin:14px 0 18px}
+.sec-hd h2{font-family:'Manrope',sans-serif;font-size:clamp(26px,3.8vw,42px);font-weight:700;line-height:1.18;color:var(--navy);margin:14px 0 18px}
 .sec-hd p{font-size:17px;color:var(--gray-6);line-height:1.75}
 
 /* ===================== BUTTONS ===================== */
@@ -107,7 +109,7 @@ header.scrolled{border-color:var(--gray-2);box-shadow:0 2px 20px rgba(15,23,42,.
 .logo-mark{width:36px;height:36px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;transition:transform var(--tr)}
 .logo:hover .logo-mark{transform:rotate(-6deg) scale(1.08)}
 .logo-mark svg{width:20px;height:20px}
-.logo-name{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
+.logo-name{font-family:'Manrope',sans-serif;font-size:17px;font-weight:700;color:var(--navy);letter-spacing:-.02em}
 .logo-name span{color:var(--blue)}
 nav{display:flex;align-items:center;gap:28px}
 nav a{font-size:14px;font-weight:600;color:var(--gray-6);transition:color var(--tr);position:relative}
@@ -136,7 +138,7 @@ nav a:hover::after{transform:scaleX(1)}
 .hero-grid-line{position:absolute;inset:0;background-image:linear-gradient(var(--gray-2) 1px,transparent 1px),linear-gradient(90deg,var(--gray-2) 1px,transparent 1px);background-size:48px 48px;opacity:.35;mask-image:radial-gradient(ellipse 80% 60% at 60% 40%,black 0%,transparent 80%)}
 .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;position:relative;z-index:1}
 .hero-badge{margin-bottom:22px;animation:fadeUp .6s ease both}
-.hero h1{font-family:'Unbounded',sans-serif;font-size:clamp(30px,4.2vw,54px);font-weight:900;line-height:1.08;color:var(--navy);margin-bottom:22px;animation:fadeUp .7s .1s ease both}
+.hero h1{font-family:'Manrope',sans-serif;font-size:clamp(26px,3.2vw,42px);font-weight:800;line-height:1.12;color:var(--navy);margin-bottom:22px;animation:fadeUp .7s .1s ease both}
 .hero h1 .hl{background:linear-gradient(135deg,var(--blue),var(--blue-l));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero p.lead{font-size:17px;color:var(--gray-6);line-height:1.78;margin-bottom:36px;animation:fadeUp .7s .2s ease both}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:52px;animation:fadeUp .7s .3s ease both}
@@ -144,8 +146,9 @@ nav a:hover::after{transform:scaleX(1)}
 .hero-stat{padding:0 24px;border-right:1px solid var(--gray-2)}
 .hero-stat:first-child{padding-left:0}
 .hero-stat:last-child{border-right:none}
-.hs-num{font-family:'Unbounded',sans-serif;font-size:30px;font-weight:900;color:var(--navy);line-height:1;display:flex;align-items:baseline;gap:4px}
+.hs-num{font-family:'Manrope',sans-serif;font-size:30px;font-weight:800;color:var(--navy);line-height:1;display:flex;align-items:baseline;gap:4px}
 .hs-num .u{font-size:16px;color:var(--blue)}
+.hs-inf{font-size:38px;line-height:.9;align-self:center}
 .hs-lbl{font-size:13px;color:var(--gray-4);margin-top:6px}
 /* Hero Visual */
 .hero-visual{position:relative;animation:scaleIn .8s .15s ease both}
@@ -167,7 +170,7 @@ nav a:hover::after{transform:scaleX(1)}
 .fb-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .fb-icon-green{background:var(--green-bg)}
 .fb-icon-blue{background:var(--blue-bg)}
-.fb-val{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:var(--navy);line-height:1}
+.fb-val{font-family:'Manrope',sans-serif;font-size:18px;font-weight:800;color:var(--navy);line-height:1}
 .fb-lbl{font-size:11px;color:var(--gray-4);margin-top:2px}
 
 /* ===================== NUMBERS TICKER ===================== */
@@ -177,7 +180,7 @@ nav a:hover::after{transform:scaleX(1)}
 .pain-section{background:var(--gray-05);border-top:1px solid var(--gray-2);border-bottom:1px solid var(--gray-2)}
 .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .pain-eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-4);margin-bottom:14px}
-.pain-grid h2{font-family:'Unbounded',sans-serif;font-size:clamp(24px,3.2vw,38px);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:20px}
+.pain-grid h2{font-family:'Manrope',sans-serif;font-size:clamp(24px,3.2vw,38px);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:20px}
 .pain-grid h2 .red{color:#EF4444}
 .pain-grid p{font-size:16px;color:var(--gray-6);line-height:1.78}
 .pain-items{margin-top:32px;display:flex;flex-direction:column;gap:14px}
@@ -190,10 +193,10 @@ nav a:hover::after{transform:scaleX(1)}
 .transform-box{background:#fff;border:1px solid var(--gray-2);border-radius:22px;padding:40px;box-shadow:var(--sh-card)}
 .tb-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:24px;display:flex;align-items:center;gap:8px}
 .transform-row{display:flex;align-items:center;gap:16px;margin-bottom:28px}
-.time-blk{flex:1;text-align:center;padding:24px 14px;border-radius:14px}
+.time-blk{flex:1;min-width:90px;text-align:center;padding:24px 14px;border-radius:14px}
 .time-blk.before{background:var(--gray-1);border:1px solid var(--gray-2)}
 .time-blk.after{background:linear-gradient(135deg,#E6FDF6,#F0FDF8);border:1px solid rgba(13,231,168,.3)}
-.tb-val{font-family:'Unbounded',sans-serif;font-size:34px;font-weight:900;line-height:1}
+.tb-val{font-family:'Manrope',sans-serif;font-size:34px;font-weight:800;line-height:1}
 .time-blk.before .tb-val{color:var(--gray-3);text-decoration:line-through}
 .time-blk.after .tb-val{color:#059669}
 .tb-sub{font-size:12px;color:var(--gray-4);margin-top:6px}
@@ -209,17 +212,18 @@ nav a:hover::after{transform:scaleX(1)}
 .steps-connector{position:absolute;top:52px;left:calc(16.667% + 20px);right:calc(16.667% + 20px);height:2px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue-l) 100%);z-index:0;opacity:.25}
 .step-card{background:#fff;border:1px solid var(--gray-2);border-radius:22px;padding:36px 28px;position:relative;z-index:1;transition:all var(--tr)}
 .step-card:hover{box-shadow:var(--sh-md);transform:translateY(-6px);border-color:rgba(21,102,239,.3)}
-.step-num{width:52px;height:52px;background:var(--blue);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;color:#fff;margin-bottom:22px;transition:transform var(--tr)}
+.step-num{width:52px;height:52px;background:var(--blue);border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-size:20px;font-weight:800;color:#fff;margin-bottom:22px;transition:transform var(--tr)}
 .step-card:hover .step-num{transform:scale(1.1) rotate(-4deg)}
-.step-card h3{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.3}
+.step-card h3{font-family:'Manrope',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:12px;line-height:1.3}
 .step-card p{font-size:14px;color:var(--gray-6);line-height:1.72}
 .step-pill{margin-top:18px;display:inline-flex;align-items:center;gap:6px;background:var(--blue-bg);color:var(--blue);font-size:12px;font-weight:700;padding:6px 12px;border-radius:8px}
 /* Tech grid */
 .tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:64px}
 .tech-card{background:var(--gray-05);border:1px solid var(--gray-2);border-radius:18px;padding:28px 24px;transition:all var(--tr)}
 .tech-card:hover{background:#fff;box-shadow:var(--sh-card-h);transform:translateY(-4px);border-color:rgba(21,102,239,.2)}
-.tech-ic{font-size:32px;margin-bottom:14px}
-.tech-card h4{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;line-height:1.3}
+.tech-ic{width:52px;height:52px;background:var(--blue-bg);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;color:var(--blue);transition:transform var(--tr)}
+.tech-card:hover .tech-ic{transform:scale(1.1) rotate(-4deg)}
+.tech-card h4{font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px;line-height:1.3}
 .tech-card p{font-size:13px;color:var(--gray-6);line-height:1.7}
 
 /* ===================== FEATURES ===================== */
@@ -231,7 +235,7 @@ nav a:hover::after{transform:scaleX(1)}
 .feat-card:hover::before{opacity:1}
 .feat-ic{width:52px;height:52px;border-radius:14px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:24px;transition:transform var(--tr);position:relative;z-index:1}
 .feat-card:hover .feat-ic{transform:scale(1.12) rotate(-5deg)}
-.feat-card h3{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.35;position:relative;z-index:1}
+.feat-card h3{font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:var(--navy);margin-bottom:10px;line-height:1.35;position:relative;z-index:1}
 .feat-card p{font-size:14px;color:var(--gray-6);line-height:1.72;position:relative;z-index:1}
 
 /* ===================== INDUSTRIES ===================== */
@@ -244,19 +248,25 @@ nav a:hover::after{transform:scaleX(1)}
 .ind-card.c4{background:linear-gradient(135deg,#F5F3FF,#EDE9FE)}
 .ind-card.c5{background:linear-gradient(135deg,#ECFDF5,#D1FAE5)}
 .ind-card.c6{background:linear-gradient(135deg,#FEFCE8,#FEF08A55)}
-.ind-ic{font-size:34px;margin-bottom:14px;display:block;transition:transform var(--tr)}
-.ind-card:hover .ind-ic{transform:scale(1.15)}
-.ind-card h3{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.ind-ic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;transition:transform var(--tr);flex-shrink:0}
+.ind-card.c1 .ind-ic{background:rgba(21,102,239,.12);color:#1566EF}
+.ind-card.c2 .ind-ic{background:rgba(5,150,105,.12);color:#059669}
+.ind-card.c3 .ind-ic{background:rgba(234,88,12,.12);color:#ea580c}
+.ind-card.c4 .ind-ic{background:rgba(124,58,237,.12);color:#7c3aed}
+.ind-card.c5 .ind-ic{background:rgba(5,150,105,.12);color:#059669}
+.ind-card.c6 .ind-ic{background:rgba(202,138,4,.12);color:#ca8a04}
+.ind-card:hover .ind-ic{transform:scale(1.1) rotate(-5deg)}
+.ind-card h3{font-family:'Manrope',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:8px}
 .ind-card p{font-size:13px;color:var(--gray-6);line-height:1.65;margin-bottom:14px}
 .ind-tag{display:inline-flex;padding:4px 12px;background:rgba(255,255,255,.65);backdrop-filter:blur(4px);border-radius:50px;font-size:11px;font-weight:700;color:var(--navy)}
 
-/* ===================== SCREENSHOTS ===================== */
+/* ===================== SCREENSHOTS SLIDER ===================== */
 .sc-section{background:#fff}
-.sc-scroll{display:flex;gap:22px;overflow-x:auto;padding:4px 24px 28px;scrollbar-width:thin;scrollbar-color:var(--gray-2) transparent;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
-.sc-scroll::-webkit-scrollbar{height:4px}
-.sc-scroll::-webkit-scrollbar-track{background:transparent}
-.sc-scroll::-webkit-scrollbar-thumb{background:var(--gray-2);border-radius:4px}
-.sc-item{flex-shrink:0;width:540px;scroll-snap-align:start}
+.slider-outer{position:relative;overflow:hidden;padding:4px 0 0}
+.slider-track{display:flex;transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.sc-item{flex-shrink:0;width:520px;padding:0 12px;box-sizing:border-box}
+@media(max-width:768px){.sc-item{width:calc(100vw - 48px)}}
+@media(max-width:480px){.sc-item{width:calc(100vw - 32px)}}
 .sc-frame{background:#fff;border:1px solid var(--gray-2);border-radius:16px;overflow:hidden;box-shadow:var(--sh-card);transition:all var(--tr)}
 .sc-item:hover .sc-frame{box-shadow:var(--sh-md);transform:translateY(-4px)}
 .sc-bar{background:var(--gray-05);padding:10px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--gray-2)}
@@ -269,9 +279,18 @@ nav a:hover::after{transform:scaleX(1)}
 .sc-body::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%);animation:shimmer 4s infinite}
 .sc-ico{font-size:28px;opacity:.6}
 .sc-cap{margin-top:16px}
-.sc-cap h4{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.sc-cap h4{font-family:'Manrope',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:5px}
 .sc-cap p{font-size:13px;color:var(--gray-6)}
 .sc-hint{font-size:11px;color:var(--gray-4);font-style:italic;margin-top:6px;padding:6px 10px;background:var(--gray-05);border-radius:6px;border:1px dashed var(--gray-2)}
+/* Slider controls */
+.sl-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:32px}
+.sl-btn{width:44px;height:44px;border-radius:50%;background:#fff;border:2px solid var(--gray-2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.sl-btn:hover{background:var(--blue);border-color:var(--blue)}
+.sl-btn:hover svg{stroke:#fff}
+.sl-btn svg{stroke:var(--gray-6);transition:stroke var(--tr)}
+.sl-dots-row{display:flex;gap:8px;align-items:center}
+.sl-dot{width:8px;height:8px;border-radius:50%;background:var(--gray-2);transition:all var(--tr);cursor:pointer;border:none;padding:0}
+.sl-dot.active{background:var(--blue);width:24px;border-radius:4px}
 
 /* ===================== PRICING ===================== */
 .price-section{background:var(--gray-05);border-top:1px solid var(--gray-2);border-bottom:1px solid var(--gray-2)}
@@ -281,7 +300,7 @@ nav a:hover::after{transform:scaleX(1)}
 .price-card.featured{border-color:var(--blue);box-shadow:0 0 0 4px rgba(21,102,239,.08);position:relative}
 .featured-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:50px;white-space:nowrap}
 .pc-plan{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);margin-bottom:10px}
-.pc-price{font-family:'Unbounded',sans-serif;font-size:38px;font-weight:900;color:var(--navy);line-height:1;margin-bottom:4px}
+.pc-price{font-family:'Manrope',sans-serif;font-size:38px;font-weight:800;color:var(--navy);line-height:1;margin-bottom:4px}
 .pc-price .cur{font-size:22px}
 .pc-price .ask{font-size:26px}
 .pc-desc{font-size:14px;color:var(--gray-6);line-height:1.65;margin-bottom:28px;padding-bottom:24px;border-bottom:1px solid var(--gray-2)}
@@ -303,7 +322,7 @@ nav a:hover::after{transform:scaleX(1)}
 .test-quote{font-size:36px;color:var(--blue-bg);font-family:Georgia,serif;line-height:1;margin-bottom:8px}
 .test-text{font-size:15px;color:var(--text);line-height:1.78;margin-bottom:22px}
 .test-author{display:flex;align-items:center;gap:12px;padding-top:20px;border-top:1px solid var(--gray-2)}
-.ta-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-l));display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
+.ta-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue-l));display:flex;align-items:center;justify-content:center;font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;color:#fff;flex-shrink:0}
 .ta-name{font-size:14px;font-weight:700;color:var(--navy)}
 .ta-role{font-size:12px;color:var(--gray-4);margin-top:2px}
 
@@ -313,7 +332,10 @@ nav a:hover::after{transform:scaleX(1)}
 .faq-item{background:#fff;border:1px solid var(--gray-2);border-radius:14px;overflow:hidden;transition:box-shadow var(--tr)}
 .faq-item:hover{box-shadow:var(--sh-card)}
 .faq-item.open{border-color:rgba(21,102,239,.3);box-shadow:0 4px 20px rgba(21,102,239,.08)}
-.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px;font-size:15px;font-weight:600;color:var(--navy);text-align:left;cursor:pointer;background:none;border:none;font-family:inherit;transition:color var(--tr)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:20px 24px;font-size:15px;font-weight:600;color:var(--navy);text-align:left;cursor:pointer;background:none;border:none;font-family:inherit;transition:color var(--tr)}
+.faq-q-left{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
+.faq-q-icon{width:36px;height:36px;border-radius:10px;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue);transition:all var(--tr)}
+.faq-item.open .faq-q-icon{background:var(--blue);color:#fff}
 .faq-q:hover{color:var(--blue)}
 .faq-ic{width:28px;height:28px;border-radius:50%;background:var(--gray-1);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--tr)}
 .faq-ic svg{width:14px;height:14px;color:var(--gray-6);transition:transform var(--tr)}
@@ -326,7 +348,7 @@ nav a:hover::after{transform:scaleX(1)}
 /* ===================== CONTACT ===================== */
 .contact-section{background:var(--blue-bg2);border-top:1px solid var(--gray-2)}
 .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
-.contact-left h2{font-family:'Unbounded',sans-serif;font-size:clamp(24px,3.2vw,36px);font-weight:700;color:var(--navy);margin:14px 0 18px;line-height:1.2}
+.contact-left h2{font-family:'Manrope',sans-serif;font-size:clamp(24px,3.2vw,36px);font-weight:700;color:var(--navy);margin:14px 0 18px;line-height:1.2}
 .contact-left p{font-size:16px;color:var(--gray-6);line-height:1.75;margin-bottom:36px}
 .ci-list{display:flex;flex-direction:column;gap:14px}
 .ci-item{display:flex;align-items:center;gap:14px;padding:14px 18px;background:#fff;border:1px solid var(--gray-2);border-radius:12px;transition:all var(--tr)}
@@ -342,7 +364,8 @@ nav a:hover::after{transform:scaleX(1)}
 .f-group label{font-size:13px;font-weight:700;color:var(--navy)}
 .f-group input,.f-group select,.f-group textarea{border:1.5px solid var(--gray-2);border-radius:10px;padding:12px 16px;font-family:'Manrope',sans-serif;font-size:15px;color:var(--text);transition:all var(--tr);background:#fff;width:100%}
 .f-group input:focus,.f-group select:focus,.f-group textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(21,102,239,.08)}
-.f-group textarea{resize:vertical;min-height:96px}
+.f-group textarea{resize:vertical;min-height:80px}
+.f-group select{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;cursor:pointer}
 .form-success{display:none;text-align:center;padding:28px;background:var(--green-bg);border-radius:14px;color:#059669;border:1px solid rgba(13,231,168,.3)}
 .form-success.show{display:block}
 .f-privacy{font-size:12px;color:var(--gray-4);text-align:center;margin-top:14px}
@@ -352,7 +375,7 @@ footer{background:var(--navy);padding:64px 0 32px}
 .ft-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
 .ft-brand .logo-name{color:#fff}
 .ft-brand p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.72;margin-top:14px;max-width:256px}
-.ft-col h4{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin-bottom:18px}
+.ft-col h4{font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin-bottom:18px}
 .ft-col li{margin-bottom:10px}
 .ft-col li a{font-size:14px;color:rgba(255,255,255,.45);transition:color var(--tr)}
 .ft-col li a:hover{color:#fff}
@@ -392,7 +415,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 #pm-img-mod{display:none;position:fixed;inset:0;z-index:10001;background:rgba(15,23,42,.6);align-items:center;justify-content:center}
 #pm-img-mod.open{display:flex}
 #pm-img-box{background:#fff;border-radius:20px;padding:32px;width:90%;max-width:460px;box-shadow:0 24px 80px rgba(15,23,42,.25)}
-#pm-img-box h3{font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:20px}
+#pm-img-box h3{font-family:'Manrope',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:20px}
 .pm-drop{border:2px dashed var(--gray-2);border-radius:12px;padding:30px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px}
 .pm-drop:hover,.pm-drop.dov{border-color:var(--blue);background:var(--blue-bg)}
 .pm-drop p{font-size:14px;color:var(--gray-6);margin-top:8px}
@@ -406,6 +429,29 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 #pm-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);z-index:10002;background:var(--navy);color:#fff;padding:11px 22px;border-radius:50px;font-size:14px;font-weight:600;font-family:'Manrope',sans-serif;box-shadow:0 8px 32px rgba(0,0,0,.25);transition:transform .4s cubic-bezier(.4,0,.2,1);pointer-events:none;white-space:nowrap}
 #pm-toast.show{transform:translateX(-50%) translateY(0)}
 #pm-toast.ok{background:var(--green);color:var(--navy)}
+
+
+/* ===================== GUARANTEE ===================== */
+.guarantee-section{padding:56px 0;background:var(--white)}
+.guarantee-inner{max-width:860px;margin:0 auto;background:linear-gradient(135deg,#0A1628 0%,#1a2d4d 100%);border-radius:24px;padding:48px 56px;display:flex;align-items:center;gap:48px;position:relative;overflow:hidden}
+.guarantee-inner::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(13,231,168,.15) 0%,transparent 70%)}
+.guarantee-inner::after{content:'';position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(21,102,239,.12) 0%,transparent 70%)}
+.guarantee-badge{flex-shrink:0;width:96px;height:96px;background:linear-gradient(135deg,var(--green),#0bcf96);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 12px rgba(13,231,168,.12),0 8px 32px rgba(13,231,168,.35);position:relative;z-index:1}
+.guarantee-badge svg{width:44px;height:44px;color:#0A1628}
+.guarantee-text{position:relative;z-index:1}
+.guarantee-text h3{font-family:'Manrope',sans-serif;font-size:clamp(20px,2.4vw,26px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:10px}
+.guarantee-text p{font-size:15px;color:rgba(255,255,255,.65);line-height:1.72;margin-bottom:18px}
+.guarantee-pills{display:flex;flex-wrap:wrap;gap:8px}
+.guarantee-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-size:13px;font-weight:600;padding:6px 14px;border-radius:50px}
+.guarantee-pill svg{color:var(--green);flex-shrink:0}
+@media(max-width:768px){
+  .guarantee-inner{flex-direction:column;text-align:center;padding:36px 28px;gap:28px}
+  .guarantee-pills{justify-content:center}
+}
+/* ===================== MOBILE LANG ===================== */
+.mob-lang-sw{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--gray-2);margin-top:8px}
+.mob-lang-sw .lang-btn{flex:1;padding:10px 8px;border-radius:10px;font-size:13px;font-weight:600;color:var(--gray-6);background:var(--gray-1);text-align:center}
+.mob-lang-sw .lang-btn.active{background:var(--blue-bg);color:var(--blue);box-shadow:0 1px 6px rgba(21,102,239,.15)}
 
 /* ===================== RESPONSIVE ===================== */
 @media(max-width:1024px){
@@ -429,21 +475,24 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   .section-sm{padding:48px 0}
   nav{display:none}
   .hd-right .btn{display:none}
+  #desktopLangSw{display:none}
   .burger{display:flex}
   .hero{padding:52px 0 64px}
   .hero-stats{grid-template-columns:repeat(3,1fr)}
   .hero-stat{padding:0 12px}
   .hs-num{font-size:22px}
+  .hs-inf{font-size:32px}
   .feat-grid{grid-template-columns:1fr}
   .test-grid{grid-template-columns:1fr}
   .ind-grid{grid-template-columns:1fr 1fr}
   .ft-inner{grid-template-columns:1fr}
   .tech-grid{grid-template-columns:repeat(2,1fr)}
   #pm-panel{width:calc(100% - 32px);flex-wrap:wrap;justify-content:center;gap:6px;bottom:16px}
-  .sc-item{width:calc(100vw - 56px)}
+  .sc-item{width:calc(100vw - 80px)}
   .f-row{grid-template-columns:1fr}
   .hero-cta{flex-direction:column;align-items:stretch}
   .hero-cta .btn{justify-content:center}
+  .transform-box{padding:28px 20px}
 }
 @media(max-width:480px){
   .container{padding:0 16px}
@@ -480,10 +529,10 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
         <a href="#contact" data-i18n="nav_contact">Контакты</a>
       </nav>
       <div class="hd-right">
-        <div class="lang-sw">
-          <button class="lang-btn active" onclick="setLang('ru')">RU</button>
-          <button class="lang-btn" onclick="setLang('en')">EN</button>
-          <button class="lang-btn" onclick="setLang('zh')">中文</button>
+        <div class="lang-sw" id="desktopLangSw">
+          <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="zh" onclick="setLang('zh')">中文</button>
         </div>
         <a href="#contact" class="btn btn-primary" style="font-size:13px;padding:10px 20px">
           <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -505,6 +554,11 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   <a href="#contact" class="btn btn-primary mob-cta" style="justify-content:center" onclick="closeBurger()">
     <span data-i18n="nav_cta">Получить демо</span>
   </a>
+  <div class="mob-lang-sw">
+    <button class="lang-btn active" data-lang="ru" onclick="setLang('ru');closeBurger()">RU Русский</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en');closeBurger()">EN English</button>
+    <button class="lang-btn" data-lang="zh" onclick="setLang('zh');closeBurger()">ZH 中文</button>
+  </div>
 </div>
 
 <!-- HERO -->
@@ -520,11 +574,11 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </span>
         </div>
         <h1>
-          <span data-i18n="h_h1a">Сравнение прайсов</span><br>
-          <span class="hl" data-i18n="h_h1b">за 7 минут</span><br>
-          <span data-i18n="h_h1c">вместо 3 часов</span>
+          <span data-i18n="h_h1a">Сравните прайсы</span><br>
+          <span class="hl" data-i18n="h_h1b">20 поставщиков за 7 минут</span><br>
+          <span data-i18n="h_h1c">вместо 4 часов в Excel</span>
         </h1>
-        <p class="lead" data-i18n="h_lead">ПрайсМастер автоматически находит одинаковые позиции по штрихкодам, артикулам и названиям — и формирует единую сводную таблицу. Никакого ручного труда.</p>
+        <p class="lead" data-i18n="h_lead">Загрузите файлы — система сама сопоставит товары по штрихкодам, артикулам и названиям и выдаст готовую сводную таблицу. Без ручной работы, без ошибок.</p>
         <div class="hero-cta">
           <a href="#contact" class="btn btn-primary btn-primary-lg">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -541,7 +595,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
             <div class="hs-lbl" data-i18n="hs1">полная обработка</div>
           </div>
           <div class="hero-stat">
-            <div class="hs-num">∞</div>
+            <div class="hs-num hs-inf">∞</div>
             <div class="hs-lbl" data-i18n="hs2">файлов одновременно</div>
           </div>
           <div class="hero-stat">
@@ -585,17 +639,17 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   <div class="container">
     <div class="pain-grid">
       <div>
-        <div class="pain-eyebrow rv" data-i18n="pa_eye">Проблема</div>
-        <h2 class="rv d1"><span data-i18n="pa_h2a">Ручная работа — это</span> <span class="red" data-i18n="pa_h2b">дорого и ненадёжно</span></h2>
-        <p class="rv d2" data-i18n="pa_p">Каждый раз, когда нужно сравнить прайс-листы поставщиков, сотрудник часами сидит в Excel. Копирует, ищет совпадения, допускает ошибки. А конкурент тем временем уже принял решение.</p>
+        <div class="pain-eyebrow" data-aos="fade-up" data-i18n="pa_eye">Проблема</div>
+        <h2 data-aos="fade-up" data-aos-delay="100"><span data-i18n="pa_h2a">Ручная работа — это</span> <span class="red" data-i18n="pa_h2b">дорого и ненадёжно</span></h2>
+        <p data-aos="fade-up" data-aos-delay="200" data-i18n="pa_p">Каждый раз, когда нужно сравнить прайс-листы поставщиков, сотрудник часами сидит в Excel. Копирует, ищет совпадения, допускает ошибки. А конкурент тем временем уже принял решение.</p>
         <div class="pain-items">
-          <div class="pain-item rv d2"><div class="pi-ic">⏱</div><p><strong data-i18n="pi1t">3–5 часов</strong> <span data-i18n="pi1p">уходит на ручное сравнение даже небольшого числа прайсов</span></p></div>
-          <div class="pain-item rv d3"><div class="pi-ic">❌</div><p><strong data-i18n="pi2t">Ошибки неизбежны</strong> <span data-i18n="pi2p">при копировании вручную — и они стоят реальных денег</span></p></div>
-          <div class="pain-item rv d4"><div class="pi-ic">💸</div><p><strong data-i18n="pi3t">Зарплата сотрудника</strong> <span data-i18n="pi3p">тратится на рутину вместо задач, которые приносят прибыль</span></p></div>
-          <div class="pain-item rv d5"><div class="pi-ic">📉</div><p><strong data-i18n="pi4t">Медленные решения</strong> <span data-i18n="pi4p">— пока считаете, конкурент уже купил дешевле</span></p></div>
+          <div class="pain-item" data-aos="fade-up" data-aos-delay="200"><div class="pi-ic">⏱</div><p><strong data-i18n="pi1t">3–5 часов</strong> <span data-i18n="pi1p">уходит на ручное сравнение даже небольшого числа прайсов</span></p></div>
+          <div class="pain-item" data-aos="fade-up" data-aos-delay="300"><div class="pi-ic">❌</div><p><strong data-i18n="pi2t">Ошибки неизбежны</strong> <span data-i18n="pi2p">при копировании вручную — и они стоят реальных денег</span></p></div>
+          <div class="pain-item" data-aos="fade-up" data-aos-delay="400"><div class="pi-ic">💸</div><p><strong data-i18n="pi3t">Зарплата сотрудника</strong> <span data-i18n="pi3p">тратится на рутину вместо задач, которые приносят прибыль</span></p></div>
+          <div class="pain-item" data-aos="fade-up" data-aos-delay="500"><div class="pi-ic">📉</div><p><strong data-i18n="pi4t">Медленные решения</strong> <span data-i18n="pi4p">— пока считаете, конкурент уже купил дешевле</span></p></div>
         </div>
       </div>
-      <div class="rv-r d1">
+      <div data-aos="fade-left" data-aos-delay="100">
         <div class="transform-box">
           <div class="tb-label">
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -626,50 +680,62 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 <!-- HOW IT WORKS -->
 <section class="section how-section" id="how">
   <div class="container">
-    <div class="sec-hd rv">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-i18n="how_tag">Простой процесс</span></div>
       <h2 data-i18n="how_h2">Три шага до результата</h2>
       <p data-i18n="how_p">Никаких специальных знаний. Загрузили — получили результат.</p>
     </div>
     <div class="steps-row">
       <div class="steps-connector"></div>
-      <div class="step-card rv d1">
+      <div class="step-card" data-aos="fade-up" data-aos-delay="100">
         <div class="step-num">1</div>
         <h3 data-i18n="st1h">Загрузите прайс-листы</h3>
         <p data-i18n="st1p">Выберите файлы Excel или CSV от ваших поставщиков — их может быть сколько угодно. Система принимает любые форматы без предварительной подготовки.</p>
-        <div class="step-pill">📁 <span data-i18n="st1d">.xls · .xlsx · .csv</span></div>
       </div>
-      <div class="step-card rv d3">
+      <div class="step-card" data-aos="fade-up" data-aos-delay="300">
         <div class="step-num">2</div>
         <h3 data-i18n="st2h">Система находит совпадения</h3>
         <p data-i18n="st2p">Сопоставление идёт по штрихкодам EAN/UPC, артикулам и SKU — с точностью 100%. Если кода нет — алгоритм находит совпадения по названию, даже при опечатках.</p>
-        <div class="step-pill">🧠 <span data-i18n="st2d">Штрихкод / артикул / название</span></div>
       </div>
-      <div class="step-card rv d5">
+      <div class="step-card" data-aos="fade-up" data-aos-delay="500">
         <div class="step-num">3</div>
         <h3 data-i18n="st3h">Скачайте сводную таблицу</h3>
         <p data-i18n="st3p">Готовый Excel-файл: каждый товар — одна строка, цены всех поставщиков — в отдельных столбцах. Сразу видно лучшее предложение.</p>
-        <div class="step-pill">📊 <span data-i18n="st3d">Готовый Excel на выходе</span></div>
       </div>
     </div>
     <div class="tech-grid">
-      <div class="tech-card rv d1">
-        <div class="tech-ic">🔢</div>
+      <div class="tech-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="tech-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" width="3" height="18"/><rect x="7" y="3" width="1.5" height="18"/><rect x="10.5" y="3" width="3" height="18"/><rect x="15.5" y="3" width="1.5" height="18"/><rect x="19" y="3" width="3" height="18"/>
+</svg></div>
         <h4 data-i18n="tc1h">Штрихкоды и артикулы</h4>
         <p data-i18n="tc1p">Если в прайсах есть штрихкод EAN/UPC, SKU или артикул — система использует его как главный ключ. Один код = одна позиция. Точность 100%, никаких ошибок.</p>
       </div>
-      <div class="tech-card rv d2">
-        <div class="tech-ic">🔤</div>
+      <div class="tech-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="tech-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="3" y1="6" x2="21" y2="6"/>
+  <line x1="6" y1="12" x2="18" y2="12"/>
+  <line x1="9" y1="18" x2="15" y2="18"/>
+</svg></div>
         <h4 data-i18n="tc2h">Нормализация текста</h4>
         <p data-i18n="tc2p">Все названия приводятся к единому виду: убираются лишние символы, пробелы, различия в регистре. «Болт М8» и «болт м8х1.25» — система понимает, что это одно и то же.</p>
       </div>
-      <div class="tech-card rv d3">
-        <div class="tech-ic">📐</div>
+      <div class="tech-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="tech-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="7"/>
+  <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  <path d="M9 11h4M11 9v4" stroke-width="1.8"/>
+</svg></div>
         <h4 data-i18n="tc3h">Нечёткое сравнение</h4>
         <p data-i18n="tc3p">Алгоритм измеряет «похожесть» строк и находит совпадения даже при опечатках или незначительных различиях. Идеально для случаев, когда артикула нет.</p>
       </div>
-      <div class="tech-card rv d4">
-        <div class="tech-ic">📋</div>
+      <div class="tech-card" data-aos="fade-up" data-aos-delay="400">
+        <div class="tech-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="3" y="3" width="18" height="18" rx="2"/>
+  <line x1="3" y1="9" x2="21" y2="9"/>
+  <line x1="3" y1="15" x2="21" y2="15"/>
+  <line x1="9" y1="9" x2="9" y2="21"/>
+</svg></div>
         <h4 data-i18n="tc4h">Формирование свода</h4>
         <p data-i18n="tc4p">После сопоставления система собирает итоговую таблицу: каждая строка — один товар, каждый столбец — цена конкретного поставщика. Ячейки без цены помечаются отдельно.</p>
       </div>
@@ -677,21 +743,30 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   </div>
 </section>
 
+
+
+<!-- CTA after HOW -->
+<div style="text-align:center;padding:0 0 80px">
+  <a href="#contact" class="btn btn-primary btn-primary-lg" data-aos="fade-up" data-aos-delay="100">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    <span data-i18n="h_cta1">Оставить заявку</span>
+  </a>
+</div>
 <!-- FEATURES -->
 <section class="section features-section" id="features">
   <div class="container">
-    <div class="sec-hd rv">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span data-i18n="feat_tag">Возможности</span></div>
       <h2 data-i18n="feat_h2">Всё, что нужно бизнесу</h2>
       <p data-i18n="feat_p">Универсальный инструмент для любой сферы, где у товаров есть единый идентификатор — штрихкод, артикул, SKU</p>
     </div>
     <div class="feat-grid">
-      <div class="feat-card rv d1"><div class="feat-ic">📁</div><h3 data-i18n="f1h">Без ограничений по файлам</h3><p data-i18n="f1p">Загружайте столько прайс-листов, сколько нужно. Ограничение зависит только от мощности вашего компьютера или хостинга — обычно это практически неограниченно.</p></div>
-      <div class="feat-card rv d2"><div class="feat-ic">🔧</div><h3 data-i18n="f2h">Гибкая настройка</h3><p data-i18n="f2p">Добавляем фильтры по категориям, меняем структуру итоговой таблицы, подключаем расчёт наценки и минимальной цены. Практически любой запрос — реализуем.</p></div>
-      <div class="feat-card rv d3"><div class="feat-ic">💻</div><h3 data-i18n="f3h">Локально или в облаке</h3><p data-i18n="f3p">Работает на вашем компьютере без интернета — данные никуда не уходят. Или разворачивается на сервере и доступна с любого устройства через браузер.</p></div>
-      <div class="feat-card rv d1"><div class="feat-ic">🌐</div><h3 data-i18n="f4h">Любая отрасль</h3><p data-i18n="f4p">Не привязана к конкретным товарам. Работает там, где у позиций есть штрихкод EAN/UPC, артикул или уникальный код — стройматериалы, продукты, запчасти, фарма и другие.</p></div>
-      <div class="feat-card rv d2"><div class="feat-ic">⚡</div><h3 data-i18n="f5h">Высокая скорость</h3><p data-i18n="f5p">Тысячи позиций из десятков файлов обрабатываются за 5–10 минут. То, что сотрудник делал 3–5 часов — теперь делает система пока вы пьёте кофе.</p></div>
-      <div class="feat-card rv d3"><div class="feat-ic">📊</div><h3 data-i18n="f6h">Привычный Excel на выходе</h3><p data-i18n="f6p">Итоговый файл открывается в привычном Excel. Ничего дополнительно устанавливать не нужно — получили файл и сразу работаете с ним.</p></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="100"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg></div><h3 data-i18n="f1h">Без ограничений по файлам</h3><p data-i18n="f1p">Загружайте столько прайс-листов, сколько нужно. Ограничение зависит только от мощности вашего компьютера или хостинга — обычно это практически неограниченно.</p></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="200"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div><h3 data-i18n="f2h">Гибкая настройка</h3><p data-i18n="f2p">Добавляем фильтры по категориям, меняем структуру итоговой таблицы, подключаем расчёт наценки и минимальной цены. Практически любой запрос — реализуем.</p></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="300"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"/></svg></div><h3 data-i18n="f3h">Локально или в облаке</h3><p data-i18n="f3p">Работает на вашем компьютере без интернета — данные никуда не уходят. Или разворачивается на сервере и доступна с любого устройства через браузер.</p></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="100"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div><h3 data-i18n="f4h">Любая отрасль</h3><p data-i18n="f4p">Не привязана к конкретным товарам. Работает там, где у позиций есть штрихкод EAN/UPC, артикул или уникальный код — стройматериалы, продукты, запчасти, фарма и другие.</p></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="200"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><h3 data-i18n="f5h">Высокая скорость</h3><p data-i18n="f5p">Тысячи позиций из десятков файлов обрабатываются за 5–10 минут. То, что сотрудник делал 3–5 часов — теперь делает система пока вы пьёте кофе.</p></div>
+      <div class="feat-card" data-aos="fade-up" data-aos-delay="300"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div><h3 data-i18n="f6h">Привычный Excel на выходе</h3><p data-i18n="f6p">Итоговый файл открывается в привычном Excel. Ничего дополнительно устанавливать не нужно — получили файл и сразу работаете с ним.</p></div>
     </div>
   </div>
 </section>
@@ -699,66 +774,88 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 <!-- INDUSTRIES -->
 <section class="section" id="industries" style="background:#fff">
   <div class="container">
-    <div class="sec-hd rv">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span data-i18n="ind_tag">Отрасли</span></div>
       <h2 data-i18n="ind_h2">Работает там, где есть прайс-листы</h2>
       <p data-i18n="ind_p">Подходит для любого бизнеса, где товары имеют стандартизированные коды или уникальные названия</p>
     </div>
     <div class="ind-grid">
-      <div class="ind-card c1 rv d1"><span class="ind-ic">🏪</span><h3 data-i18n="i1h">Оптовая торговля</h3><p data-i18n="i1p">Десятки поставщиков, тысячи позиций — сводная таблица с ценами всех партнёров за несколько минут.</p><span class="ind-tag" data-i18n="i1t">Опт / дистрибуция</span></div>
-      <div class="ind-card c2 rv d2"><span class="ind-ic">🛒</span><h3 data-i18n="i2h">Розничные сети</h3><p data-i18n="i2p">Контроль закупочных цен и мониторинг изменений. Мгновенно видно, где подорожало и где лучшее предложение.</p><span class="ind-tag" data-i18n="i2t">Ритейл</span></div>
-      <div class="ind-card c3 rv d3"><span class="ind-ic">🏗️</span><h3 data-i18n="i3h">Строительство</h3><p data-i18n="i3p">Сравнение цен на стройматериалы при подготовке сметы. Экономия на закупках 10–20% только за счёт выбора поставщика.</p><span class="ind-tag" data-i18n="i3t">Стройматериалы</span></div>
-      <div class="ind-card c4 rv d1"><span class="ind-ic">🍽️</span><h3 data-i18n="i4h">HoReCa и продукты</h3><p data-i18n="i4p">Ежедневное сравнение прайсов продуктовых поставщиков. Цены меняются каждый день — система успевает.</p><span class="ind-tag" data-i18n="i4t">Рестораны / кафе</span></div>
-      <div class="ind-card c5 rv d2"><span class="ind-ic">🔩</span><h3 data-i18n="i5h">Промышленность</h3><p data-i18n="i5p">Закупка комплектующих и оборудования. Артикулы и коды позволяют сопоставлять позиции с точностью 100%.</p><span class="ind-tag" data-i18n="i5t">Производство</span></div>
-      <div class="ind-card c6 rv d3"><span class="ind-ic">💊</span><h3 data-i18n="i6h">Фармацевтика</h3><p data-i18n="i6p">Сравнение цен на медикаменты по МНН или штрихкоду. Строгое совпадение — без путаницы в наименованиях.</p><span class="ind-tag" data-i18n="i6t">Аптеки / клиники</span></div>
+      <div class="ind-card c1" data-aos="fade-up" data-aos-delay="100"><span class="ind-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h22v5H1z"/><path d="M2 8v13h20V8"/><path d="M10 12h4"/></svg></span><h3 data-i18n="i1h">Оптовая торговля</h3><p data-i18n="i1p">Десятки поставщиков, тысячи позиций — сводная таблица с ценами всех партнёров за несколько минут.</p><span class="ind-tag" data-i18n="i1t">Опт / дистрибуция</span></div>
+      <div class="ind-card c2" data-aos="fade-up" data-aos-delay="200"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><h3 data-i18n="i2h">Розничные сети</h3><p data-i18n="i2p">Контроль закупочных цен и мониторинг изменений. Мгновенно видно, где подорожало и где лучшее предложение.</p><span class="ind-tag" data-i18n="i2t">Ритейл</span></div>
+      <div class="ind-card c3" data-aos="fade-up" data-aos-delay="300"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-7 8 7v10"/><path d="M9 20v-5h6v5"/></svg></span><h3 data-i18n="i3h">Строительство</h3><p data-i18n="i3p">Сравнение цен на стройматериалы при подготовке сметы. Экономия на закупках 10–20% только за счёт выбора поставщика.</p><span class="ind-tag" data-i18n="i3t">Стройматериалы</span></div>
+      <div class="ind-card c4" data-aos="fade-up" data-aos-delay="100"><span class="ind-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></span><h3 data-i18n="i4h">HoReCa и продукты</h3><p data-i18n="i4p">Ежедневное сравнение прайсов продуктовых поставщиков. Цены меняются каждый день — система успевает.</p><span class="ind-tag" data-i18n="i4t">Рестораны / кафе</span></div>
+      <div class="ind-card c5" data-aos="fade-up" data-aos-delay="200"><span class="ind-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M2 20V11l6-4v4l6-4v4l6-4v9"/><rect x="9" y="15" width="6" height="5"/></svg></span><h3 data-i18n="i5h">Промышленность</h3><p data-i18n="i5p">Закупка комплектующих и оборудования. Артикулы и коды позволяют сопоставлять позиции с точностью 100%.</p><span class="ind-tag" data-i18n="i5t">Производство</span></div>
+      <div class="ind-card c6" data-aos="fade-up" data-aos-delay="300"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg></span><h3 data-i18n="i6h">Фармацевтика</h3><p data-i18n="i6p">Сравнение цен на медикаменты по МНН или штрихкоду. Строгое совпадение — без путаницы в наименованиях.</p><span class="ind-tag" data-i18n="i6t">Аптеки / клиники</span></div>
     </div>
   </div>
 </section>
 
+
+
+<!-- CTA after INDUSTRIES -->
+<div style="text-align:center;padding:0 0 80px">
+  <a href="#contact" class="btn btn-primary btn-primary-lg" data-aos="fade-up" data-aos-delay="100">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    <span data-i18n="h_cta1">Оставить заявку</span>
+  </a>
+</div>
 <!-- SCREENSHOTS -->
 <section class="section-sm sc-section" id="screenshots">
   <div class="container">
-    <div class="sec-hd rv">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span data-i18n="sc_tag">Интерфейс</span></div>
       <h2 data-i18n="sc_h2">Просто и понятно</h2>
       <p data-i18n="sc_p">Любой сотрудник разберётся без обучения</p>
     </div>
   </div>
-  <div class="sc-scroll">
-    <div class="sc-item rv d1">
-      <div class="sc-frame">
-        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
-        <div class="sc-body" data-ei="1"><div class="sc-ico">📂</div><span data-i18n="sc1ph">Загрузка файлов</span></div>
+  <div class="container" style="padding-bottom:0">
+    <div class="slider-outer" id="scSlider">
+      <div class="slider-track" id="scTrack">
+        <div class="sc-item" data-aos="fade-up" data-aos-delay="100">
+          <div class="sc-frame">
+            <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+            <div class="sc-body" data-ei="1"><div class="sc-ico">📂</div><span data-i18n="sc1ph">Загрузка файлов</span></div>
+          </div>
+          <div class="sc-cap"><h4 data-i18n="sc1h">Загрузка прайс-листов</h4><p data-i18n="sc1p">Перетащите файлы или выберите вручную — любой формат</p><div class="sc-hint">📸 Скриншот: drag&drop зона + список загруженных файлов</div></div>
+        </div>
+        <div class="sc-item" data-aos="fade-up" data-aos-delay="200">
+          <div class="sc-frame">
+            <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+            <div class="sc-body" data-ei="2"><div class="sc-ico">⚙️</div><span data-i18n="sc2ph">Обработка</span></div>
+          </div>
+          <div class="sc-cap"><h4 data-i18n="sc2h">Автоматическая обработка</h4><p data-i18n="sc2p">Прогресс виден в реальном времени</p><div class="sc-hint">📸 Скриншот: прогресс-бар и лог найденных совпадений</div></div>
+        </div>
+        <div class="sc-item" data-aos="fade-up" data-aos-delay="300">
+          <div class="sc-frame">
+            <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+            <div class="sc-body" data-ei="3"><div class="sc-ico">📊</div><span data-i18n="sc3ph">Сводная таблица</span></div>
+          </div>
+          <div class="sc-cap"><h4 data-i18n="sc3h">Готовая сводная таблица</h4><p data-i18n="sc3p">Все цены в одном месте — лучшее предложение сразу видно</p><div class="sc-hint">📸 Скриншот: таблица с подсветкой минимальных цен</div></div>
+        </div>
+        <div class="sc-item" data-aos="fade-up" data-aos-delay="400">
+          <div class="sc-frame">
+            <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+            <div class="sc-body" data-ei="4"><div class="sc-ico">🔧</div><span data-i18n="sc4ph">Настройки</span></div>
+          </div>
+          <div class="sc-cap"><h4 data-i18n="sc4h">Гибкие настройки</h4><p data-i18n="sc4p">Фильтры, колонки, параметры сопоставления</p><div class="sc-hint">📸 Скриншот: панель настроек и фильтров</div></div>
+        </div>
+        <div class="sc-item" data-aos="fade-up" data-aos-delay="500">
+          <div class="sc-frame">
+            <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
+            <div class="sc-body" data-ei="5"><div class="sc-ico">📥</div><span data-i18n="sc5ph">Экспорт</span></div>
+          </div>
+          <div class="sc-cap"><h4 data-i18n="sc5h">Экспорт в Excel</h4><p data-i18n="sc5p">Скачайте и откройте в привычном Excel — без лишних шагов</p><div class="sc-hint">📸 Скриншот: кнопка скачивания + пример итогового файла</div></div>
+        </div>
       </div>
-      <div class="sc-cap"><h4 data-i18n="sc1h">Загрузка прайс-листов</h4><p data-i18n="sc1p">Перетащите файлы или выберите вручную — любой формат</p><div class="sc-hint">📸 Скриншот: drag&drop зона + список загруженных файлов</div></div>
     </div>
-    <div class="sc-item rv d2">
-      <div class="sc-frame">
-        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
-        <div class="sc-body" data-ei="2"><div class="sc-ico">⚙️</div><span data-i18n="sc2ph">Обработка</span></div>
-      </div>
-      <div class="sc-cap"><h4 data-i18n="sc2h">Автоматическая обработка</h4><p data-i18n="sc2p">Прогресс виден в реальном времени</p><div class="sc-hint">📸 Скриншот: прогресс-бар и лог найденных совпадений</div></div>
-    </div>
-    <div class="sc-item rv d3">
-      <div class="sc-frame">
-        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
-        <div class="sc-body" data-ei="3"><div class="sc-ico">📊</div><span data-i18n="sc3ph">Сводная таблица</span></div>
-      </div>
-      <div class="sc-cap"><h4 data-i18n="sc3h">Готовая сводная таблица</h4><p data-i18n="sc3p">Все цены в одном месте — лучшее предложение сразу видно</p><div class="sc-hint">📸 Скриншот: таблица с подсветкой минимальных цен</div></div>
-    </div>
-    <div class="sc-item rv d4">
-      <div class="sc-frame">
-        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
-        <div class="sc-body" data-ei="4"><div class="sc-ico">🔧</div><span data-i18n="sc4ph">Настройки</span></div>
-      </div>
-      <div class="sc-cap"><h4 data-i18n="sc4h">Гибкие настройки</h4><p data-i18n="sc4p">Фильтры, колонки, параметры сопоставления</p><div class="sc-hint">📸 Скриншот: панель настроек и фильтров</div></div>
-    </div>
-    <div class="sc-item rv d5">
-      <div class="sc-frame">
-        <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
-        <div class="sc-body" data-ei="5"><div class="sc-ico">📥</div><span data-i18n="sc5ph">Экспорт</span></div>
-      </div>
-      <div class="sc-cap"><h4 data-i18n="sc5h">Экспорт в Excel</h4><p data-i18n="sc5p">Скачайте и откройте в привычном Excel — без лишних шагов</p><div class="sc-hint">📸 Скриншот: кнопка скачивания + пример итогового файла</div></div>
+    <div class="sl-nav">
+      <button class="sl-btn" id="scPrev" onclick="scSlide(-1)" aria-label="Назад">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="sl-dots-row" id="scDots"></div>
+      <button class="sl-btn" id="scNext" onclick="scSlide(1)" aria-label="Вперёд">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
     </div>
   </div>
 </section>
@@ -766,13 +863,13 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 <!-- PRICING -->
 <section class="section price-section" id="pricing">
   <div class="container">
-    <div class="sec-hd rv">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg><span data-i18n="pr_tag">Стоимость</span></div>
       <h2 data-i18n="pr_h2">Прозрачные условия</h2>
       <p data-i18n="pr_p">Разовая оплата. Без подписки. Без скрытых платежей.</p>
     </div>
     <div class="price-grid">
-      <div class="price-card rv d1">
+      <div class="price-card" data-aos="fade-up" data-aos-delay="100">
         <div class="pc-plan" data-i18n="p1plan">Стандарт</div>
         <div class="pc-price"><span class="cur">₽</span>25 000</div>
         <div class="pc-desc" data-i18n="p1desc">Готовое решение «из коробки» — устанавливается за один день, работает сразу</div>
@@ -788,7 +885,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
         <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center"><span data-i18n="p1btn">Заказать</span></a>
         <div class="pc-note" data-i18n="p1note">Разовый платёж. Без подписки.</div>
       </div>
-      <div class="price-card featured rv d2">
+      <div class="price-card featured" data-aos="fade-up" data-aos-delay="200">
         <div class="featured-badge" data-i18n="p2badge">Рекомендуем</div>
         <div class="pc-plan" data-i18n="p2plan">Индивидуальный</div>
         <div class="pc-price"><span class="ask" data-i18n="p2price">По запросу</span></div>
@@ -809,15 +906,39 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   </div>
 </section>
 
+
+<!-- GUARANTEE -->
+<section class="guarantee-section">
+  <div class="container">
+    <div class="guarantee-inner" data-aos="fade-up">
+      <div class="guarantee-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <polyline points="9 12 11 14 15 10"/>
+        </svg>
+      </div>
+      <div class="guarantee-text">
+        <h3 data-i18n="gu_h3">Гарантия возврата денег — 14 дней</h3>
+        <p data-i18n="gu_p">Если в течение двух недель после запуска система не решит вашу задачу — вернём полную стоимость без вопросов и бюрократии. Мы уверены в результате, поэтому берём на себя весь риск.</p>
+        <div class="guarantee-pills">
+          <span class="guarantee-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="gu_p1">Возврат без вопросов</span></span>
+          <span class="guarantee-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="gu_p2">Тест на ваших файлах до оплаты</span></span>
+          <span class="guarantee-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span data-i18n="gu_p3">Разовый платёж — без подписки</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- TESTIMONIALS -->
 <section class="section test-section" id="testimonials">
   <div class="container">
-    <div class="sec-hd rv">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg><span data-i18n="te_tag">Отзывы</span></div>
       <h2 data-i18n="te_h2">Что говорят предприниматели</h2>
     </div>
     <div class="test-grid">
-      <div class="test-card rv d1">
+      <div class="test-card" data-aos="fade-up" data-aos-delay="100">
         <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
         <div class="test-quote">"</div>
         <div class="test-text" data-i18n="te1txt">У нас 14 поставщиков стройматериалов, каждый шлёт прайс в своём формате. Раньше менеджер тратил на сравнение полный рабочий день — в пятницу, когда всё нужно срочно. Теперь загружает файлы, через 8 минут готова сводная таблица. Сэкономили минимум 5 рабочих часов в неделю. Окупилось с первого месяца.</div>
@@ -829,7 +950,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
         </div>
       </div>
-      <div class="test-card rv d3">
+      <div class="test-card" data-aos="fade-up" data-aos-delay="300">
         <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
         <div class="test-quote">"</div>
         <div class="test-text" data-i18n="te2txt">Я держу три кофейни и небольшой ресторан. Поставщики продуктов меняют цены чуть ли не каждую неделю. Раньше я узнавал об этом случайно, уже когда платил счёт. Теперь раз в неделю запускаю сравнение всех прайсов — вижу, кто поднял цену, и сразу договариваюсь с альтернативным поставщиком. За полгода сэкономил около 180 тысяч на закупках.</div>
@@ -841,7 +962,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
         </div>
       </div>
-      <div class="test-card rv d5">
+      <div class="test-card" data-aos="fade-up" data-aos-delay="500">
         <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
         <div class="test-quote">"</div>
         <div class="test-text" data-i18n="te3txt">Мы производим металлоконструкции, закупаем сотни наименований метизов и профиля у 9 поставщиков. Артикулы у всех одинаковые — ГОСТ-нормы. Система сопоставляет за 4 минуты то, что наш снабженец делал 4 часа. Попросили доработать — добавили столбец с автоматическим расчётом минимальной цены. Дмитрий сделал за день. Рекомендую.</div>
@@ -860,17 +981,92 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 <!-- FAQ -->
 <section class="section faq-section" id="faq">
   <div class="container">
-    <div class="sec-hd rv">
+    <div class="sec-hd" data-aos="fade-up">
       <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span data-i18n="fq_tag">Вопросы и ответы</span></div>
-      <h2 data-i18n="fq_h2">Часто задаваемые вопросы</h2>
+      <h2 data-i18n="fq_h2">Сомнения и возражения</h2>
+      <p data-i18n="fq_sub">Отвечаем честно — чтобы у вас не осталось вопросов перед принятием решения</p>
     </div>
     <div class="faq-list">
-      <div class="faq-item rv"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq1q">Нужны ли специальные знания для работы с системой?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq1a">Нет. Интерфейс рассчитан на обычных пользователей. Если вы умеете работать с Excel и загружать файлы — этого достаточно. Мы также проводим бесплатное обучение при внедрении.</div></div></div>
-      <div class="faq-item rv d1"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq2q">Для каких отраслей подходит система?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq2a">Для любой сферы, где у товаров есть единый идентификатор — штрихкод EAN/UPC, артикул, SKU или код. Лучше всего работает в оптовой торговле, строительстве, промышленных закупках, HoReCa и фармацевтике. Если кодов нет — система сопоставляет по названиям с нечётким поиском.</div></div></div>
-      <div class="faq-item rv"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq3q">В каком формате нужно подготовить прайс-листы?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq3a">Никакой подготовки не нужно — загружайте файлы в том виде, в каком их присылают поставщики. Система принимает .xls, .xlsx и .csv любой структуры. При необходимости настроим обработку под конкретный формат.</div></div></div>
-      <div class="faq-item rv d1"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq4q">Данные передаются куда-то? Это безопасно?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq4a">При локальной установке все данные остаются только на вашем компьютере. При облачной установке сервер находится на вашем собственном хостинге — вы полностью контролируете доступ. Никаких сторонних сервисов.</div></div></div>
-      <div class="faq-item rv"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq5q">Можно ли адаптировать под нашу специфику?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq5a">Да — это одно из главных преимуществ. Добавляем фильтры, меняем структуру таблицы, подключаем расчёт наценок, интегрируем с 1С или другими системами. Реализуем практически любой запрос — обсудите задачу с нами.</div></div></div>
-      <div class="faq-item rv d1"><button class="faq-q" onclick="faqToggle(this)"><span data-i18n="fq6q">Как быстро внедряется и сколько стоит обслуживание?</span><div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div></button><div class="faq-ans"><div class="faq-ans-in" data-i18n="fq6a">Стандартная версия устанавливается за один рабочий день. Кастомная разработка — от нескольких дней до нескольких недель, зависит от сложности. Обслуживание и поддержка — бесплатно при покупке стандартной версии.</div></div></div>
+      <div class="faq-item" data-aos="fade-up">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="2.5"/></svg></div>
+            <span data-i18n="fq1q">Нужны ли специальные знания для работы?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq1a">Нет. Интерфейс рассчитан на обычных пользователей. Если вы умеете работать с Excel и загружать файлы — этого достаточно. Мы также проводим бесплатное обучение при внедрении — обычно достаточно 30–60 минут.</div></div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><circle cx="12" cy="16" r="1" fill="currentColor"/></svg></div>
+            <span data-i18n="fq_safe_q">Мои данные в безопасности?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_safe_a">Да, полностью. При локальной установке всё работает только на вашем компьютере — ничего не уходит в интернет, никаких сторонних сервисов. При облачной установке сервер разворачивается на вашем хостинге и под вашим контролем. Мы не имеем доступа к вашим прайс-листам и данным.</div></div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="12" y2="17"/></svg></div>
+            <span data-i18n="fq_fmt_q">Работает с нашим форматом файлов?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_fmt_a">Да, с любым Excel или CSV. Система принимает .xls, .xlsx, .csv в любой структуре — не нужно приводить файлы к единому шаблону. Несколько листов в одном файле, кириллица в заголовках, кривые столбцы? Всё обрабатывается. Если встретится нестандартный формат — настроим под него бесплатно.</div></div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></div>
+            <span data-i18n="fq_guar_q">Что если система нам не подойдёт?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_guar_a">Если в течение 14 дней после запуска система не решит вашу задачу — вернём деньги полностью, без вопросов. До покупки мы также проводим тестовый запуск на ваших реальных файлах — вы убедитесь в результате ещё до оплаты.</div></div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></div>
+            <span data-i18n="fq_inst_q">Нужна ли установка? Нужен технический специалист?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_inst_a">Для локальной версии — однократная установка, которую выполняем мы сами удалённо за 1–2 часа. От вас нужен только доступ к компьютеру. Для облачной — разворачиваем на вашем сервере. После запуска всё работает само, без технических специалистов.</div></div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3z"/><path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></div>
+            <span data-i18n="fq_sup_q">Есть ли поддержка после покупки?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_sup_a">Да. Отвечаем на вопросы по использованию и помогаем при сбоях — это бесплатно. Доработки и новые функции — платно, по договорённости. Небольшие правки занимают 1–3 дня. Дмитрий отвечает в Telegram в течение нескольких часов в рабочее время.</div></div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+            <span data-i18n="fq2q">Для каких отраслей подходит система?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq2a">Для любой сферы, где у товаров есть единый идентификатор — штрихкод EAN/UPC, артикул, SKU или код. Лучше всего работает в оптовой торговле, строительстве, промышленных закупках, HoReCa и фармацевтике. Если кодов нет — система сопоставляет по названиям с нечётким поиском.</div></div>
+      </div>
+      <div class="faq-item" data-aos="fade-up" data-aos-delay="80">
+        <button class="faq-q" onclick="faqToggle(this)">
+          <div class="faq-q-left">
+            <div class="faq-q-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <span data-i18n="fq6q">Как быстро внедряется и сколько стоит обслуживание?</span>
+          </div>
+          <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq6a">Стандартная версия устанавливается за один рабочий день. Кастомная разработка — от нескольких дней до нескольких недель, зависит от сложности. Обслуживание и поддержка — бесплатно при покупке стандартной версии.</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -879,18 +1075,36 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 <section class="section contact-section" id="contact">
   <div class="container">
     <div class="contact-inner">
-      <div class="rv-l">
+      <div data-aos="fade-right">
         <div class="tag" style="margin-bottom:14px"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.18 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L4.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span data-i18n="ct_tag">Обратная связь</span></div>
         <h2 data-i18n="ct_h2">Обсудим вашу задачу?</h2>
-        <p data-i18n="ct_p">Расскажите о своём бизнесе — и мы предложим оптимальное решение. Ответим в течение рабочего дня.</p>
+        <p data-i18n="ct_p">Заполните форму — и мы свяжемся с вами в течение рабочего дня, чтобы предложить оптимальное решение.</p>
         <div class="ci-list">
-          <div class="ci-item"><div class="ci-ic">📞</div><div class="ci-txt"><strong data-i18n="ci1l">Телефон</strong><a href="tel:+79130998250">+7 913 099 82 50</a></div></div>
-          <div class="ci-item"><div class="ci-ic">✈️</div><div class="ci-txt"><strong>Telegram</strong><a href="https://t.me/vorontsov_dmitriy">@vorontsov_dmitriy</a></div></div>
-          <div class="ci-item"><div class="ci-ic">✉️</div><div class="ci-txt"><strong data-i18n="ci2l">Email</strong><a href="mailto:info@pricemaster.ru">info@pricemaster.ru</a></div></div>
-          <div class="ci-item"><div class="ci-ic">👤</div><div class="ci-txt"><strong data-i18n="ci3l">Контакт</strong><span>Дмитрий Воронцов</span></div></div>
+          <div class="ci-item">
+            <div class="ci-ic">📞</div>
+            <div class="ci-txt"><strong data-i18n="ci1l">Телефон</strong><a href="tel:+79130998250">+7 913 099 82 50</a></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ic" style="background:var(--blue-bg)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#1566EF"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971-.001-.001 0 0 .6.28z"/></svg>
+            </div>
+            <div class="ci-txt"><strong>Telegram</strong><a href="https://t.me/vorontsov_dmitriy">@vorontsov_dmitriy</a></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ic">✉️</div>
+            <div class="ci-txt"><strong data-i18n="ci2l">Email</strong><a href="/cdn-cgi/l/email-protection#85ecebe3eac5f5f7ece6e0e8e4f6f1e0f7abf7f0"><span class="__cf_email__" data-cfemail="0e676068614e7e7c676d6b636f7d7a6b7c207c7b">[email&#160;protected]</span></a></div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-ic">👤</div>
+            <div class="ci-txt"><strong data-i18n="ci3l">Контакт</strong><span>Дмитрий Воронцов</span></div>
+          </div>
         </div>
+        <a href="https://t.me/vorontsov_dmitriy" class="btn btn-primary" target="_blank" style="margin-top:20px;width:100%;justify-content:center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971-.001-.001 0 0 .6.28z"/></svg>
+          <span data-i18n="tg_btn">Написать в Telegram</span>
+        </a>
       </div>
-      <div class="rv-r d1">
+      <div data-aos="fade-left" data-aos-delay="100">
         <div class="c-form-wrap">
           <div id="formOk" class="form-success">
             <div style="font-size:36px;margin-bottom:8px">✅</div>
@@ -899,11 +1113,41 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
           <form id="cForm" onsubmit="sendForm(event)">
             <div class="f-row">
-              <div class="f-group"><label data-i18n="fl_name">Ваше имя *</label><input type="text" name="name" required placeholder="Александр"/></div>
-              <div class="f-group"><label data-i18n="fl_phone">Телефон *</label><input type="tel" name="phone" required placeholder="+7 (___) ___-__-__"/></div>
+              <div class="f-group">
+                <label data-i18n="fl_name">Ваше имя *</label>
+                <input type="text" name="name" required placeholder="Александр"/>
+              </div>
+              <div class="f-group">
+                <label data-i18n="fl_contact">Телефон или Email *</label>
+                <input type="text" name="phone" required placeholder="+7 (___) или email"/>
+              </div>
             </div>
-            <div class="f-group"><label data-i18n="fl_biz">Бизнес / сфера</label><input type="text" name="business" placeholder="Оптовая торговля стройматериалами"/></div>
-            <div class="f-group"><label data-i18n="fl_msg">Задача или вопрос</label><textarea name="message" placeholder="Опишите кратко: сколько поставщиков, какой объём данных, особые требования..."></textarea></div>
+            <div class="f-group">
+              <label data-i18n="fl_industry">Сфера деятельности *</label>
+              <select name="industry" required>
+                <option value="" disabled selected data-i18n="fl_ind_ph">— выберите отрасль —</option>
+                <option data-i18n="fl_ind1">Оптовая торговля</option>
+                <option data-i18n="fl_ind2">Розничная торговля / ритейл</option>
+                <option data-i18n="fl_ind3">Строительство и стройматериалы</option>
+                <option data-i18n="fl_ind4">HoReCa (рестораны, кафе, отели)</option>
+                <option data-i18n="fl_ind5">Промышленность / производство</option>
+                <option data-i18n="fl_ind6">Фармацевтика</option>
+                <option data-i18n="fl_ind7">Другое</option>
+              </select>
+            </div>
+            <div class="f-group">
+              <label data-i18n="fl_suppliers">Количество поставщиков</label>
+              <select name="suppliers">
+                <option value="" disabled selected data-i18n="fl_sup_ph">— сколько поставщиков? —</option>
+                <option value="2-5" data-i18n="fl_sup1">2–5 поставщиков</option>
+                <option value="5-20" data-i18n="fl_sup2">5–20 поставщиков</option>
+                <option value="20+" data-i18n="fl_sup3">Более 20 поставщиков</option>
+              </select>
+            </div>
+            <div class="f-group">
+              <label data-i18n="fl_howcompare">Как сейчас сравниваете прайсы?</label>
+              <textarea name="message" rows="3" placeholder="Вручную в Excel, копируем и ищем совпадения..."></textarea>
+            </div>
             <button type="submit" class="btn btn-primary btn-primary-lg" id="fBtn" style="width:100%;justify-content:center">
               <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
               <span data-i18n="fl_send">Отправить заявку</span>
@@ -926,11 +1170,11 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
       </div>
       <div class="ft-col"><h4 data-i18n="ft_prod">Продукт</h4><ul><li><a href="#how" data-i18n="ft_how">Как работает</a></li><li><a href="#features" data-i18n="ft_feat">Возможности</a></li><li><a href="#screenshots" data-i18n="ft_sc">Интерфейс</a></li><li><a href="#pricing" data-i18n="ft_price">Цены</a></li></ul></div>
       <div class="ft-col"><h4 data-i18n="ft_comp">Компания</h4><ul><li><a href="#industries" data-i18n="ft_ind">Отрасли</a></li><li><a href="#testimonials" data-i18n="ft_test">Отзывы</a></li><li><a href="#faq" data-i18n="ft_faq">FAQ</a></li><li><a href="#contact" data-i18n="ft_cont">Контакты</a></li></ul></div>
-      <div class="ft-col"><h4 data-i18n="ft_ctc">Контакты</h4><ul><li><a href="tel:+79130998250">+7 913 099 82 50</a></li><li><a href="https://t.me/vorontsov_dmitriy">Telegram</a></li><li><a href="mailto:info@pricemaster.ru">info@pricemaster.ru</a></li></ul></div>
+      <div class="ft-col"><h4 data-i18n="ft_ctc">Контакты</h4><ul><li><a href="tel:+79130998250">+7 913 099 82 50</a></li><li><a href="https://t.me/vorontsov_dmitriy">Telegram</a></li><li><a href="/cdn-cgi/l/email-protection#b6dfd8d0d9f6c6c4dfd5d3dbd7c5c2d3c498c4c3"><span class="__cf_email__" data-cfemail="7e171018113e0e0c171d1b131f0d0a1b0c500c0b">[email&#160;protected]</span></a></li></ul></div>
     </div>
     <div class="ft-bottom">
       <p data-i18n="ft_copy">© 2025 ПрайсМастер. Все права защищены.</p>
-      <div class="ft-social"><a href="https://t.me/vorontsov_dmitriy" class="soc-btn">✈️</a><a href="https://wa.me/79130998250" class="soc-btn">💬</a></div>
+      <div class="ft-social"><a href="https://t.me/vorontsov_dmitriy" class="soc-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971z"/></svg></a><a href="https://wa.me/79130998250" class="soc-btn">💬</a></div>
     </div>
   </div>
 </footer>
@@ -940,9 +1184,39 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 
 <!-- ===== EDITOR PANEL ===== -->
 <style id="pm-editor-css">
+/* ---- Text editable ---- */
 body.edit-on [data-e]:not(img):hover{outline:2px dashed rgba(21,102,239,.5);outline-offset:2px;cursor:text;border-radius:3px}
-body.edit-on [data-e]:not(img):focus{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px}
+body.edit-on [data-e]:not(img):focus{outline:2px solid var(--blue);outline-offset:2px;border-radius:3px;background:rgba(21,102,239,.03)}
+/* ---- Image/placeholder ---- */
 body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.8);outline-offset:4px;cursor:pointer;border-radius:6px}
+/* ---- Block: MUST be visible so absolute controls aren't clipped ---- */
+body.edit-on [data-eb]{position:relative !important;overflow:visible !important}
+/* ---- Floating font/delete toolbar ---- */
+#pm-float{display:none;position:fixed;z-index:10003;background:#0A1628;border-radius:10px;padding:4px 8px;gap:4px;align-items:center;box-shadow:0 4px 20px rgba(0,0,0,.4);pointer-events:all;white-space:nowrap}
+#pm-float.show{display:flex}
+#pm-float button{background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:6px;padding:5px 9px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;transition:background .15s;display:flex;align-items:center;gap:4px}
+#pm-float button:hover{background:rgba(255,255,255,.22)}
+#pm-float button.del{background:rgba(239,68,68,.25);color:#fca5a5}
+#pm-float button.del:hover{background:rgba(239,68,68,.5)}
+#pm-float .pm-fs-val{color:rgba(255,255,255,.6);font-size:11px;padding:0 2px;min-width:30px;text-align:center}
+#pm-float .sep{width:1px;height:16px;background:rgba(255,255,255,.15);margin:0 2px}
+/* ---- Block floating control overlay (positioned via JS, not CSS hover) ---- */
+.pm-blk-ctrl{display:none;position:fixed;z-index:10004;gap:4px;flex-direction:row;pointer-events:all}
+.pm-blk-ctrl.show{display:flex}
+.pm-blk-btn{background:#0A1628;color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.3);display:flex;align-items:center;gap:4px;transition:opacity .15s}
+.pm-blk-btn:hover{opacity:.85}
+.pm-blk-btn.del{background:#ef4444}
+.pm-blk-btn.resize{background:#1566EF;cursor:se-resize}
+/* ---- Image modal title update ---- */
+#pm-img-box h3{font-family:'Manrope',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:20px}
+/* ---- Confirm overlay ---- */
+#pm-confirm{display:none;position:fixed;inset:0;z-index:10010;background:rgba(15,23,42,.55);align-items:center;justify-content:center}
+#pm-confirm.open{display:flex}
+#pm-confirm-box{background:#fff;border-radius:16px;padding:28px 32px;max-width:340px;width:90%;text-align:center;box-shadow:0 16px 60px rgba(0,0,0,.25)}
+#pm-confirm-box p{font-size:15px;color:var(--navy);font-weight:600;margin-bottom:20px;font-family:'Manrope',sans-serif}
+#pm-confirm-box .pm-c-btns{display:flex;gap:10px;justify-content:center}
+#pm-confirm-box .pm-c-yes{background:#ef4444;color:#fff;border:none;border-radius:9px;padding:9px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif}
+#pm-confirm-box .pm-c-no{background:var(--gray-1);color:var(--navy);border:none;border-radius:9px;padding:9px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Manrope',sans-serif}
 </style>
 <div id="pm-panel">
   <span class="pm-lbl">✏️ Редактор</span>
@@ -956,6 +1230,21 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.8);outline-offs
     Отменить
   </button>
   <div class="pm-sep"></div>
+  <span class="pm-lbl">Текст</span>
+  <button class="pm-b" id="pm-fa" onclick="pmFontAdj(-2)" title="Уменьшить шрифт" style="padding:7px 10px;background:var(--gray-1);color:var(--navy);font-size:11px;font-weight:800">A−</button>
+  <button class="pm-b" id="pm-fp" onclick="pmFontAdj(2)" title="Увеличить шрифт" style="padding:7px 10px;background:var(--gray-1);color:var(--navy);font-size:14px;font-weight:800">A+</button>
+  <div class="pm-sep"></div>
+  <span class="pm-lbl">Вставить</span>
+  <button class="pm-b" onclick="pmAddImg()" style="background:var(--blue-bg);color:var(--blue)" title="Добавить изображение">
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    Изображение
+  </button>
+  <div class="pm-sep"></div>
+  <button class="pm-b" id="pm-del" onclick="pmDelFocused()" style="background:rgba(239,68,68,.1);color:#ef4444" title="Удалить выбранный элемент" disabled>
+    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg>
+    Удалить
+  </button>
+  <div class="pm-sep"></div>
   <button class="pm-b pm-b-save" onclick="pmSave('editable')">
     <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
     С редактором
@@ -965,31 +1254,47 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.8);outline-offs
     На сервер
   </button>
 </div>
+<!-- Float toolbar -->
+<div id="pm-float"></div>
 
 <!-- Image modal -->
 <div id="pm-img-mod">
   <div id="pm-img-box">
-    <h3>🖼 Заменить изображение</h3>
+    <h3 id="pm-img-title">🖼 Изображение</h3>
     <div class="pm-drop" id="pm-drop" onclick="document.getElementById('pm-fi').click()">
       <svg width="32" height="32" fill="none" stroke="#CBD5E1" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
       <p>Нажмите или перетащите файл сюда<br><small style="color:#94A3B8;font-size:12px">PNG, JPG, WebP, GIF</small></p>
       <input type="file" id="pm-fi" accept="image/*" style="display:none">
     </div>
-    <div style="text-align:center;font-size:13px;color:#94A3B8;margin-bottom:10px">или ссылка на изображение</div>
-    <div class="pm-url-row"><input type="text" id="pm-url" placeholder="https://..."><button onclick="pmApplyUrl()">Применить</button></div>
+    <div style="text-align:center;font-size:13px;color:#94A3B8;margin:12px 0 8px">или укажите ссылку на изображение</div>
+    <div class="pm-url-row">
+      <input type="text" id="pm-url" placeholder="https://example.com/image.jpg" style="font-size:13px">
+      <button onclick="pmApplyUrl()" style="white-space:nowrap">Применить</button>
+    </div>
+    <div style="font-size:11px;color:#94A3B8;margin-bottom:16px;padding:0 2px">Поддерживаются прямые ссылки на изображения (.jpg, .png, .webp) или URL любого изображения из интернета</div>
     <div class="pm-mod-actions"><button class="pm-cancel" onclick="pmCloseMod()">Отмена</button></div>
+  </div>
+</div>
+<!-- Confirm dialog (replaces browser confirm()) -->
+<div id="pm-confirm">
+  <div id="pm-confirm-box">
+    <p id="pm-confirm-msg">Удалить элемент?</p>
+    <div class="pm-c-btns">
+      <button class="pm-c-yes" id="pm-c-yes">Удалить</button>
+      <button class="pm-c-no" onclick="pmConfirmClose()">Отмена</button>
+    </div>
   </div>
 </div>
 <div id="pm-toast"></div>
 
 <!-- ===== SCRIPTS ===== -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ---------- TRANSLATIONS ---------- */
 const T = {
 ru:{
   nav_how:"Как работает",nav_feat:"Возможности",nav_ind:"Отрасли",nav_price:"Цены",nav_contact:"Контакты",nav_cta:"Получить демо",
-  h_badge:"Автоматизация прайс-листов",h_h1a:"Сравнение прайсов",h_h1b:"за 7 минут",h_h1c:"вместо 3 часов",
-  h_lead:"ПрайсМастер автоматически находит одинаковые позиции по штрихкодам, артикулам и названиям — и формирует единую сводную таблицу. Никакого ручного труда.",
+  h_badge:"Автоматизация прайс-листов",h_h1a:"Сравните прайсы",h_h1b:"20 поставщиков за 7 минут",h_h1c:"вместо 4 часов в Excel",
+  h_lead:"Загрузите файлы — система сама сопоставит товары по штрихкодам, артикулам и названиям и выдаст готовую сводную таблицу. Без ручной работы, без ошибок.",
   h_cta1:"Оставить заявку",h_cta2:"Как это работает",
   hs1:"полная обработка",hs2:"файлов одновременно",hs3:"экономия времени",
   fb1:"времени сэкономлено",fb2:"Готово!",fb3:"сводная таблица",
@@ -1060,10 +1365,31 @@ ru:{
   ft_comp:"Компания",ft_ind:"Отрасли",ft_test:"Отзывы",ft_faq:"FAQ",ft_cont:"Контакты",ft_ctc:"Контакты",
   ft_copy:"© 2025 ПрайсМастер. Все права защищены.",
   nt_title:"Заявка принята!",nt_body:"Дмитрий получил уведомление",
+  gu_h3:"Гарантия возврата денег — 14 дней",
+  gu_p:"Если в течение двух недель после запуска система не решит вашу задачу — вернём полную стоимость без вопросов и бюрократии. Мы уверены в результате, поэтому берём на себя весь риск.",
+  gu_p1:"Возврат без вопросов",gu_p2:"Тест на ваших файлах до оплаты",gu_p3:"Разовый платёж — без подписки",
+  fq_sub:"Отвечаем честно — чтобы у вас не осталось вопросов перед принятием решения",
+  fq_safe_q:"Мои данные в безопасности?",
+  fq_safe_a:"Да, полностью. При локальной установке всё работает только на вашем компьютере — ничего не уходит в интернет, никаких сторонних сервисов. При облачной установке сервер разворачивается на вашем хостинге и под вашим контролем. Мы не имеем доступа к вашим прайс-листам и данным.",
+  fq_fmt_q:"Работает с нашим форматом файлов?",
+  fq_fmt_a:"Да, с любым Excel или CSV. Система принимает .xls, .xlsx, .csv в любой структуре — не нужно приводить файлы к единому шаблону. Несколько листов, кириллица в заголовках, нестандартные столбцы? Всё обрабатывается. Нестандартный формат — настроим бесплатно.",
+  fq_guar_q:"Что если система нам не подойдёт?",
+  fq_guar_a:"Если в течение 14 дней после запуска система не решит вашу задачу — вернём деньги полностью. До покупки проводим тестовый запуск на ваших реальных файлах — вы убедитесь в результате ещё до оплаты.",
+  fq_inst_q:"Нужна ли установка? Нужен технический специалист?",
+  fq_inst_a:"Для локальной версии — однократная установка, которую выполняем мы сами удалённо за 1–2 часа. От вас нужен только доступ к компьютеру. Для облачной — разворачиваем на вашем сервере. После запуска всё работает само.",
+  fq_sup_q:"Есть ли поддержка после покупки?",
+  fq_sup_a:"Да. Отвечаем на вопросы по использованию и помогаем при сбоях — это бесплатно. Доработки и новые функции — платно. Дмитрий отвечает в Telegram в течение нескольких часов в рабочее время.",
+  tg_btn:"Написать в Telegram",
+  fl_contact:"Телефон или Email *",fl_industry:"Сфера деятельности *",fl_suppliers:"Количество поставщиков",
+  fl_ind_ph:"— выберите отрасль —",fl_ind1:"Оптовая торговля",fl_ind2:"Розничная торговля / ритейл",
+  fl_ind3:"Строительство и стройматериалы",fl_ind4:"HoReCa (рестораны, кафе, отели)",
+  fl_ind5:"Промышленность / производство",fl_ind6:"Фармацевтика",fl_ind7:"Другое",
+  fl_sup_ph:"— сколько поставщиков? —",fl_sup1:"2–5 поставщиков",fl_sup2:"5–20 поставщиков",fl_sup3:"Более 20 поставщиков",
+  fl_howcompare:"Как сейчас сравниваете прайсы?"
 },
 en:{
   nav_how:"How it works",nav_feat:"Features",nav_ind:"Industries",nav_price:"Pricing",nav_contact:"Contact",nav_cta:"Get a demo",
-  h_badge:"Price list automation",h_h1a:"Compare price lists",h_h1b:"in 7 minutes",h_h1c:"instead of 3 hours",
+  h_badge:"Price list automation",h_h1a:"Compare price lists from",h_h1b:"20 suppliers in 7 minutes",h_h1c:"instead of 4 hours in Excel",
   h_lead:"PriceMaster automatically finds matching items by barcodes, SKUs and names — and generates a consolidated spreadsheet. No manual work.",
   h_cta1:"Request a demo",h_cta2:"How it works",
   hs1:"full processing",hs2:"files at once",hs3:"time savings",
@@ -1135,11 +1461,32 @@ en:{
   ft_comp:"Company",ft_ind:"Industries",ft_test:"Reviews",ft_faq:"FAQ",ft_cont:"Contact",ft_ctc:"Contacts",
   ft_copy:"© 2025 PriceMaster. All rights reserved.",
   nt_title:"Request received!",nt_body:"Dmitry has been notified",
+  gu_h3:"Money-back guarantee — 14 days",
+  gu_p:"If within two weeks after launch the system doesn't solve your task — we refund the full amount, no questions asked. We're confident in the result, so we take all the risk.",
+  gu_p1:"No-questions refund",gu_p2:"Test on your files before payment",gu_p3:"One-time payment — no subscription",
+  fq_sub:"Honest answers — so you have no doubts before making a decision",
+  fq_safe_q:"Is my data safe?",
+  fq_safe_a:"Yes, completely. With local installation everything runs only on your computer — nothing goes to the internet, no third-party services. With cloud installation the server is on your own hosting under your control. We have no access to your price lists or data.",
+  fq_fmt_q:"Works with our file format?",
+  fq_fmt_a:"Yes, any Excel or CSV. The system accepts .xls, .xlsx, .csv in any structure — no need to bring files to a single template. Multiple sheets, Cyrillic headers, non-standard columns? All handled. Non-standard format — we configure it for free.",
+  fq_guar_q:"What if the system doesn't work for us?",
+  fq_guar_a:"If within 14 days after launch the system doesn't solve your task — full refund, no questions asked. Before purchase we run a test on your real files — you see the result before paying.",
+  fq_inst_q:"Does it need installation? Do we need a tech specialist?",
+  fq_inst_a:"For the local version — a one-time installation we perform remotely in 1–2 hours. You just need to provide access to the computer. For cloud — we deploy on your server. After launch it runs on its own.",
+  fq_sup_q:"Is there support after purchase?",
+  fq_sup_a:"Yes. We answer usage questions and help with issues — this is free. Custom features and modifications are paid. Dmitry responds on Telegram within a few hours during business hours.",
+  tg_btn:"Write on Telegram",
+  fl_contact:"Phone or Email *",fl_industry:"Industry *",fl_suppliers:"Number of suppliers",
+  fl_ind_ph:"— select industry —",fl_ind1:"Wholesale trade",fl_ind2:"Retail",
+  fl_ind3:"Construction and building materials",fl_ind4:"HoReCa (restaurants, cafes, hotels)",
+  fl_ind5:"Industrial / manufacturing",fl_ind6:"Pharmaceuticals",fl_ind7:"Other",
+  fl_sup_ph:"— how many suppliers? —",fl_sup1:"2–5 suppliers",fl_sup2:"5–20 suppliers",fl_sup3:"20+ suppliers",
+  fl_howcompare:"How do you currently compare price lists?"
 },
 zh:{
   nav_how:"工作原理",nav_feat:"功能",nav_ind:"行业",nav_price:"价格",nav_contact:"联系",nav_cta:"获取演示",
-  h_badge:"价格表自动化",h_h1a:"比较价格表",h_h1b:"只需7分钟",h_h1c:"而非3小时",
-  h_lead:"PriceMaster通过条形码、SKU和商品名称自动找到匹配项目，生成统一汇总表。无需手动操作。",
+  h_badge:"价格表自动化",h_h1a:"比较20家供应商的价格表",h_h1b:"仅需7分钟",h_h1c:"而非4小时的Excel操作",
+  h_lead:"上传文件——系统自动按条形码、SKU和名称匹配商品，生成现成汇总表。无需手动操作，零错误。",
   h_cta1:"提交申请",h_cta2:"了解工作原理",
   hs1:"完整处理",hs2:"文件同时处理",hs3:"节省时间",
   fb1:"节省时间",fb2:"完成！",fb3:"汇总表",
@@ -1210,6 +1557,27 @@ zh:{
   ft_comp:"公司",ft_ind:"行业",ft_test:"评价",ft_faq:"常见问题",ft_cont:"联系",ft_ctc:"联系方式",
   ft_copy:"© 2025 PriceMaster. 版权所有。",
   nt_title:"申请已收到！",nt_body:"Dmitry已收到通知",
+  gu_h3:"退款保证——14天",
+  gu_p:"如果在启动后两周内系统无法解决您的问题——全额退款，无需解释，无繁文缛节。我们对结果充满信心，因此承担所有风险。",
+  gu_p1:"无条件退款",gu_p2:"付款前在您的文件上测试",gu_p3:"一次性付款——无订阅",
+  fq_sub:"诚实回答——让您在做决定前没有疑虑",
+  fq_safe_q:"我的数据安全吗？",
+  fq_safe_a:"是的，完全安全。本地安装时，一切只在您的电脑上运行——没有数据发送到互联网，没有第三方服务。云端安装时，服务器部署在您自己的托管服务上，由您完全控制。我们无法访问您的价格表或数据。",
+  fq_fmt_q:"支持我们的文件格式吗？",
+  fq_fmt_a:"是的，支持任何Excel或CSV。系统接受任何结构的.xls、.xlsx、.csv——无需将文件统一为单一模板。多个工作表、中文标题、非标准列？全部处理。非标准格式——免费配置。",
+  fq_guar_q:"如果系统不适合我们怎么办？",
+  fq_guar_a:"如果在启动后14天内系统无法解决您的问题——全额退款，无需解释。购买前我们会在您的真实文件上进行测试运行——您在付款前就能看到结果。",
+  fq_inst_q:"需要安装吗？需要技术专家吗？",
+  fq_inst_a:"本地版本——我们远程进行一次性安装，需要1-2小时。您只需提供电脑访问权限。云端版本——我们在您的服务器上部署。启动后一切自动运行。",
+  fq_sup_q:"购买后有支持吗？",
+  fq_sup_a:"是的。使用问题和故障帮助——免费。定制功能和修改——收费。Dmitry在工作时间内通过Telegram在几小时内回复。",
+  tg_btn:"在Telegram上联系",
+  fl_contact:"电话或邮箱 *",fl_industry:"行业 *",fl_suppliers:"供应商数量",
+  fl_ind_ph:"— 选择行业 —",fl_ind1:"批发贸易",fl_ind2:"零售",
+  fl_ind3:"建筑和建材",fl_ind4:"餐饮住宿",
+  fl_ind5:"工业/制造",fl_ind6:"医药",fl_ind7:"其他",
+  fl_sup_ph:"— 有多少供应商？—",fl_sup1:"2–5家供应商",fl_sup2:"5–20家供应商",fl_sup3:"20家以上供应商",
+  fl_howcompare:"目前如何比较价格表？"
 }
 };
 
@@ -1222,7 +1590,7 @@ function setLang(l) {
     if (T[l] && T[l][k] !== undefined) el.textContent = T[l][k];
   });
   document.querySelectorAll('.lang-btn').forEach(b => {
-    b.classList.toggle('active', b.textContent.toLowerCase() === l || (l === 'zh' && b.textContent === '中文'));
+    b.classList.toggle('active', b.dataset.lang === l);
   });
   document.documentElement.lang = l;
   const fb = document.querySelector('.featured-badge');
@@ -1252,11 +1620,77 @@ function closeBurger() {
   document.querySelectorAll('#burger span').forEach(s => s.removeAttribute('style'));
 }
 
-/* ---------- SCROLL REVEAL ---------- */
-const ro = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); ro.unobserve(e.target); }});
-}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s').forEach(el => ro.observe(el));
+/* ---------- SLIDER ---------- */
+(function(){
+  var track, items, dots, current = 0, itemW, total, startX, isDragging = false;
+
+  function init() {
+    track = document.getElementById('scTrack');
+    if (!track) return;
+    items = track.querySelectorAll('.sc-item');
+    total = items.length;
+    var dotsEl = document.getElementById('scDots');
+    dotsEl.innerHTML = '';
+    for (var i = 0; i < total; i++) {
+      var d = document.createElement('button');
+      d.className = 'sl-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Слайд ' + (i+1));
+      d.dataset.idx = i;
+      d.addEventListener('click', function(){ goTo(+this.dataset.idx); });
+      dotsEl.appendChild(d);
+    }
+    updateLayout();
+  }
+
+  function updateLayout() {
+    if (!track) return;
+    var item = track.querySelector('.sc-item');
+    if (!item) return;
+    itemW = item.offsetWidth;
+    goTo(current, false);
+  }
+
+  function goTo(idx, animate) {
+    if (!track) return;
+    if (animate === false) track.style.transition = 'none';
+    else track.style.transition = 'transform .45s cubic-bezier(.4,0,.2,1)';
+    current = Math.max(0, Math.min(idx, total - 1));
+    track.style.transform = 'translateX(-' + (current * track.querySelector('.sc-item').offsetWidth) + 'px)';
+    document.querySelectorAll('.sl-dot').forEach(function(d, i){ d.classList.toggle('active', i === current); });
+    document.getElementById('scPrev').style.opacity = current === 0 ? '.35' : '1';
+    document.getElementById('scNext').style.opacity = current === total - 1 ? '.35' : '1';
+  }
+
+  window.scSlide = function(dir) { goTo(current + dir); };
+
+  // Touch swipe
+  function onTouchStart(e){ startX = e.touches[0].clientX; isDragging = true; }
+  function onTouchEnd(e){
+    if (!isDragging) return;
+    isDragging = false;
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 50) goTo(current + (dx < 0 ? 1 : -1));
+  }
+
+  window.addEventListener('resize', function(){ updateLayout(); });
+
+  // Init after DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){
+      init();
+      var sl = document.getElementById('scTrack');
+      if (sl) { sl.addEventListener('touchstart', onTouchStart, {passive:true}); sl.addEventListener('touchend', onTouchEnd, {passive:true}); }
+    });
+  } else {
+    init();
+    var sl = document.getElementById('scTrack');
+    if (sl) { sl.addEventListener('touchstart', onTouchStart, {passive:true}); sl.addEventListener('touchend', onTouchEnd, {passive:true}); }
+  }
+})();
+
+
+/* AOS init */
+document.addEventListener('DOMContentLoaded', function(){ if(typeof AOS !== 'undefined') AOS.init({ duration: 680, easing: 'ease-out-cubic', once: true, offset: 50 }); });
 
 /* ---------- NUMBER COUNTER ---------- */
 function countUp(el) {
@@ -1301,7 +1735,6 @@ function showNotif() {
 }
 
 /* ---------- TELEGRAM BOT ---------- */
-// !!! ЗАМЕНИТЕ НА СВОИ ДАННЫЕ !!!
 const BOT_TOKEN = '8050836637:AAGE_Qy9MXo27lqb9Rg3ib_8vELH08Or7vY';
 const CHAT_ID   = '152003022';
 
@@ -1311,9 +1744,10 @@ async function sendForm(e) {
   const btn  = document.getElementById('fBtn');
   const name = form.name.value;
   const phone = form.phone.value;
-  const biz  = form.business.value;
+  const industry = form.industry ? form.industry.value : '';
+  const suppliers = form.suppliers ? form.suppliers.value : '';
   const msg  = form.message.value;
-  const text = `🔔 *Новая заявка — ПрайсМастер*\n\n👤 *Имя:* ${name}\n📞 *Телефон:* ${phone}\n🏢 *Бизнес:* ${biz||'не указано'}\n💬 *Сообщение:* ${msg||'не указано'}\n🌐 *Язык:* ${lang.toUpperCase()}\n⏰ ${new Date().toLocaleString('ru-RU')}`;
+  const text = `🔔 *Новая заявка — ПрайсМастер*\n\n👤 *Имя:* ${name}\n📞 *Контакт:* ${phone}\n🏭 *Отрасль:* ${industry||'не указано'}\n👥 *Поставщиков:* ${suppliers||'не указано'}\n💬 *Как сравнивают:* ${msg||'не указано'}\n🌐 *Язык:* ${lang.toUpperCase()}\n⏰ ${new Date().toLocaleString('ru-RU')}`;
   btn.disabled = true;
   btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>Отправка...</span>';
   try {
@@ -1337,134 +1771,475 @@ async function sendForm(e) {
 document.head.insertAdjacentHTML('beforeend', '<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>');
 
 /* ============================================================
-   EDITOR
+   EDITOR — полный движок v2
    ============================================================ */
 (function() {
-  let editOn = false, imgTarget = null;
+  let editOn = false;
+  let imgTarget = null;
+  let imgInsertMode = false;
+  let focusedEl = null;
+  let activeBlkEl = null;   // block currently hovered
+  let confirmCb = null;     // pending confirm callback
 
+  /* ── Custom confirm (browser confirm() can be blocked) ── */
+  window.pmConfirm = function(msg, cb) {
+    confirmCb = cb;
+    document.getElementById('pm-confirm-msg').textContent = msg;
+    document.getElementById('pm-confirm').classList.add('open');
+    document.getElementById('pm-c-yes').onclick = function() {
+      pmConfirmClose();
+      if (confirmCb) confirmCb();
+    };
+  };
+  window.pmConfirmClose = function() {
+    document.getElementById('pm-confirm').classList.remove('open');
+    confirmCb = null;
+  };
+
+  /* ── Toast ── */
+  window.pmToast = function(msg, ok) {
+    const t = document.getElementById('pm-toast');
+    t.textContent = msg;
+    t.className = 'show' + (ok ? ' ok' : '');
+    clearTimeout(t._t);
+    t._t = setTimeout(() => { t.className = ''; }, 2800);
+  };
+
+  /* ── markEditables ── */
   function markEditables() {
-    const SEL = 'h1,h2,h3,h4,p,.tag,label,.hs-num,.hs-lbl,.fb-val,.fb-lbl,.tb-val,.tb-sub,.step-pill,.tech-card h4,.tech-card p,.feat-card h3,.feat-card p,.ind-card h3,.ind-card p,.ind-tag,.sc-cap h4,.sc-cap p,.pc-plan,.pc-price,.pc-desc,.pf span,.pc-note,.test-text,.ta-name,.ta-role,.ci-txt span,.ci-txt a,.ft-brand p,.ft-col li a';
+    const SEL = 'h1,h2,h3,h4,h5,h6,p,.tag,.tag span,label,.hs-num,.hs-lbl,.fb-val,.fb-lbl,.tb-val,.tb-sub,.step-pill,.tech-card h4,.tech-card p,.feat-card h3,.feat-card p,.ind-card h3,.ind-card p,.ind-tag,.sc-cap h4,.sc-cap p,.pc-plan,.pc-price,.pc-desc,.pf span,.pc-note,.test-text,.ta-name,.ta-role,.ci-txt span,.ci-txt a,.ft-brand p,.ft-col li a,.pain-eyebrow,.saving-pill span,.tb-sol span,.guarantee-text h3,.guarantee-text p,.guarantee-pill span,.faq-ans-in,.step-card h3,.step-card p,.sec-hd h2,.sec-hd p,.hero p.lead,.contact-left h2,.contact-left p,.hero h1 span,.hero-badge span,.ft-bottom p';
     document.querySelectorAll(SEL).forEach(el => {
-      if (!el.closest('#pm-panel') && !el.closest('#pm-img-mod')) el.setAttribute('data-e','1');
+      if (!el.closest('#pm-panel') && !el.closest('#pm-img-mod') && !el.closest('#pm-float') && !el.closest('#pm-confirm'))
+        el.setAttribute('data-e','1');
     });
-    document.querySelectorAll('.screen-ph,.sc-body,.screen-wrap img').forEach(el => {
+    document.querySelectorAll('.screen-ph,.sc-body,.screen-wrap img,img[data-ei]').forEach(el => {
       if (!el.closest('#pm-panel')) el.setAttribute('data-ei','1');
+    });
+    const BLKS = '.feat-card,.ind-card,.test-card,.step-card,.tech-card,.price-card,.pain-item,.faq-item,.float-badge,.hero-stat,.tb-sol,.pf,.sc-item,.ft-col';
+    document.querySelectorAll(BLKS).forEach(el => {
+      if (!el.closest('#pm-panel') && !el.getAttribute('data-eb')) {
+        el.setAttribute('data-eb','1');
+      }
     });
   }
 
+  /* ── Floating block control bar (positioned via JS) ── */
+  let blkCtrl = null;
+  function createBlkCtrl() {
+    if (blkCtrl) return;
+    blkCtrl = document.createElement('div');
+    blkCtrl.className = 'pm-blk-ctrl';
+    blkCtrl.id = 'pm-blk-ctrl';
+    blkCtrl.innerHTML =
+      '<button class="pm-blk-btn del" id="pm-blk-del">'+
+        '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>'+
+        'Удалить блок</button>'+
+      '<button class="pm-blk-btn resize" id="pm-blk-resize" title="Тянуть для изменения размера">⤡ Размер</button>';
+    document.body.appendChild(blkCtrl);
+
+    document.getElementById('pm-blk-del').addEventListener('click', function(e) {
+      e.stopPropagation();
+      const blk = activeBlkEl;
+      if (!blk) return;
+      pmConfirm('Удалить этот блок?', function() {
+        blk.remove();
+        hideBlkCtrl();
+        pmToast('🗑 Блок удалён');
+      });
+    });
+
+    document.getElementById('pm-blk-resize').addEventListener('mousedown', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!activeBlkEl) return;
+      startResize(e, activeBlkEl);
+    });
+  }
+
+  function showBlkCtrl(el) {
+    if (!blkCtrl || !editOn) return;
+    activeBlkEl = el;
+    const rect = el.getBoundingClientRect();
+    blkCtrl.style.top  = (rect.top + window.scrollY - 32) + 'px';
+    blkCtrl.style.left = (rect.right - 180 + window.scrollX) + 'px';
+    blkCtrl.classList.add('show');
+  }
+  function hideBlkCtrl() {
+    if (blkCtrl) blkCtrl.classList.remove('show');
+    activeBlkEl = null;
+  }
+
+  /* ── Block mouse events ── */
+  function onBlkEnter(e) {
+    if (!editOn) return;
+    e.stopPropagation();
+    showBlkCtrl(e.currentTarget);
+  }
+  function onBlkLeave(e) {
+    // only hide if not moving into the ctrl bar itself
+    const related = e.relatedTarget;
+    if (related && (related === blkCtrl || (blkCtrl && blkCtrl.contains(related)))) return;
+    hideBlkCtrl();
+  }
+
+  function attachBlkListeners() {
+    document.querySelectorAll('[data-eb]').forEach(el => {
+      el.removeEventListener('mouseenter', onBlkEnter);
+      el.removeEventListener('mouseleave', onBlkLeave);
+      el.addEventListener('mouseenter', onBlkEnter);
+      el.addEventListener('mouseleave', onBlkLeave);
+    });
+    if (blkCtrl) {
+      blkCtrl.addEventListener('mouseleave', function(e) {
+        const related = e.relatedTarget;
+        if (related && related === activeBlkEl) return;
+        hideBlkCtrl();
+      });
+    }
+  }
+
+  /* ── Block resize ── */
+  let resizeEl = null, resizeStartW, resizeStartH, resizeStartX, resizeStartY;
+  function startResize(e, el) {
+    resizeEl = el;
+    resizeStartW = el.offsetWidth;
+    resizeStartH = el.offsetHeight;
+    resizeStartX = e.clientX;
+    resizeStartY = e.clientY;
+    document.addEventListener('mousemove', doResize);
+    document.addEventListener('mouseup', stopResize);
+  }
+  function doResize(e) {
+    if (!resizeEl) return;
+    const dw = e.clientX - resizeStartX;
+    const dh = e.clientY - resizeStartY;
+    resizeEl.style.width     = Math.max(80, resizeStartW + dw) + 'px';
+    resizeEl.style.minHeight = Math.max(40, resizeStartH + dh) + 'px';
+  }
+  function stopResize() {
+    resizeEl = null;
+    document.removeEventListener('mousemove', doResize);
+    document.removeEventListener('mouseup', stopResize);
+  }
+
+  /* ── Toggle edit mode ── */
   window.pmToggle = function() {
     editOn = !editOn;
     const tog = document.getElementById('pm-tog');
     document.body.classList.toggle('edit-on', editOn);
+
     if (editOn) {
+      createBlkCtrl();
       tog.classList.add('on');
       tog.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> Выйти';
-      document.querySelectorAll('[data-e]').forEach(el => { el.contentEditable = 'true'; el.spellcheck = false; el.addEventListener('input', onInp); });
-      document.querySelectorAll('[data-ei]').forEach(el => el.addEventListener('click', openMod));
-      pmToast('✏️ Кликайте на текст для редактирования');
+      document.querySelectorAll('[data-e]').forEach(el => {
+        el.contentEditable = 'true';
+        el.spellcheck = false;
+        el.addEventListener('input', onInp);
+        el.addEventListener('focus', onEFocus, true);
+        el.addEventListener('blur',  onEBlur,  true);
+      });
+      document.querySelectorAll('[data-ei]').forEach(el => el.addEventListener('click', openImgMod));
+      attachBlkListeners();
+      pmToast('✏️ Режим редактирования включён');
     } else {
       tog.classList.remove('on');
       tog.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Редактировать';
-      document.querySelectorAll('[data-e]').forEach(el => { el.removeAttribute('contenteditable'); });
-      document.querySelectorAll('[data-ei]').forEach(el => el.removeEventListener('click', openMod));
+      document.querySelectorAll('[data-e]').forEach(el => {
+        el.removeAttribute('contenteditable');
+        el.removeEventListener('focus', onEFocus, true);
+        el.removeEventListener('blur',  onEBlur,  true);
+      });
+      document.querySelectorAll('[data-ei]').forEach(el => el.removeEventListener('click', openImgMod));
+      hideBlkCtrl();
+      hideFloatBar();
+      document.getElementById('pm-del').disabled = true;
       pmToast('💾 Редактирование завершено');
     }
   };
 
+  /* ── Text focus/blur → floating bar ── */
+  function onEFocus(e) {
+    focusedEl = e.currentTarget;
+    showFloatBar(focusedEl);
+    const delBtn = document.getElementById('pm-del');
+    if (delBtn) delBtn.disabled = false;
+  }
+  function onEBlur() {
+    setTimeout(() => {
+      const fl = document.getElementById('pm-float');
+      if (fl && fl.matches(':hover')) return;
+      hideFloatBar();
+      const delBtn = document.getElementById('pm-del');
+      if (delBtn) delBtn.disabled = true;
+    }, 200);
+  }
+
+  function showFloatBar(el) {
+    const bar = document.getElementById('pm-float');
+    if (!bar || !el) return;
+    const fs = Math.round(parseFloat(window.getComputedStyle(el).fontSize));
+    bar.innerHTML =
+      '<button onclick="pmFontAdj(-2)" title="Уменьшить"><span style="font-size:10px;font-weight:800">A</span>−</button>'+
+      '<span class="pm-fs-val" id="pm-fs-cur">'+fs+'px</span>'+
+      '<button onclick="pmFontAdj(2)"  title="Увеличить"><span style="font-size:14px;font-weight:800">A</span>+</button>'+
+      '<div class="sep"></div>'+
+      '<button onclick="pmInsertImgNear()" title="Добавить картинку рядом">'+
+        '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>'+
+        'Фото</button>'+
+      '<div class="sep"></div>'+
+      '<button class="del" onclick="pmDelFocused()" title="Удалить этот элемент">'+
+        '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>'+
+        'Удалить</button>';
+    bar.classList.add('show');
+    posFloatBar(el);
+  }
+  function posFloatBar(el) {
+    const bar = document.getElementById('pm-float');
+    if (!bar || !el) return;
+    const rect = el.getBoundingClientRect();
+    let top = rect.top - 46;
+    if (top < 8) top = rect.bottom + 8;
+    let left = rect.left;
+    const bw = bar.offsetWidth || 240;
+    if (left + bw > window.innerWidth - 8) left = window.innerWidth - bw - 8;
+    if (left < 8) left = 8;
+    bar.style.top  = top + 'px';
+    bar.style.left = left + 'px';
+  }
+  function hideFloatBar() {
+    const bar = document.getElementById('pm-float');
+    if (bar) bar.classList.remove('show');
+    focusedEl = null;
+  }
+
   function onInp() { document.getElementById('pm-undo').disabled = false; }
-
   window.pmUndo = function() { document.execCommand('undo'); };
-
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'z' && editOn) document.execCommand('undo');
+    if (e.key === 'Escape') {
+      hideFloatBar();
+      hideBlkCtrl();
+      imgInsertMode = false;
+      document.body.style.cursor = '';
+    }
   });
 
-  /* Image modal */
-  function openMod(e) { imgTarget = e.currentTarget; document.getElementById('pm-img-mod').classList.add('open'); document.getElementById('pm-url').value=''; }
-  window.pmCloseMod = function() { document.getElementById('pm-img-mod').classList.remove('open'); imgTarget = null; };
+  /* ── Font size adjustment ── */
+  window.pmFontAdj = function(delta) {
+    const el = focusedEl || document.querySelector('[data-e]:focus');
+    if (!el) { pmToast('⚠️ Сначала кликните на текст'); return; }
+    const cur = parseFloat(window.getComputedStyle(el).fontSize) || 16;
+    const ns  = Math.max(8, Math.min(120, cur + delta));
+    el.style.fontSize = ns + 'px';
+    const fc = document.getElementById('pm-fs-cur');
+    if (fc) fc.textContent = Math.round(ns) + 'px';
+    pmToast('🔤 ' + Math.round(ns) + 'px');
+  };
+
+  /* ── Delete focused text element ── */
+  window.pmDelFocused = function() {
+    const el = focusedEl || document.querySelector('[data-e]:focus');
+    if (!el || el.closest('#pm-panel') || el.closest('#pm-float') || el.closest('#pm-confirm')) return;
+    pmConfirm('Удалить этот элемент?', function() {
+      el.remove();
+      hideFloatBar();
+      const d = document.getElementById('pm-del');
+      if (d) d.disabled = true;
+      pmToast('🗑 Элемент удалён');
+    });
+  };
+
+  /* ── Image modal ── */
+  function openImgMod(e) {
+    imgTarget = e.currentTarget;
+    imgInsertMode = false;
+    openModal('🖼 Заменить изображение');
+  }
+
+  window.pmAddImg = function() {
+    if (!editOn) { pmToast('⚠️ Сначала включите режим редактирования'); return; }
+    imgInsertMode = true;
+    imgTarget = null;
+    document.body.style.cursor = 'crosshair';
+    pmToast('🖼 Кликните на блок или место для вставки картинки');
+    document.addEventListener('click', onImgInsertClick, { once: true, capture: true });
+  };
+
+  window.pmInsertImgNear = function() {
+    if (!focusedEl) { pmToast('⚠️ Сначала кликните на элемент'); return; }
+    imgTarget = focusedEl;
+    imgInsertMode = 'near';
+    openModal('🖼 Добавить изображение рядом');
+  };
+
+  function onImgInsertClick(e) {
+    document.body.style.cursor = '';
+    const tgt = e.target;
+    if (tgt.closest('#pm-panel') || tgt.closest('#pm-float') || tgt.closest('#pm-img-mod') || tgt.closest('#pm-confirm') || tgt.closest('#pm-blk-ctrl')) {
+      document.addEventListener('click', onImgInsertClick, { once: true, capture: true });
+      return;
+    }
+    e.preventDefault();
+    e.stopPropagation();
+    imgTarget = tgt;
+    openModal('🖼 Добавить изображение');
+  }
+
+  function openModal(title) {
+    document.getElementById('pm-img-title').textContent = title || '🖼 Изображение';
+    document.getElementById('pm-url').value = '';
+    document.getElementById('pm-fi').value  = '';
+    document.getElementById('pm-img-mod').classList.add('open');
+  }
+  window.pmCloseMod = function() {
+    document.getElementById('pm-img-mod').classList.remove('open');
+    imgTarget = null;
+    imgInsertMode = false;
+    document.body.style.cursor = '';
+  };
 
   document.getElementById('pm-fi').addEventListener('change', function(e) {
     const f = e.target.files[0]; if (!f) return;
     const r = new FileReader();
-    r.onload = ev => { replaceImg(imgTarget, ev.target.result); pmCloseMod(); };
+    r.onload = ev => { applyImage(imgTarget, ev.target.result); pmCloseMod(); };
     r.readAsDataURL(f);
   });
 
   const drop = document.getElementById('pm-drop');
-  drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dov'); });
+  drop.addEventListener('dragover',  e => { e.preventDefault(); drop.classList.add('dov'); });
   drop.addEventListener('dragleave', () => drop.classList.remove('dov'));
   drop.addEventListener('drop', e => {
     e.preventDefault(); drop.classList.remove('dov');
     const f = e.dataTransfer.files[0];
     if (!f || !f.type.startsWith('image/')) return;
     const r = new FileReader();
-    r.onload = ev => { replaceImg(imgTarget, ev.target.result); pmCloseMod(); };
+    r.onload = ev => { applyImage(imgTarget, ev.target.result); pmCloseMod(); };
     r.readAsDataURL(f);
   });
 
   window.pmApplyUrl = function() {
     const url = document.getElementById('pm-url').value.trim();
-    if (url) { replaceImg(imgTarget, url); pmCloseMod(); }
+    if (!url) { pmToast('⚠️ Введите URL изображения'); return; }
+    // Show loading state
+    const btn = document.querySelector('#pm-img-box .pm-url-row button');
+    const orig = btn.textContent;
+    btn.textContent = '...';
+    btn.disabled = true;
+    // Test the URL by loading it in an Image object
+    const testImg = new Image();
+    testImg.onload = function() {
+      applyImage(imgTarget, url);
+      pmCloseMod();
+      btn.textContent = orig; btn.disabled = false;
+    };
+    testImg.onerror = function() {
+      // Apply anyway (might be CORS issue but URL is valid)
+      applyImage(imgTarget, url);
+      pmCloseMod();
+      btn.textContent = orig; btn.disabled = false;
+    };
+    testImg.src = url;
   };
 
-  function replaceImg(tgt, src) {
+  function applyImage(tgt, src) {
     if (!tgt) return;
+    if (imgInsertMode === 'near' && tgt) {
+      const img = mkImg(src);
+      tgt.parentNode.insertBefore(img, tgt.nextSibling);
+      pmToast('🖼 Изображение вставлено', true);
+      return;
+    }
+    if (imgInsertMode && tgt) {
+      if (tgt.tagName === 'IMG') {
+        tgt.src = src;
+      } else {
+        const img = mkImg(src);
+        const container = tgt.closest('[data-eb]') || tgt;
+        if (container !== tgt) container.insertBefore(img, container.firstChild);
+        else tgt.parentNode.insertBefore(img, tgt.nextSibling);
+      }
+      pmToast('🖼 Изображение вставлено', true);
+      return;
+    }
     if (tgt.tagName === 'IMG') { tgt.src = src; }
     else {
-      const img = document.createElement('img');
-      img.src = src;
-      img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block';
-      img.setAttribute('data-ei','1');
-      img.addEventListener('click', openMod);
+      const img = mkImg(src);
       tgt.replaceWith(img);
     }
     pmToast('🖼 Изображение обновлено', true);
   }
 
-  /* Save */
+  function mkImg(src) {
+    const img = document.createElement('img');
+    img.src = src;
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;border-radius:8px';
+    img.setAttribute('data-ei','1');
+    if (editOn) img.addEventListener('click', openImgMod);
+    return img;
+  }
+
+  /* ── Save ── */
   window.pmSave = function(mode) {
     const wasOn = editOn;
-    if (wasOn) { document.querySelectorAll('[data-e]').forEach(el => el.removeAttribute('contenteditable')); document.body.classList.remove('edit-on'); }
+    if (wasOn) {
+      document.querySelectorAll('[data-e]').forEach(el => el.removeAttribute('contenteditable'));
+      document.body.classList.remove('edit-on');
+    }
+    hideFloatBar();
+    hideBlkCtrl();
 
     const raw = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     const doc = new DOMParser().parseFromString(raw, 'text/html');
-    doc.querySelectorAll('[data-e]').forEach(el => el.removeAttribute('data-e'));
+
+    doc.querySelectorAll('[data-e]').forEach(el  => el.removeAttribute('data-e'));
     doc.querySelectorAll('[data-ei]').forEach(el => el.removeAttribute('data-ei'));
+    doc.querySelectorAll('[data-eb]').forEach(el => {
+      el.removeAttribute('data-eb');
+      el.style.overflow = '';   // restore overflow
+    });
     doc.body.classList.remove('edit-on');
+    doc.querySelectorAll('#pm-float,#pm-blk-ctrl,#pm-confirm').forEach(el => el && el.remove());
 
     if (mode === 'server') {
-      ['pm-panel','pm-img-mod','pm-toast','pm-editor-css'].forEach(id => { const el = doc.getElementById(id); if (el) el.remove(); });
-      const sc = doc.querySelectorAll('script');
-      sc.forEach(s => { if (s.textContent.includes('pmToggle')) s.remove(); });
+      ['pm-panel','pm-img-mod','pm-toast','pm-editor-css','pm-float','pm-blk-ctrl','pm-confirm'].forEach(id => {
+        const el = doc.getElementById(id); if (el) el.remove();
+      });
+      doc.querySelectorAll('script').forEach(s => {
+        if (s.textContent.includes('pmToggle') || s.textContent.includes('pm-editor') || s.textContent.includes('EDITOR —')) s.remove();
+      });
       dl('pricemaster-server.html', '<!DOCTYPE html>\n' + doc.documentElement.outerHTML);
       pmToast('🚀 Сохранён для сервера', true);
     } else {
       const tog = doc.getElementById('pm-tog');
       if (tog) { tog.classList.remove('on'); tog.innerHTML = '<svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Редактировать'; }
+      const undo = doc.getElementById('pm-undo');
+      if (undo) undo.disabled = true;
       dl('pricemaster-editable.html', '<!DOCTYPE html>\n' + doc.documentElement.outerHTML);
       pmToast('💾 Сохранён с редактором', true);
     }
 
-    if (wasOn) { document.body.classList.add('edit-on'); document.querySelectorAll('[data-e]').forEach(el => { el.contentEditable='true'; el.spellcheck=false; }); }
+    if (wasOn) {
+      document.body.classList.add('edit-on');
+      document.querySelectorAll('[data-e]').forEach(el => { el.contentEditable = 'true'; el.spellcheck = false; });
+    }
   };
 
   function dl(name, content) {
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([content], { type:'text/html;charset=utf-8' }));
-    a.download = name; a.click(); URL.revokeObjectURL(a.href);
+    a.href = URL.createObjectURL(new Blob([content], { type: 'text/html;charset=utf-8' }));
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
   }
 
-  /* Toast */
-  window.pmToast = function(msg, ok) {
-    const t = document.getElementById('pm-toast');
-    t.textContent = msg;
-    t.className = 'show' + (ok ? ' ok' : '');
-    clearTimeout(t._t);
-    t._t = setTimeout(() => t.className = '', 3000);
-  };
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', markEditables);
-  else markEditables();
+  /* ── Init ── */
+  function init() {
+    markEditables();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 </script>
 </body>
