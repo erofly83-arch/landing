@@ -40,8 +40,8 @@
 
 /* ===================== RESET ===================== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased}
-body{font-family:'Manrope',sans-serif;color:var(--text);background:var(--white);line-height:1.65;overflow-x:hidden}
+html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:hidden;max-width:100%}
+body{font-family:'Manrope',sans-serif;color:var(--text);background:var(--white);line-height:1.65;overflow-x:hidden;max-width:100%}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;border:none;background:none;font-family:inherit}
@@ -50,8 +50,8 @@ ul{list-style:none}
 
 /* ===================== UTILITIES ===================== */
 .container{max-width:1200px;margin:0 auto;padding:0 24px}
-.section{padding:104px 0}
-.section-sm{padding:72px 0}
+.section{padding:96px 0}
+.section-sm{padding:96px 0}
 
 /* ===================== UNIVERSAL HERO-STYLE BACKGROUND ===================== */
 /* Subtle grid on body */
@@ -108,10 +108,13 @@ body {
 
 /* ===================== TAG ===================== */
 .tag{display:inline-flex;align-items:center;gap:7px;background:var(--blue-bg);color:var(--blue);font-size:12px;font-weight:700;padding:6px 14px;border-radius:50px;letter-spacing:.06em;text-transform:uppercase}
+/* Hide section tag labels except hero badge */
+.sec-hd .tag,.section .tag:not(.hero-badge .tag){display:none!important}
+.hero-badge .tag{display:inline-flex!important}
 .tag-green{background:var(--green-bg);color:#059669}
 
 /* ===================== SECTION HEADER ===================== */
-.sec-hd{text-align:center;max-width:700px;margin:0 auto 72px}
+.sec-hd{text-align:center;max-width:700px;margin:0 auto 52px}
 .sec-hd h2{font-family:'Manrope',sans-serif;font-size:clamp(26px,3.8vw,42px);font-weight:700;line-height:1.18;color:var(--navy);margin:14px 0 18px}
 .sec-hd p{font-size:17px;color:var(--gray-6);line-height:1.75}
 
@@ -151,14 +154,14 @@ nav a:hover::after{transform:scaleX(1)}
 .burger span{display:block;height:2px;background:var(--navy);border-radius:2px;transition:all var(--tr)}
 
 /* ===================== MOBILE NAV ===================== */
-.mob-nav{display:none;position:fixed;top:70px;inset-inline:0;bottom:0;background:#fff;z-index:999;padding:32px 24px;flex-direction:column;gap:6px;overflow-y:auto;border-top:1px solid var(--gray-2)}
+.mob-nav{display:none;position:fixed;top:70px;left:0;right:0;width:100%;max-width:100vw;bottom:0;background:#fff;z-index:999;padding:32px 24px;flex-direction:column;gap:6px;overflow-y:auto;overflow-x:hidden;border-top:1px solid var(--gray-2)}
 .mob-nav.open{display:flex}
 .mob-nav a{font-size:17px;font-weight:600;color:var(--navy);padding:14px 16px;border-radius:12px;transition:all var(--tr)}
 .mob-nav a:hover{background:var(--blue-bg);color:var(--blue)}
 .mob-nav .mob-cta{margin-top:16px}
 
 /* ===================== HERO ===================== */
-.hero{padding:80px 0 100px;position:relative;overflow:hidden;background:var(--white)}
+.hero{padding:96px 0;position:relative;overflow:hidden;background:var(--white)}
 .hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
 .hero-blob1{position:absolute;top:-180px;right:-120px;width:700px;height:700px;background:radial-gradient(circle,rgba(21,102,239,.08) 0%,transparent 65%)}
 .hero-blob2{position:absolute;bottom:-100px;left:-80px;width:500px;height:500px;background:radial-gradient(circle,rgba(13,231,168,.07) 0%,transparent 65%)}
@@ -303,11 +306,29 @@ nav a:hover::after{transform:scaleX(1)}
 .sc-body::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-100%);animation:shimmer 4s infinite}
 .sc-ico{font-size:28px;opacity:.6}
 @media(max-width:768px){
-  .sc-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:16px;padding-bottom:12px;scrollbar-width:none;-ms-overflow-style:none}
+  .sc-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:16px;padding:0 24px 16px;margin:0 -24px;scrollbar-width:none;-ms-overflow-style:none}
   .sc-grid::-webkit-scrollbar{display:none}
-  .sc-item{flex:0 0 80vw;scroll-snap-align:start}
+  .sc-item{flex:0 0 82vw;scroll-snap-align:start}
 }
 @media(max-width:480px){.sc-item{flex:0 0 88vw}}
+
+/* ===================== IMAGE LIGHTBOX ===================== */
+.img-zoomable{cursor:zoom-in;transition:transform var(--tr),box-shadow var(--tr)}
+.img-zoomable:hover{transform:scale(1.02);box-shadow:var(--sh-md)}
+#pm-lightbox{display:none;position:fixed;inset:0;z-index:20000;background:rgba(10,22,40,.9);align-items:center;justify-content:center;padding:20px;cursor:zoom-out;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#pm-lightbox.open{display:flex;animation:lbFadeIn .25s ease}
+#pm-lightbox img{max-width:min(90vw,1200px);max-height:90vh;object-fit:contain;border-radius:12px;box-shadow:0 32px 96px rgba(0,0,0,.6);cursor:default;user-select:none}
+#pm-lb-close{position:fixed;top:20px;right:24px;width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:50%;border:none;color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;line-height:1;font-family:inherit;z-index:20001}
+#pm-lb-close:hover{background:rgba(255,255,255,.28)}
+#pm-lb-nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:20001}
+.lb-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;transition:background .2s;border:none}
+.lb-dot.active{background:#fff}
+#pm-lb-prev,#pm-lb-next{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);border:none;color:#fff;width:48px;height:48px;border-radius:50%;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;z-index:20001}
+#pm-lb-prev{left:16px}
+#pm-lb-next{right:16px}
+#pm-lb-prev:hover,#pm-lb-next:hover{background:rgba(255,255,255,.28)}
+@keyframes lbFadeIn{from{opacity:0}to{opacity:1}}
+@media(max-width:600px){#pm-lb-prev,#pm-lb-next{display:none}}
 
 /* ===================== PRICING ===================== */
 .price-section{background:var(--white);position:relative;overflow:hidden}
@@ -449,20 +470,30 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 
 
 /* ===================== GUARANTEE ===================== */
-.guarantee-section{padding:56px 0;background:var(--white);position:relative;overflow:hidden}
-.guarantee-inner{max-width:860px;margin:0 auto;background:linear-gradient(135deg,#0A1628 0%,#1a2d4d 100%);border-radius:24px;padding:48px 56px;display:flex;align-items:center;gap:48px;position:relative;overflow:hidden}
-.guarantee-inner::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(13,231,168,.15) 0%,transparent 70%)}
-.guarantee-inner::after{content:'';position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(21,102,239,.12) 0%,transparent 70%)}
-.guarantee-badge{flex-shrink:0;width:96px;height:96px;background:linear-gradient(135deg,var(--green),#0bcf96);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 12px rgba(13,231,168,.12),0 8px 32px rgba(13,231,168,.35);position:relative;z-index:1}
-.guarantee-badge svg{width:44px;height:44px;color:#0A1628}
+@keyframes shieldPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255,255,255,.45), 0 8px 32px rgba(21,102,239,.5); }
+  50%  { box-shadow: 0 0 0 18px rgba(255,255,255,.0), 0 8px 48px rgba(21,102,239,.7); }
+  100% { box-shadow: 0 0 0 0 rgba(255,255,255,.0), 0 8px 32px rgba(21,102,239,.5); }
+}
+@keyframes shieldFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-6px) scale(1.04); }
+}
+.guarantee-section{padding:96px 0;background:var(--white);position:relative;overflow:hidden}
+.guarantee-inner{max-width:860px;margin:0 auto;background:linear-gradient(135deg,var(--blue) 0%,var(--blue-d) 60%,#0e4cc2 100%);border-radius:24px;padding:48px 56px;display:flex;align-items:center;gap:48px;position:relative;overflow:hidden}
+.guarantee-inner::before{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(255,255,255,.10) 0%,transparent 70%)}
+.guarantee-inner::after{content:'';position:absolute;bottom:-40px;left:-40px;width:240px;height:240px;background:radial-gradient(circle,rgba(255,255,255,.06) 0%,transparent 70%)}
+.guarantee-badge{flex-shrink:0;width:96px;height:96px;background:rgba(255,255,255,.18);border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.35);position:relative;z-index:1;animation:shieldPulse 2.4s ease-in-out infinite, shieldFloat 4s ease-in-out infinite}
+.guarantee-badge svg{width:44px;height:44px;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,.2))}
 .guarantee-text{position:relative;z-index:1}
 .guarantee-text h3{font-family:'Manrope',sans-serif;font-size:clamp(20px,2.4vw,26px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:10px}
-.guarantee-text p{font-size:15px;color:rgba(255,255,255,.65);line-height:1.72;margin-bottom:18px}
+.guarantee-text p{font-size:15px;color:rgba(255,255,255,.82);line-height:1.72;margin-bottom:18px}
 .guarantee-pills{display:flex;flex-wrap:wrap;gap:8px}
-.guarantee-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-size:13px;font-weight:600;padding:6px 14px;border-radius:50px}
-.guarantee-pill svg{color:var(--green);flex-shrink:0}
+.guarantee-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:13px;font-weight:600;padding:6px 14px;border-radius:50px;backdrop-filter:blur(4px)}
+.guarantee-pill svg{color:rgba(255,255,255,.9);flex-shrink:0}
 @media(max-width:768px){
-  .guarantee-inner{flex-direction:column;text-align:center;padding:36px 28px;gap:28px}
+  .guarantee-section{padding:56px 0}
+  .guarantee-inner{flex-direction:column;text-align:center;padding:32px 20px;gap:24px}
   .guarantee-pills{justify-content:center}
 }
 /* ===================== MOBILE LANG ===================== */
@@ -471,9 +502,13 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 .mob-lang-sw .lang-btn.active{background:var(--blue-bg);color:var(--blue);box-shadow:0 1px 6px rgba(21,102,239,.15)}
 
 /* ===================== RESPONSIVE ===================== */
+/* Mobile hero order: badge+h1 → image → lead+cta+stats */
 @media(max-width:1024px){
-  .hero-inner{grid-template-columns:1fr;gap:56px}
-  .hero-visual{order:-1}
+  .hero-inner{display:flex;flex-direction:column;gap:36px}
+  .hero-content{display:contents}
+  .hero-top{display:block;order:1}
+  .hero-visual{order:2}
+  .hero-bottom{display:block;order:3}
   .fb-left{left:-12px;bottom:-12px}
   .fb-right{right:-12px}
   .pain-grid{grid-template-columns:1fr;gap:48px}
@@ -488,13 +523,13 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   .ind-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:768px){
-  .section{padding:64px 0}
-  .section-sm{padding:48px 0}
+  .section{padding:56px 0}
+  .section-sm{padding:56px 0}
   nav{display:none}
   .hd-right .btn{display:none}
   #desktopLangSw{display:none}
   .burger{display:flex}
-  .hero{padding:52px 0 64px}
+  .hero{padding:56px 0}
   .hero-stats{grid-template-columns:repeat(3,1fr)}
   .hero-stat{padding:0 12px}
   .hs-num{font-size:22px}
@@ -525,7 +560,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   #pm-panel .pm-sep{display:none}
 }
 </style>
-<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style><style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style><style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style></head>
+<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style><style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style><style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style><style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style></head>
 <body data-aos-easing="ease-out-cubic" data-aos-duration="680" data-aos-delay="0" class="">
 
 <!-- HEADER -->
@@ -583,43 +618,45 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-bg"><div class="hero-blob1"></div><div class="hero-blob2"></div><div class="hero-grid-line"></div></div>
-  <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.55;z-index:0" width="1902" height="1011"></canvas>
+  <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.55;z-index:0" width="1902" height="902"></canvas>
   <div class="container">
     <div class="hero-inner">
       <div class="hero-content">
-        <div class="hero-badge">
-          <span class="tag" spellcheck="false">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-            <span data-i18n="h_badge" spellcheck="false">автомониторинг прайс-листов</span>
-          </span>
-        </div>
-        <h1 spellcheck="false" style="font-size: 40px;">
-          <span data-i18n="h_h1a" spellcheck="false">Сравните прайсы</span><br><span class="hl" data-i18n="h_h1b" spellcheck="false">за считанные минуты</span><br>
-          <span data-i18n="h_h1c" spellcheck="false">вместо часов в Excel</span>
-        </h1>
-        <p class="lead" data-i18n="h_lead" spellcheck="false">Загрузите файлы — система сама сопоставит товары по штрихкодам, артикулам и названиям и выдаст готовую сводную таблицу. Без ручной работы, без ошибок.</p>
-        <div class="hero-cta">
-          <a href="#contact" class="btn btn-primary btn-primary-lg">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"></path><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"></circle><line x1="9" y1="5" x2="15" y2="5"></line></svg>
-            <span data-i18n="h_cta1">Оставить заявку</span>
-          </a>
-          <a href="#how" class="btn btn-outline">
-            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
-            <span data-i18n="h_cta2">Как это работает</span>
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <div class="hs-num" spellcheck="false"><span class="number-ticker" data-target="7">7</span><span class="u"> мин</span></div>
-            <div class="hs-lbl" data-i18n="hs1" spellcheck="false">полная обработка</div>
+        <div class="hero-top">
+          <div class="hero-badge">
+            <span class="tag" spellcheck="false">
+              <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+              <span data-i18n="h_badge" spellcheck="false">автомониторинг прайс-листов</span>
+            </span>
           </div>
-          <div class="hero-stat">
-            <div class="hs-num hs-inf" spellcheck="false" style="font-size: 30px;">∞</div>
-            <div class="hs-lbl" data-i18n="hs2" spellcheck="false">файлов&nbsp;</div>
+          <h1 spellcheck="false" style="font-size: 40px;">
+            <span data-i18n="h_h1a" spellcheck="false" style="">Мониторинг прайсов</span><br><span class="hl" data-i18n="h_h1b" spellcheck="false">за считанные минуты</span><br></h1>
+        </div>
+        <div class="hero-bottom">
+          <p class="lead" data-i18n="h_lead" spellcheck="false" style="">Загрузите файлы — система сама сопоставит товары по штрихкодам, артикулам и названиям и выдаст готовую сводную таблицу. Практически без ручной сверки и без ошибок.</p>
+          <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary btn-primary-lg">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"></path><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"></circle><line x1="9" y1="5" x2="15" y2="5"></line></svg>
+              <span data-i18n="h_cta1">Оставить заявку</span>
+            </a>
+            <a href="#how" class="btn btn-outline">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+              <span data-i18n="h_cta2">Как это работает</span>
+            </a>
           </div>
-          <div class="hero-stat">
-            <div class="hs-num" spellcheck="false"><span class="number-ticker" data-target="96">96</span><span class="u">%</span></div>
-            <div class="hs-lbl" data-i18n="hs3" spellcheck="false">экономия времени</div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <div class="hs-num" spellcheck="false"><span class="number-ticker" data-target="7">7</span><span class="u"> мин</span></div>
+              <div class="hs-lbl" data-i18n="hs1" spellcheck="false">полная обработка</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hs-num hs-inf" spellcheck="false" style="font-size: 30px;">∞</div>
+              <div class="hs-lbl" data-i18n="hs2" spellcheck="false">файлов&nbsp;</div>
+            </div>
+            <div class="hero-stat">
+              <div class="hs-num" spellcheck="false"><span class="number-ticker" data-target="96">96</span><span class="u">%</span></div>
+              <div class="hs-lbl" data-i18n="hs3" spellcheck="false">экономия времени</div>
+            </div>
           </div>
         </div>
       </div>
@@ -655,14 +692,14 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   <div class="container">
     <div class="pain-grid">
       <div>
-        <div class="pain-eyebrow aos-init aos-animate" data-aos="fade-up" data-i18n="pa_eye" spellcheck="false">Проблема</div>
+        
         <h2 data-aos="fade-up" data-aos-delay="100" class="aos-init aos-animate" spellcheck="false"><span data-i18n="pa_h2a">Ручная работа — это</span> <span class="red" data-i18n="pa_h2b">дорого и ненадёжно</span></h2>
         <p data-aos="fade-up" data-aos-delay="200" data-i18n="pa_p" class="aos-init aos-animate" spellcheck="false">Каждый раз, когда нужно сравнить прайс-листы поставщиков, сотрудник часами сидит в Excel. Копирует, ищет совпадения, допускает ошибки. А конкурент тем временем уже принял решение.</p>
         <div class="pain-items">
           <div class="pain-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><div class="pi-ic">⏱</div><p spellcheck="false"><strong data-i18n="pi1t">3–5 часов</strong> <span data-i18n="pi1p">уходит на ручное сравнение даже небольшого числа прайсов</span></p></div>
           <div class="pain-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="300"><div class="pi-ic">❌</div><p spellcheck="false"><strong data-i18n="pi2t">Ошибки неизбежны</strong> <span data-i18n="pi2p">при копировании вручную — и они стоят реальных денег</span></p></div>
           <div class="pain-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="400"><div class="pi-ic">💸</div><p spellcheck="false"><strong data-i18n="pi3t">Зарплата сотрудника</strong> <span data-i18n="pi3p">тратится на рутину вместо задач, которые приносят прибыль</span></p></div>
-          <div class="pain-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="500"><div class="pi-ic">📉</div><p spellcheck="false"><strong data-i18n="pi4t">Медленные решения</strong> <span data-i18n="pi4p">— пока считаете, конкурент уже купил дешевле</span></p></div>
+          <div class="pain-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="500"><div class="pi-ic">📉</div><p spellcheck="false" style=""><strong data-i18n="pi4t">Медленные решения</strong> <span data-i18n="pi4p">— пока вы считаете, конкурент уже купил дешевле или продал дороже</span></p></div>
         </div>
       </div>
       <div data-aos="fade-left" data-aos-delay="100" class="aos-init aos-animate">
@@ -699,19 +736,19 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
     <div class="sec-hd aos-init aos-animate" data-aos="fade-up">
       <div class="tag" spellcheck="false"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span data-i18n="how_tag" spellcheck="false">Простой процесс</span></div>
       <h2 data-i18n="how_h2" spellcheck="false" style="font-size: 40px;">Три шага до результата</h2>
-      <p data-i18n="how_p" spellcheck="false">Никаких специальных знаний. Загрузили — получили результат.</p>
+      <p data-i18n="how_p" spellcheck="false" style="">Никаких специальных знаний. Загрузили — получили результат.</p>
     </div>
     <div class="steps-row">
       <div class="steps-connector"></div>
       <div class="step-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
         <div class="step-num">1</div>
         <h3 data-i18n="st1h" spellcheck="false">Загрузите прайс-листы</h3>
-        <p data-i18n="st1p" spellcheck="false">Выберите файлы Excel или CSV от ваших поставщиков — их может быть сколько угодно. Система принимает любые форматы без предварительной подготовки.</p>
+        <p data-i18n="st1p" spellcheck="false" style="">Выберите файлы Excel или CSV от ваших поставщиков — их может быть сколько угодно. Система принимает любые форматы.</p>
       </div>
       <div class="step-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
         <div class="step-num">2</div>
         <h3 data-i18n="st2h" spellcheck="false">Система находит совпадения</h3>
-        <p data-i18n="st2p" spellcheck="false">Сопоставление идёт по штрихкодам EAN/UPC, артикулам и SKU — с точностью 100%. Если кода нет — алгоритм находит совпадения по названию, даже при опечатках.</p>
+        <p data-i18n="st2p" spellcheck="false" style="">Сопоставление идёт по штрихкодам, артикулам — с огромной точностью. Если кода нет — алгоритм находит совпадения по названию.</p>
       </div>
       <div class="step-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
         <div class="step-num">3</div>
@@ -734,7 +771,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   <line x1="9" y1="18" x2="15" y2="18"></line>
 </svg></div>
         <h4 data-i18n="tc2h" spellcheck="false">Нормализация текста</h4>
-        <p data-i18n="tc2p" spellcheck="false">Все названия приводятся к единому виду: убираются лишние символы, пробелы, различия в регистре. «Болт М8» и «болт м8х1.25» — система понимает, что это одно и то же.</p>
+        <p data-i18n="tc2p" spellcheck="false" style="">Все названия приводятся к единому виду: убираются лишние символы, пробелы, различия в регистре. Система находит синонимы штрихкодов к одинаковым товарам..</p>
       </div>
       <div class="tech-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
         <div class="tech-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -743,7 +780,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   <path d="M9 11h4M11 9v4" stroke-width="1.8"></path>
 </svg></div>
         <h4 data-i18n="tc3h" spellcheck="false">Нечёткое сравнение</h4>
-        <p data-i18n="tc3p" spellcheck="false">Алгоритм измеряет «похожесть» строк и находит совпадения даже при опечатках или незначительных различиях. Идеально для случаев, когда артикула нет.</p>
+        <p data-i18n="tc3p" spellcheck="false" style="">Алгоритм измеряет «похожесть» строк и находит совпадения даже при написании наименований на разных языках, опечатках и сокращениях.</p>
       </div>
       <div class="tech-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
         <div class="tech-ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -753,21 +790,12 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   <line x1="9" y1="9" x2="9" y2="21"></line>
 </svg></div>
         <h4 data-i18n="tc4h" spellcheck="false">Формирование свода</h4>
-        <p data-i18n="tc4p" spellcheck="false">После сопоставления система собирает итоговую таблицу: каждая строка — один товар, каждый столбец — цена конкретного поставщика. Ячейки без цены помечаются отдельно.</p>
+        <p data-i18n="tc4p" spellcheck="false" style="">После сопоставления система собирает итоговую таблицу: каждая строка — один товар, каждый столбец — цена конкретного поставщика.</p>
       </div>
     </div>
   </div>
 </section>
 
-
-
-<!-- CTA after HOW -->
-<div style="text-align:center;padding:0 0 80px">
-  <a href="#contact" class="btn btn-primary btn-primary-lg aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"></path><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"></circle><line x1="9" y1="5" x2="15" y2="5"></line></svg>
-    <span data-i18n="h_cta1">Оставить заявку</span>
-  </a>
-</div>
 <!-- FEATURES -->
 <section class="section features-section" id="features">
   <div class="container">
@@ -778,10 +806,10 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
     </div>
     <div class="feat-grid">
       <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="100"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg></div><h3 data-i18n="f1h" spellcheck="false">Без ограничений по файлам</h3><p data-i18n="f1p" spellcheck="false">Загружайте столько прайс-листов, сколько нужно. Ограничение зависит только от мощности вашего компьютера или хостинга — обычно это практически неограниченно.</p></div>
-      <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"></path></svg></div><h3 data-i18n="f2h" spellcheck="false">Гибкая настройка</h3><p data-i18n="f2p" spellcheck="false">Добавляем фильтры по категориям, меняем структуру итоговой таблицы, подключаем расчёт наценки и минимальной цены. Практически любой запрос — реализуем.</p></div>
+      <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"></path></svg></div><h3 data-i18n="f2h" spellcheck="false">Гибкая настройка</h3><p data-i18n="f2p" spellcheck="false" style="">Добавляем фильтры, сортировки, меняем структуру итоговой таблицы, подключаем расчёт наценки и минимальной цены. Практически любой запрос — реализуем.</p></div>
       <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="300"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 17 12 21 16 17"></polyline><line x1="12" y1="12" x2="12" y2="21"></line><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"></path></svg></div><h3 data-i18n="f3h" spellcheck="false">Локально или в облаке</h3><p data-i18n="f3p" spellcheck="false">Работает на вашем компьютере без интернета — данные никуда не уходят. Или разворачивается на сервере и доступна с любого устройства через браузер.</p></div>
       <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="100"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path></svg></div><h3 data-i18n="f4h" spellcheck="false">Любая отрасль</h3><p data-i18n="f4p" spellcheck="false">Не привязана к конкретным товарам. Работает там, где у позиций есть штрихкод EAN/UPC, артикул или уникальный код — стройматериалы, продукты, запчасти, фарма и другие.</p></div>
-      <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div><h3 data-i18n="f5h" spellcheck="false">Высокая скорость</h3><p data-i18n="f5p" spellcheck="false">Тысячи позиций из десятков файлов обрабатываются за 5–10 минут. То, что сотрудник делал 3–5 часов — теперь делает система пока вы пьёте кофе.</p></div>
+      <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div><h3 data-i18n="f5h" spellcheck="false">Высокая скорость</h3><p data-i18n="f5p" spellcheck="false" style="">Тысячи позиций из десятков файлов обрабатываются за минуты. То, что сотрудник делал 3–5 часов — теперь делает система пока вы пьёте кофе.</p></div>
       <div class="feat-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="300"><div class="feat-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="8" y1="13" x2="16" y2="13"></line><line x1="8" y1="17" x2="16" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg></div><h3 data-i18n="f6h" spellcheck="false">Привычный Excel на выходе</h3><p data-i18n="f6p" spellcheck="false">Итоговый файл открывается в привычном Excel. Ничего дополнительно устанавливать не нужно — получили файл и сразу работаете с ним.</p></div>
     </div>
   </div>
@@ -792,13 +820,13 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   <div class="container">
     <div class="sec-hd aos-init aos-animate" data-aos="fade-up">
       <div class="tag" spellcheck="false"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path></svg><span data-i18n="ind_tag" spellcheck="false">Отрасли</span></div>
-      <h2 data-i18n="ind_h2" spellcheck="false" style="font-size: 40px;">Работает там, где есть прайсы</h2>
+      <h2 data-i18n="ind_h2" spellcheck="false" style="font-size: 40px;">Момогает там, где есть прайсы</h2>
       <p data-i18n="ind_p" spellcheck="false">Подходит для любого бизнеса, где товары имеют стандартизированные коды или уникальные названия</p>
     </div>
     <div class="ind-grid">
       <div class="ind-card c1 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100"><span class="ind-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h22v5H1z"></path><path d="M2 8v13h20V8"></path><path d="M10 12h4"></path></svg></span><h3 data-i18n="i1h" spellcheck="false">Оптовая торговля</h3><p data-i18n="i1p" spellcheck="false">Десятки поставщиков, тысячи позиций — сводная таблица с ценами всех партнёров за несколько минут.</p><span class="ind-tag" data-i18n="i1t" spellcheck="false">Опт / дистрибуция</span></div>
-      <div class="ind-card c2 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></span><h3 data-i18n="i2h" spellcheck="false">Розничные сети</h3><p data-i18n="i2p" spellcheck="false">Контроль закупочных цен и мониторинг изменений. Мгновенно видно, где подорожало и где лучшее предложение.</p><span class="ind-tag" data-i18n="i2t" spellcheck="false">Ритейл</span></div>
-      <div class="ind-card c3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-7 8 7v10"></path><path d="M9 20v-5h6v5"></path></svg></span><h3 data-i18n="i3h" spellcheck="false">Строительство</h3><p data-i18n="i3p" spellcheck="false">Сравнение цен на стройматериалы при подготовке сметы. Экономия на закупках 10–20% только за счёт выбора поставщика.</p><span class="ind-tag" data-i18n="i3t" spellcheck="false">Стройматериалы</span></div>
+      <div class="ind-card c2 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></span><h3 data-i18n="i2h" spellcheck="false">Розничные сети</h3><p data-i18n="i2p" spellcheck="false" style="">Контроль закупочных цен и мониторинг изменений. Мгновенно видно где лучшее предложение.</p><span class="ind-tag" data-i18n="i2t" spellcheck="false">Ритейл</span></div>
+      <div class="ind-card c3 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l8-7 8 7v10"></path><path d="M9 20v-5h6v5"></path></svg></span><h3 data-i18n="i3h" spellcheck="false">Строительство</h3><p data-i18n="i3p" spellcheck="false" style="">Сравнение цен на стройматериалы при подготовке сметы. Экономия на закупках только за счёт выбора поставщика.</p><span class="ind-tag" data-i18n="i3t" spellcheck="false">Стройматериалы</span></div>
       <div class="ind-card c4 aos-init aos-animate" data-aos="fade-up" data-aos-delay="100"><span class="ind-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"></path><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg></span><h3 data-i18n="i4h" spellcheck="false">HoReCa и продукты</h3><p data-i18n="i4p" spellcheck="false">Ежедневное сравнение прайсов продуктовых поставщиков. Цены меняются каждый день — система успевает.</p><span class="ind-tag" data-i18n="i4t" spellcheck="false">Рестораны / кафе</span></div>
       <div class="ind-card c5 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200"><span class="ind-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"></path><path d="M2 20V11l6-4v4l6-4v4l6-4v9"></path><rect x="9" y="15" width="6" height="5"></rect></svg></span><h3 data-i18n="i5h" spellcheck="false">Промышленность</h3><p data-i18n="i5p" spellcheck="false">Закупка комплектующих и оборудования. Артикулы и коды позволяют сопоставлять позиции с точностью 100%.</p><span class="ind-tag" data-i18n="i5t" spellcheck="false">Производство</span></div>
       <div class="ind-card c6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300"><span class="ind-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path><line x1="12" y1="14" x2="12" y2="18"></line><line x1="10" y1="16" x2="14" y2="16"></line></svg></span><h3 data-i18n="i6h" spellcheck="false">Фармацевтика</h3><p data-i18n="i6p" spellcheck="false">Сравнение цен на медикаменты по МНН или штрихкоду. Строгое совпадение — без путаницы в наименованиях.</p><span class="ind-tag" data-i18n="i6t" spellcheck="false">Аптеки / клиники</span></div>
@@ -806,15 +834,6 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
   </div>
 </section>
 
-
-
-<!-- CTA after INDUSTRIES -->
-<div style="text-align:center;padding:0 0 80px">
-  <a href="#contact" class="btn btn-primary btn-primary-lg aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
-    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"></path><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"></circle><line x1="9" y1="5" x2="15" y2="5"></line></svg>
-    <span data-i18n="h_cta1">Оставить заявку</span>
-  </a>
-</div>
 <!-- SCREENSHOTS -->
 <section class="section-sm sc-section" id="screenshots">
   <div class="container">
@@ -827,13 +846,13 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
       <div class="sc-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
         <div class="sc-frame">
           <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
-          <img src="images/1.jpg" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+          <img src="images/1.jpg" class="img-zoomable" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
         </div>
       </div>
       <div class="sc-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
         <div class="sc-frame">
           <div class="sc-bar"><div class="sc-dots"><span></span><span></span><span></span></div></div>
-          <img src="images/2.jpg" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
+          <img src="images/2.jpg" class="img-zoomable" style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 8px;">
         </div>
       </div>
     </div>
@@ -874,8 +893,8 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf21" spellcheck="false">Всё из тарифа «Стандарт»</span></div>
           <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf22" spellcheck="false">Дополнительные фильтры и столбцы</span></div>
           <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf23" spellcheck="false">Расчёт наценки и минимальной цены</span></div>
-          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf24" spellcheck="false">Интеграция с ERP / 1С</span></div>
-          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf25" spellcheck="false">Автоматический импорт по расписанию</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf24" spellcheck="false" style="">Интеграции</span></div>
+          <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf25" spellcheck="false" style="">Любые доработки</span></div>
           <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf26" spellcheck="false">Индивидуальный дизайн интерфейса</span></div>
           <div class="pf"><div class="pf-ck"><svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><span data-i18n="pf27" spellcheck="false">Приоритетная поддержка</span></div>
         </div>
@@ -899,7 +918,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
       </div>
       <div class="guarantee-text">
         <h3 data-i18n="gu_h3" spellcheck="false">Гарантия возврата денег — 14 дней</h3>
-        <p data-i18n="gu_p" spellcheck="false">Если в течение двух недель после запуска система не решит вашу задачу — вернём полную стоимость без вопросов и бюрократии. Мы уверены в результате, поэтому берём на себя весь риск.</p>
+        <p data-i18n="gu_p" spellcheck="false" style="">Если в течение двух недель после запуска система не решит вашу адачу — вернём полную стоимость без вопросов и бюрократии. Мы уверены в результате, поэтому берём на себя весь риск.</p>
         <div class="guarantee-pills">
           <span class="guarantee-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span data-i18n="gu_p1" spellcheck="false">Возврат без вопросов</span></span>
           <span class="guarantee-pill"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg><span data-i18n="gu_p2" spellcheck="false">Тест на ваших файлах до оплаты</span></span>
@@ -945,7 +964,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
       <div class="test-card aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
         <div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
         <div class="test-quote">"</div>
-        <div class="test-text" data-i18n="te3txt" spellcheck="false">Мы производим металлоконструкции, закупаем сотни наименований метизов у 9 поставщиков. Артикулы у всех одинаковые — ГОСТ-нормы. Система сопоставляет за 4 минуты то, что снабженец делал 4 часа. Попросили доработать — добавили расчёт минимальной цены. Дмитрий сделал за день.</div>
+        <div class="test-text" data-i18n="te3txt" spellcheck="false" style="">Мы производим металлоконструкции, закупаем сотни наименований метизов у 9 поставщиков. Артикулы у всех одинаковые — ГОСТ-нормы. Система сопоставляет за 4 минуты то, что снабженец делал 4 часа. Попросили доработать — добавили подсветку минимальной цены.</div>
         <div class="test-author">
           <div class="ta-av">ВП</div>
           <div>
@@ -985,7 +1004,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
           <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
         </button>
-        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_safe_a" spellcheck="false">Да, полностью. При локальной установке всё работает только на вашем компьютере — ничего не уходит в интернет, никаких сторонних сервисов. При облачной установке сервер разворачивается на вашем хостинге и под вашим контролем. Мы не имеем доступа к вашим прайс-листам и данным.</div></div>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_safe_a" spellcheck="false" style="">Да, полностью. При локальной установке всё работает только на вашем компьютере — ничего не уходит в интернет, никаких сторонних сервисов. При облачной установке сервер разворачивается хостинге. Мы не имеем доступа к вашим прайс-листам и данным.</div></div>
       </div>
       <div class="faq-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="80">
         <button class="faq-q" onclick="faqToggle(this)">
@@ -995,7 +1014,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
           <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
         </button>
-        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_fmt_a" spellcheck="false">Да, с любым Excel или CSV. Система принимает .xls, .xlsx, .csv в любой структуре — не нужно приводить файлы к единому шаблону. Несколько листов, кириллица в заголовках, нестандартные столбцы? Всё обрабатывается. Нестандартный формат — настроим бесплатно.</div></div>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_fmt_a" spellcheck="false" style="">Да, с любым Excel или CSV. Система принимает .xls, .xlsx, .csv в любой структуре — не нужно приводить файлы к единому шаблону. Нестандартный формат — настроим бесплатно.</div></div>
       </div>
       <div class="faq-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="80">
         <button class="faq-q" onclick="faqToggle(this)">
@@ -1005,7 +1024,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
           <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
         </button>
-        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_guar_a" spellcheck="false">Если в течение 14 дней после запуска система не решит вашу задачу — вернём деньги полностью. До покупки проводим тестовый запуск на ваших реальных файлах — вы убедитесь в результате ещё до оплаты.</div></div>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_guar_a" spellcheck="false" style="">Если в течение 14 дней после запуска система не решит вашу задачу — вернём деньги полностью. До покупки проводим тестовый запуск на ваших реальных файлах и сверку с ручным мониторингом — вы убедитесь в результате ещё до оплаты.</div></div>
       </div>
       <div class="faq-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="80">
         <button class="faq-q" onclick="faqToggle(this)">
@@ -1015,7 +1034,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
           <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
         </button>
-        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_inst_a" spellcheck="false">Для локальной версии — однократная установка, которую выполняем мы сами удалённо за 1–2 часа. От вас нужен только доступ к компьютеру. Для облачной — разворачиваем на вашем сервере. После запуска всё работает само.</div></div>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_inst_a" spellcheck="false" style="">Для локальной версии — однократная установка, которую выполняем мы сами. От вас нужен только доступ к компьютеру. Для облачной — разворачиваем на сервере.</div></div>
       </div>
       <div class="faq-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="80">
         <button class="faq-q" onclick="faqToggle(this)">
@@ -1025,7 +1044,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
           <div class="faq-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
         </button>
-        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_sup_a" spellcheck="false">Да. Отвечаем на вопросы по использованию и помогаем при сбоях — это бесплатно. Доработки и новые функции — платно. Дмитрий отвечает в Telegram в течение нескольких часов в рабочее время.</div></div>
+        <div class="faq-ans"><div class="faq-ans-in" data-i18n="fq_sup_a" spellcheck="false" style="">Да. Отвечаем на вопросы по использованию и помогаем при сбоях — это бесплатно. Доработки и новые функции — платно. Отвечает по телефону и в Telegram в рабочее время.</div></div>
       </div>
       <div class="faq-item aos-init aos-animate" data-aos="fade-up" data-aos-delay="80">
         <button class="faq-q" onclick="faqToggle(this)">
@@ -1054,11 +1073,14 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 <!-- CONTACT -->
 <section class="section contact-section" id="contact">
   <div class="container">
+    <div class="sec-hd aos-init aos-animate" data-aos="fade-up">
+      <div class="tag"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"></path><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"></circle><line x1="9" y1="5" x2="15" y2="5"></line></svg><span>Обратная связь</span></div>
+      <h2 data-i18n="ct_h2" spellcheck="false" style="">Обсудим вашу задачу?</h2>
+      <p data-i18n="ct_p" spellcheck="false" style="">Расскажите о своём бизнесе — и мы предложим оптимальное решение. Ответим в течение рабочего дня.</p>
+    </div>
     <div class="contact-inner">
-      <div data-aos="fade-right" class="aos-init aos-animate">
-        <div class="tag" style="margin-bottom:14px" spellcheck="false"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 012 2v16a2 2 0 01-2 2H7a2 2 0 01-2-2V4a2 2 0 012-2z"></path><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"></circle><line x1="9" y1="5" x2="15" y2="5"></line></svg><span data-i18n="ct_tag" spellcheck="false">Обратная связь</span></div>
-        <h2 data-i18n="ct_h2" spellcheck="false">Обсудим вашу задачу?</h2>
-        <p data-i18n="ct_p" spellcheck="false">Расскажите о своём бизнесе — и мы предложим оптимальное решение. Ответим в течение рабочего дня.</p>
+      <!-- LEFT: contacts -->
+      <div data-aos="fade-right" class="contact-left aos-init aos-animate">
         <div class="ci-list">
           <div class="ci-item">
             <div class="ci-ic">📞</div>
@@ -1066,80 +1088,83 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
           </div>
           <div class="ci-item">
             <div class="ci-ic" style="background:var(--blue-bg)">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="#1566EF"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971-.001-.001 0 0 .6.28z"></path></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#1566EF"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971z"></path></svg>
             </div>
             <div class="ci-txt"><strong>Telegram</strong><a href="https://t.me/vorontsov_dmitriy" spellcheck="false">@vorontsov_dmitriy</a></div>
           </div>
           <div class="ci-item">
             <div class="ci-ic">✉️</div>
-            <div class="ci-txt"><strong data-i18n="ci2l">Email</strong><a href="/cdn-cgi/l/email-protection#fb999a89959a8e979d94949fbb829a959f9e83d5898e" spellcheck="false">barnaulfood@yandex.ru</a></div>
+            <div class="ci-txt"><strong data-i18n="ci2l">Email</strong><a href="/cdn-cgi/l/email-protection#92fbfcf4fdd2e2e0fbf1f7fff3e1e6f7e0bce0e7" spellcheck="false"><span class="__cf_email__" data-cfemail="ea83848c85aa9a9883898f878b999e8f98c4989f">[email&nbsp;protected]</span></a></div>
           </div>
           <div class="ci-item">
             <div class="ci-ic">👤</div>
-            <div class="ci-txt"><strong data-i18n="ci3l">Контакт</strong><span data-i18n="contact_name" spellcheck="false">Дмитрий</span></div>
+            <div class="ci-txt"><strong data-i18n="ci3l">Контакт</strong><span spellcheck="false">Дмитрий Воронцов</span></div>
           </div>
         </div>
-        <a href="https://t.me/vorontsov_dmitriy" class="btn btn-primary" target="_blank" style="margin-top:20px;width:100%;justify-content:center">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971-.001-.001 0 0 .6.28z"></path></svg>
+        <a href="https://t.me/vorontsov_dmitriy" class="btn btn-primary" target="_blank" style="margin-top:28px;width:100%;justify-content:center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971z"></path></svg>
           <span data-i18n="tg_btn">Написать в Telegram</span>
         </a>
       </div>
+      <!-- RIGHT: Telegram form -->
       <div data-aos="fade-left" data-aos-delay="100" class="aos-init aos-animate">
         <div class="c-form-wrap">
-          <div id="formOk" class="form-success">
-            <div style="font-size:36px;margin-bottom:8px">✅</div>
-            <strong data-i18n="fs_title">Заявка отправлена!</strong><br>
-            <span data-i18n="fs_sub">Дмитрий свяжется с вами в ближайшее время.</span>
+          <div id="formOk" style="display:none;text-align:center;padding:40px 20px">
+            <div style="font-size:48px;margin-bottom:12px">🚀</div>
+            <strong style="font-size:18px;color:var(--navy);display:block;margin-bottom:8px">Заявка отправлена в Telegram!</strong>
+            <span style="color:var(--gray-6);font-size:15px">Дмитрий свяжется с вами в ближайшее время.</span>
           </div>
-          <form id="cForm" onsubmit="sendForm(event)">
+          <div id="formErr" style="display:none;padding:16px 20px;background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;margin-bottom:16px;color:#991B1B;font-size:14px;line-height:1.5">
+            ❌ Ошибка отправки. Попробуйте ещё раз или напишите напрямую в <a href="https://t.me/vorontsov_dmitriy" target="_blank" style="color:#1566EF;font-weight:700">Telegram</a>.
+          </div>
+          <form id="cForm" novalidate="" onsubmit="return false">
             <div class="f-row">
               <div class="f-group">
-                <label data-i18n="fl_name" spellcheck="false">Ваше имя *</label>
-                <input type="text" name="name" required="" placeholder="Александр">
+                <label spellcheck="false">Ваше имя <span style="color:#EF4444">*</span></label>
+                <input type="text" id="cf-name" placeholder="Александр" autocomplete="name">
               </div>
               <div class="f-group">
-                <label data-i18n="fl_contact" spellcheck="false">Телефон *</label>
-                <input type="tel" name="phone" required="" placeholder="+7 (___)___-__-__">
+                <label spellcheck="false">Телефон <span style="color:#EF4444">*</span></label>
+                <input type="tel" id="cf-phone" placeholder="+7 (___) ___-__-__" autocomplete="tel">
               </div>
             </div>
             <div class="f-group">
-              <label data-i18n="fl_industry" spellcheck="false">Сфера деятельности *</label>
-              <select name="industry" required="">
-                <option value="" disabled="" selected="" data-i18n="fl_ind_ph">— выберите отрасль —</option>
-                <option data-i18n="fl_ind1">Оптовая торговля</option>
-                <option data-i18n="fl_ind2">Розничная торговля / ритейл</option>
-                <option data-i18n="fl_ind3">Строительство и стройматериалы</option>
-                <option data-i18n="fl_ind4">HoReCa (рестораны, кафе, отели)</option>
-                <option data-i18n="fl_ind5">Промышленность / производство</option>
-                <option data-i18n="fl_ind6">Фармацевтика</option>
-                <option data-i18n="fl_ind7">Другое</option>
+              <label spellcheck="false">Сфера деятельности <span style="color:#EF4444">*</span></label>
+              <select id="cf-industry">
+                <option value="" disabled="" selected="">— выберите отрасль —</option>
+                <option>Оптовая торговля</option>
+                <option>Розничная торговля / ритейл</option>
+                <option>Строительство и стройматериалы</option>
+                <option>HoReCa (рестораны, кафе, отели)</option>
+                <option>Промышленность / производство</option>
+                <option>Фармацевтика</option>
+                <option>Другое</option>
               </select>
             </div>
             <div class="f-group">
-              <label data-i18n="fl_suppliers" spellcheck="false">Количество поставщиков</label>
-              <select name="suppliers">
-                <option value="" disabled="" selected="" data-i18n="fl_sup_ph">— сколько поставщиков? —</option>
-                <option value="2-5" data-i18n="fl_sup1">2–5 поставщиков</option>
-                <option value="5-20" data-i18n="fl_sup2">5–20 поставщиков</option>
-                <option value="20+" data-i18n="fl_sup3">Более 20 поставщиков</option>
+              <label spellcheck="false">Количество поставщиков</label>
+              <select id="cf-suppliers">
+                <option value="" disabled="" selected="">— сколько поставщиков? —</option>
+                <option value="2-5">2–5 поставщиков</option>
+                <option value="5-20">5–20 поставщиков</option>
+                <option value="20+">Более 20 поставщиков</option>
               </select>
             </div>
             <div class="f-group">
-              <label data-i18n="fl_howcompare" spellcheck="false">Как сейчас сравниваете прайсы?</label>
-              <textarea name="message" rows="3" placeholder="Вручную в Excel, копируем и ищем совпадения..."></textarea>
+              <label spellcheck="false">Как сейчас сравниваете прайсы?</label>
+              <textarea id="cf-message" rows="3" placeholder="Вручную в Excel, копируем и ищем совпадения..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary btn-primary-lg" id="fBtn" style="width:100%;justify-content:center">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-              <span data-i18n="fl_send">Отправить заявку</span>
+            <button type="button" id="fBtn" class="btn btn-primary btn-primary-lg" onclick="sendTgForm()" style="width:100%;justify-content:center">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.069l-2.012 9.482c-.148.662-.543.824-1.1.513l-3.047-2.245-1.47 1.415c-.163.163-.299.299-.614.299l.219-3.109 5.66-5.111c.246-.219-.053-.34-.381-.121L6.23 14.273l-3.016-.941c-.655-.205-.668-.655.137-.971l11.781-4.543c.547-.199 1.025.134.83.971z"></path></svg>
+              <span>Отправить в Telegram</span>
             </button>
-            <div class="f-privacy" data-i18n="fl_priv">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</div>
+            <p class="f-privacy" style="text-align:center;font-size:12px;color:var(--gray-4);margin-top:12px" spellcheck="false">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
           </form>
         </div>
       </div>
     </div>
   </div>
 </section>
-
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -1150,7 +1175,7 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
       </div>
       <div class="ft-col"><h4 data-i18n="ft_prod" spellcheck="false">Продукт</h4><ul><li><a href="#how" data-i18n="ft_how" spellcheck="false">Как работает</a></li><li><a href="#features" data-i18n="ft_feat" spellcheck="false">Возможности</a></li><li><a href="#screenshots" data-i18n="ft_sc" spellcheck="false">Интерфейс</a></li><li><a href="#pricing" data-i18n="ft_price" spellcheck="false">Цены</a></li></ul></div>
       <div class="ft-col"><h4 data-i18n="ft_comp" spellcheck="false">Компания</h4><ul><li><a href="#industries" data-i18n="ft_ind" spellcheck="false">Отрасли</a></li><li><a href="#testimonials" data-i18n="ft_test" spellcheck="false">Отзывы</a></li><li><a href="#faq" data-i18n="ft_faq" spellcheck="false">FAQ</a></li><li><a href="#contact" data-i18n="ft_cont" spellcheck="false">Контакты</a></li></ul></div>
-      <div class="ft-col"><h4 data-i18n="ft_ctc" spellcheck="false">Контакты</h4><ul><li><a href="tel:+79130998250" spellcheck="false">+7 913 099 82 50</a></li><li><a href="https://t.me/vorontsov_dmitriy" spellcheck="false">Telegram</a></li><li><a href="/cdn-cgi/l/email-protection#315350435f50445d575e5e557148505f5554491f4344" spellcheck="false">barnaulfood@yandex.ru</a></li></ul></div>
+      <div class="ft-col"><h4 data-i18n="ft_ctc" spellcheck="false">Контакты</h4><ul><li><a href="tel:+79130998250" spellcheck="false">+7 913 099 82 50</a></li><li><a href="https://t.me/vorontsov_dmitriy" spellcheck="false">Telegram</a></li><li><a href="/cdn-cgi/l/email-protection#315350435f50445d575e5e557148505f5554491f4344" spellcheck="false"><span class="__cf_email__" data-cfemail="ea888b98848b9f868c85858eaa938b848e8f92c4989f">[email&nbsp;protected]</span></a></li></ul></div>
     </div>
     <div class="ft-bottom">
       <p data-i18n="ft_copy" spellcheck="false">© 2025 ПрайсМастер. Все права защищены.</p>
@@ -1166,7 +1191,18 @@ body.edit-on [data-ei]:hover{outline:2px dashed rgba(13,231,168,.7);outline-offs
 
 
 <!-- Float toolbar -->
+<div id="pm-float"></div>
 
+<!-- Confirm dialog -->
+<div id="pm-confirm">
+  <div id="pm-confirm-box">
+    <p id="pm-confirm-msg">Удалить этот элемент?</p>
+    <div class="pm-c-btns">
+      <button class="pm-c-yes" id="pm-c-yes">Удалить</button>
+      <button class="pm-c-no" onclick="pmConfirmClose()">Отмена</button>
+    </div>
+  </div>
+</div>
 
 <!-- Image modal -->
 
@@ -1624,38 +1660,72 @@ function showNotif() {
   n._t = setTimeout(() => n.classList.remove('show'), 4000);
 }
 
-/* ---------- TELEGRAM BOT ---------- */
-const BOT_TOKEN = '8050836637:AAGuIwHBDNf92mHOIWNgsBGtsKLvWaAqbIc';
-const CHAT_ID   = '152003022';
+/* ---------- ОТПРАВКА В TELEGRAM ---------- */
+var TG_BOT = '8050836637:AAGuIwHBDNf92mHOIWNgsBGtsKLvWaAqbIc';
+var TG_CID = '152003022';
 
-async function sendForm(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn  = document.getElementById('fBtn');
-  const name = form.name.value;
-  const phone = form.phone.value;
-  const industry = form.industry ? form.industry.value : '';
-  const suppliers = form.suppliers ? form.suppliers.value : '';
-  const msg  = form.message.value;
-  const text = `🔔 *Новая заявка — ПрайсМастер*\n\n👤 *Имя:* ${name}\n📞 *Контакт:* ${phone}\n🏭 *Отрасль:* ${industry||'не указано'}\n👥 *Поставщиков:* ${suppliers||'не указано'}\n💬 *Как сравнивают:* ${msg||'не указано'}\n🌐 *Язык:* ${lang.toUpperCase()}\n⏰ ${new Date().toLocaleString('ru-RU')}`;
-  btn.disabled = true;
-  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>Отправка...</span>';
-  try {
-    const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode:'Markdown' })
-    });
-    const d = await r.json();
-    if (d.ok) { form.style.display = 'none'; document.getElementById('formOk').classList.add('show'); showNotif(); }
-    else throw new Error(d.description);
-  } catch (err) {
-    console.error(err);
-    // Demo fallback — убрать в продакшне:
-    form.style.display = 'none';
-    document.getElementById('formOk').classList.add('show');
-    showNotif();
+function pmFlash(id, msg) {
+  var el = document.getElementById(id);
+  if (el) {
+    el.style.border = '2px solid #EF4444';
+    el.style.background = '#FEF2F2';
+    el.focus();
+    setTimeout(function(){ el.style.border = ''; el.style.background = ''; }, 2500);
   }
+  if (window.pmToast) pmToast(msg);
 }
+
+window.sendTgForm = async function() {
+  var name      = (document.getElementById('cf-name')      || {value:''}).value.trim();
+  var phone     = (document.getElementById('cf-phone')     || {value:''}).value.trim();
+  var industry  = (document.getElementById('cf-industry')  || {value:''}).value;
+  var suppliers = (document.getElementById('cf-suppliers') || {value:''}).value;
+  var message   = (document.getElementById('cf-message')   || {value:''}).value.trim();
+
+  if (!name)     { pmFlash('cf-name',     '\u26a0\ufe0f \u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u043c\u044f');    return; }
+  if (!phone)    { pmFlash('cf-phone',    '\u26a0\ufe0f \u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043b\u0435\u0444\u043e\u043d');  return; }
+  if (!industry) { pmFlash('cf-industry', '\u26a0\ufe0f \u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043e\u0442\u0440\u0430\u0441\u043b\u044c'); return; }
+
+  var btn    = document.getElementById('fBtn');
+  var errBox = document.getElementById('formErr');
+  if (errBox) errBox.style.display = 'none';
+
+  var origHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span>\u041e\u0442\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u043c\u2026</span>';
+
+  var NL  = '\n';
+  var text = '\ud83d\udd14 *\u041d\u043e\u0432\u0430\u044f \u0437\u0430\u044f\u0432\u043a\u0430 \u2014 \u041f\u0440\u0430\u0439\u0441\u041c\u0430\u0441\u0442\u0435\u0440*' + NL + NL +
+    '\ud83d\udc64 *\u0418\u043c\u044f:* ' + name      + NL +
+    '\ud83d\udcde *\u0422\u0435\u043b\u0435\u0444\u043e\u043d:* ' + phone     + NL +
+    '\ud83c\udfe5 *\u041e\u0442\u0440\u0430\u0441\u043b\u044c:* ' + (industry  || '\u2014') + NL +
+    '\ud83d\udc65 *\u041f\u043e\u0441\u0442\u0430\u0432\u0449\u0438\u043a\u043e\u0432:* ' + (suppliers || '\u2014') + NL +
+    '\ud83d\udcac *\u041a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439:* ' + (message   || '\u2014') + NL +
+    '\u23f0 ' + new Date().toLocaleString('ru-RU');
+
+  try {
+    var resp = await fetch('https://api.telegram.org/bot' + TG_BOT + '/sendMessage', {
+      method:  'POST',
+      headers: {'Content-Type': 'application/json'},
+      body:    JSON.stringify({ chat_id: TG_CID, text: text, parse_mode: 'Markdown' })
+    });
+    var data = await resp.json();
+    if (data.ok) {
+      var form = document.getElementById('cForm');
+      var ok   = document.getElementById('formOk');
+      if (form) form.style.display = 'none';
+      if (ok)   ok.style.display   = 'block';
+      showNotif();
+    } else {
+      throw new Error(data.description || 'Telegram API error');
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerHTML = origHTML;
+    if (errBox) errBox.style.display = 'block';
+    if (window.pmToast) pmToast('\u274c \u041e\u0448\u0438\u0431\u043a\u0430: ' + err.message);
+  }
+};
 
 /* ---------- SPIN ANIM ---------- */
 document.head.insertAdjacentHTML('beforeend', '<style>@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}</style>');
@@ -1896,4 +1966,80 @@ document.head.insertAdjacentHTML('beforeend', '<style>@keyframes spin{from{trans
 <!-- ===== EDITOR SCRIPT (removed in server export) ===== -->
 
 
-</body></html>
+<!-- LIGHTBOX -->
+
+
+<script>
+/* ===================== LIGHTBOX ===================== */
+(function(){
+  var imgs = [], cur = 0;
+
+  function collectImgs() {
+    // Collect all zoomable images in sc-section
+    imgs = Array.from(document.querySelectorAll('.sc-item img, .sc-frame img, [data-zoomable] img, img.img-zoomable'));
+    // Also add click handlers to all section images not in editor
+    document.querySelectorAll('.sc-item img, .sc-frame img').forEach(function(img) {
+      if (!img._lbBound) {
+        img._lbBound = true;
+        img.classList.add('img-zoomable');
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', function(e) {
+          // Don't interfere with editor
+          if (document.body.classList.contains('edit-on')) return;
+          openLb(img);
+        });
+      }
+    });
+  }
+
+  function openLb(img) {
+    collectImgs();
+    cur = imgs.indexOf(img);
+    if (cur < 0) { imgs = [img]; cur = 0; }
+    var lb = document.getElementById('pm-lightbox');
+    var lbImg = document.getElementById('pm-lb-img');
+    var lbNav = document.getElementById('pm-lb-nav');
+    lbImg.src = img.src;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    // Dots
+    lbNav.innerHTML = imgs.map(function(_,i){
+      return '<button class="lb-dot' + (i===cur?' active':'') + '" onclick="pmLbGo('+i+')" aria-label="Изображение '+(i+1)+'"></button>';
+    }).join('');
+    // Show/hide arrows
+    var prev = document.getElementById('pm-lb-prev');
+    var next = document.getElementById('pm-lb-next');
+    if (imgs.length <= 1) { prev.style.display = 'none'; next.style.display = 'none'; }
+    else { prev.style.display = ''; next.style.display = ''; }
+  }
+
+  window.pmLbClose = function() {
+    document.getElementById('pm-lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  window.pmLbNav = function(dir) {
+    cur = (cur + dir + imgs.length) % imgs.length;
+    pmLbGo(cur);
+  };
+
+  window.pmLbGo = function(idx) {
+    cur = idx;
+    var lbImg = document.getElementById('pm-lb-img');
+    var lbNav = document.getElementById('pm-lb-nav');
+    if (imgs[cur]) lbImg.src = imgs[cur].src;
+    lbNav.querySelectorAll('.lb-dot').forEach(function(d,i){ d.classList.toggle('active', i===cur); });
+  };
+
+  // Keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    var lb = document.getElementById('pm-lightbox');
+    if (!lb || !lb.classList.contains('open')) return;
+    if (e.key === 'Escape') pmLbClose();
+    if (e.key === 'ArrowLeft') pmLbNav(-1);
+    if (e.key === 'ArrowRight') pmLbNav(1);
+  });
+
+  // Init after DOM ready
+  document.addEventListener('DOMContentLoaded', collectImgs);
+  // Also run after a short delay in case AOS or lazy l</script></body></html>
