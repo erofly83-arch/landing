@@ -22,17 +22,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
 /* ══════════════════════════════════════════
-   VARIABLES
+   VARIABLES — DARK THEME
 ══════════════════════════════════════════ */
 :root {
   --black:  #0A0A0A;
+  --bg:     #0D0F14;
+  --bg-2:   #111318;
+  --bg-card:rgba(255,255,255,.05);
+  --border: rgba(255,255,255,.1);
+  --border-h:rgba(255,255,255,.18);
   --blue:   #1566EF;
   --blue-d: #0F4FBF;
-  --blue-l: #E8F0FE;
+  --blue-l: rgba(21,102,239,.18);
+  --teal:   #00CDB0;
+  --teal-d: #00A896;
+  --teal-l: rgba(0,205,176,.15);
   --white:  #FFFFFF;
-  --gray:   #F4F5F7;
-  --gray-2: #E4E6EA;
-  --gray-t: #5E6472;
+  --text:   #F0F2F7;
+  --text-2: rgba(240,242,247,.65);
+  --text-3: rgba(240,242,247,.38);
+  --gray-t: rgba(240,242,247,.5);
+  --gray:   #111318;
+  --gray-2: rgba(255,255,255,.08);
   --font:   'TildaSans','Manrope',-apple-system,sans-serif;
   --fz1: clamp(2rem,5vw,3.8rem);
   --fz2: clamp(1.45rem,3vw,2.4rem);
@@ -43,23 +54,35 @@
   --ls-h:-0.025em;
   --r:   16px;
   --r-sm:10px;
-  --sh:  0 4px 20px rgba(21,102,239,.13);
-  --sh-lg:0 16px 48px rgba(21,102,239,.18);
+  --sh:  0 4px 24px rgba(21,102,239,.25);
+  --sh-lg:0 16px 48px rgba(21,102,239,.3);
+  --sh-teal:0 8px 32px rgba(0,205,176,.22);
 }
+
+/* ══════════════════════════════════════════ TEAL BREATHING ANIMATION */
+@keyframes teal-breath {
+  0%,100%{box-shadow:0 0 0 0 rgba(0,205,176,0),0 0 0 0 rgba(0,205,176,0)}
+  50%{box-shadow:0 0 36px 4px rgba(0,205,176,.2),0 0 72px 16px rgba(0,205,176,.07)}
+}
+@keyframes teal-border {
+  0%,100%{border-color:var(--border)}
+  50%{border-color:rgba(0,205,176,.5)}
+}
+.glow-teal{animation:teal-breath 3.5s ease-in-out infinite,teal-border 3.5s ease-in-out infinite}
 
 /* ══════════════════════════════════════════ RESET */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;overflow-x:hidden}
-body{font-family:var(--font);font-size:var(--fz3);line-height:var(--lh);color:var(--black);background:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);font-size:var(--fz3);line-height:var(--lh);color:var(--text);background:var(--bg);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 button,input,select,textarea{font-family:inherit}
 
 /* ══════════════════════════════════════════ TYPOGRAPHY */
-h1{font-size:var(--fz1);font-weight:800;line-height:var(--lh-h);letter-spacing:var(--ls-h)}
-h2{font-size:var(--fz2);font-weight:800;line-height:var(--lh-h);letter-spacing:var(--ls-h)}
-h3{font-size:var(--fz3);font-weight:700;line-height:1.35}
-p{font-size:var(--fz3);line-height:var(--lh);color:var(--gray-t)}
+h1{font-size:var(--fz1);font-weight:800;line-height:var(--lh-h);letter-spacing:var(--ls-h);color:var(--text)}
+h2{font-size:var(--fz2);font-weight:800;line-height:var(--lh-h);letter-spacing:var(--ls-h);color:var(--text)}
+h3{font-size:var(--fz3);font-weight:700;line-height:1.35;color:var(--text)}
+p{font-size:var(--fz3);line-height:var(--lh);color:var(--text-2)}
 small{font-size:var(--fz4);line-height:var(--lh)}
 
 /* ══════════════════════════════════════════ LAYOUT */
@@ -67,303 +90,265 @@ small{font-size:var(--fz4);line-height:var(--lh)}
 .section{padding:88px 0}
 @media(max-width:640px){.section{padding:60px 0}}
 
-/* ══════════════════════════════════════════ GRIDS — stretch for equal height */
+/* ══════════════════════════════════════════ GRIDS */
 .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;align-items:stretch}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:stretch}
 
 /* ══════════════════════════════════════════ LABEL */
-.label{display:inline-flex;align-items:center;gap:6px;font-size:var(--fz4);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:var(--blue-l);border:1.5px solid rgba(21,102,239,.2);padding:4px 14px;border-radius:99px;margin-bottom:18px}
-.label.dark{color:#fff;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}
+.label{display:inline-flex;align-items:center;gap:6px;font-size:var(--fz4);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);background:var(--teal-l);border:1.5px solid rgba(0,205,176,.3);padding:4px 14px;border-radius:99px;margin-bottom:18px}
+.label.dark{color:var(--teal);background:var(--teal-l);border-color:rgba(0,205,176,.3)}
 
-/* ══════════════════════════════════════════ BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:var(--r-sm);border:none;cursor:pointer;font-size:var(--fz3);font-weight:700;line-height:1;transition:all .2s;white-space:nowrap}
-.btn-primary{background:var(--blue);color:#fff;box-shadow:var(--sh)}
-.btn-primary:hover{background:var(--blue-d);transform:translateY(-2px);box-shadow:var(--sh-lg)}
-.btn-outline{background:transparent;color:var(--blue);border:2px solid var(--blue)}
-.btn-outline:hover{background:var(--blue);color:#fff}
-.btn-white{background:#fff;color:var(--blue)}
-.btn-white:hover{background:var(--blue-l)}
-.btn-outline-white{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}
-.btn-outline-white:hover{background:rgba(255,255,255,.1);border-color:#fff}
+/* ══════════════════════════════════════════ BUTTONS — UNIFIED DARK STYLE */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border-radius:var(--r-sm);border:2px solid transparent;cursor:pointer;font-size:var(--fz3);font-weight:700;line-height:1;transition:all .2s;white-space:nowrap;font-family:var(--font)}
+.btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:var(--sh)}
+.btn-primary:hover{background:var(--blue-d);border-color:var(--blue-d);transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.btn-outline{background:transparent;color:var(--teal);border-color:var(--teal)}
+.btn-outline:hover{background:var(--teal);color:#0D0F14;transform:translateY(-2px)}
+.btn-white{background:var(--teal);color:#0D0F14;border-color:var(--teal)}
+.btn-white:hover{background:var(--teal-d);border-color:var(--teal-d);transform:translateY(-2px)}
+.btn-outline-white{background:transparent;color:var(--text);border-color:rgba(255,255,255,.35)}
+.btn-outline-white:hover{background:rgba(255,255,255,.08);border-color:var(--text)}
 .btn-lg{padding:16px 32px;font-size:1.05rem;border-radius:var(--r)}
 .btn-full{width:100%}
 
 /* ══════════════════════════════════════════ NAV */
-.nav{position:sticky;top:0;z-index:200;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1.5px solid var(--gray-2)}
+.nav{position:sticky;top:0;z-index:200;background:rgba(13,15,20,.94);backdrop-filter:blur(20px);border-bottom:1.5px solid var(--border)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
 .nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .nav-logo-mark{width:36px;height:36px;border-radius:9px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .nav-logo-mark svg{width:20px;height:20px}
-.nav-logo-text{font-size:1.1rem;font-weight:800;letter-spacing:-.025em;color:var(--black);white-space:nowrap}
-.nav-logo-text span{color:var(--blue)}
+.nav-logo-text{font-size:1.1rem;font-weight:800;letter-spacing:-.025em;color:var(--text);white-space:nowrap}
+.nav-logo-text span{color:var(--teal)}
 .nav-links{display:flex;align-items:center;gap:2px}
-.nav-links a{font-size:var(--fz4);font-weight:600;color:var(--gray-t);padding:6px 11px;border-radius:8px;transition:all .15s;white-space:nowrap}
-.nav-links a:hover{color:var(--blue);background:var(--blue-l)}
+.nav-links a{font-size:var(--fz4);font-weight:600;color:var(--text-2);padding:6px 11px;border-radius:8px;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--teal);background:var(--teal-l)}
 .nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.hamburger{display:none;background:none;border:1.5px solid var(--gray-2);border-radius:var(--r-sm);padding:9px;cursor:pointer;align-items:center;justify-content:center;color:var(--black);transition:all .2s;flex-shrink:0}
-.hamburger:hover{border-color:var(--blue);color:var(--blue)}
-.mobile-menu{display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;background:#fff;border-bottom:1.5px solid var(--gray-2);padding:16px 20px;flex-direction:column;gap:6px;box-shadow:0 16px 48px rgba(0,0,0,.12);z-index:199}
+.hamburger{display:none;background:none;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px;cursor:pointer;align-items:center;justify-content:center;color:var(--text);transition:all .2s;flex-shrink:0}
+.hamburger:hover{border-color:var(--teal);color:var(--teal)}
+.mobile-menu{display:none;position:absolute;top:calc(100% + 1px);left:0;right:0;background:var(--bg-2);border-bottom:1.5px solid var(--border);padding:16px 20px;flex-direction:column;gap:6px;box-shadow:0 16px 48px rgba(0,0,0,.4);z-index:199}
 .mobile-menu.open{display:flex}
-.mobile-menu a.mob-link{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:var(--r-sm);font-size:var(--fz3);font-weight:600;color:var(--black);transition:all .15s;border:1.5px solid transparent}
-.mobile-menu a.mob-link:hover{background:var(--blue-l);color:var(--blue);border-color:rgba(21,102,239,.15)}
-.mobile-menu-divider{height:1px;background:var(--gray-2);margin:6px 0}
+.mobile-menu a.mob-link{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:var(--r-sm);font-size:var(--fz3);font-weight:600;color:var(--text);transition:all .15s;border:1.5px solid transparent}
+.mobile-menu a.mob-link:hover{background:var(--teal-l);color:var(--teal);border-color:rgba(0,205,176,.2)}
+.mobile-menu-divider{height:1px;background:var(--border);margin:6px 0}
 .mobile-menu .btn{width:100%;margin-top:2px}
 @media(max-width:900px){.nav-links{display:none}.nav-right .btn{display:none}.hamburger{display:flex}}
 
 /* ══════════════════════════════════════════ HERO */
-.hero{background:var(--black);color:#fff;padding:96px 0 80px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 80% 50%,rgba(21,102,239,.35) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(21,102,239,.15) 0%,transparent 60%);pointer-events:none}
+.hero{background:var(--bg);color:var(--text);padding:96px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 80% 50%,rgba(21,102,239,.28) 0%,transparent 65%),radial-gradient(ellipse 40% 40% at 15% 80%,rgba(0,205,176,.12) 0%,transparent 60%);pointer-events:none}
 .hero-grid{display:grid;grid-template-columns:1fr 400px;gap:60px;align-items:start;position:relative;z-index:1}
-.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:var(--fz4);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:rgba(21,102,239,.15);border:1.5px solid rgba(21,102,239,.3);padding:5px 14px;border-radius:99px;margin-bottom:22px}
-.hero h1{color:#fff;margin-bottom:22px}
-.hero h1 .accent{color:var(--blue)}
-.hero-sub{font-size:1.1rem;color:rgba(255,255,255,.72);margin-bottom:32px;max-width:540px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:var(--fz4);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);background:var(--teal-l);border:1.5px solid rgba(0,205,176,.3);padding:5px 14px;border-radius:99px;margin-bottom:22px}
+.hero h1{color:var(--text);margin-bottom:22px}
+.hero h1 .accent{color:var(--teal)}
+.hero-sub{font-size:1.1rem;color:var(--text-2);margin-bottom:32px;max-width:540px}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:44px}
 .hero-stats{display:flex;flex-wrap:wrap;gap:28px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1)}
-.hero-stat-num{font-size:1.9rem;font-weight:800;color:#fff;line-height:1;letter-spacing:-.03em}
-.hero-stat-num span{color:var(--blue)}
-.hero-stat-label{font-size:var(--fz4);color:rgba(255,255,255,.5);margin-top:4px}
-.hero-card{background:#fff;border-radius:var(--r);padding:28px;box-shadow:var(--sh-lg);position:sticky;top:76px;color:var(--black)}
-.hero-card h3{font-size:1.15rem;color:var(--black);margin-bottom:6px}
-.hero-card p{font-size:var(--fz4);color:var(--gray-t)}
+.hero-stat-num{font-size:1.9rem;font-weight:800;color:var(--text);line-height:1;letter-spacing:-.03em}
+.hero-stat-num span{color:var(--teal)}
+.hero-stat-label{font-size:var(--fz4);color:var(--text-3);margin-top:4px}
+.hero-card{background:var(--bg-card);backdrop-filter:blur(12px);border:1.5px solid var(--border);border-radius:var(--r);padding:28px;position:sticky;top:76px;color:var(--text)}
+.hero-card h3{font-size:1.15rem;color:var(--text);margin-bottom:6px}
+.hero-card p{font-size:var(--fz4);color:var(--text-2)}
 .hero-card-header{margin-bottom:22px}
 @media(max-width:1024px){.hero-grid{grid-template-columns:1fr}.hero-card{max-width:480px;position:static}}
 @media(max-width:640px){.hero{padding:64px 0 52px}.hero-ctas{flex-direction:column}}
 
 /* ══════════════════════════════════════════ FORMS */
 .form-group{margin-bottom:12px}
-.form-label{display:block;font-size:var(--fz4);font-weight:600;color:var(--black);margin-bottom:5px}
-.form-input{width:100%;padding:11px 13px;border:1.5px solid var(--gray-2);border-radius:var(--r-sm);font-size:var(--fz3);color:var(--black);background:var(--gray);transition:border-color .2s,box-shadow .2s}
-.form-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(21,102,239,.1);background:#fff}
-.form-input::placeholder{color:#aaa}
-.form-input.err{border-color:#e53e3e}
-.form-note{font-size:.75rem;color:var(--gray-t);text-align:center;margin-top:8px}
+.form-label{display:block;font-size:var(--fz4);font-weight:600;color:var(--text);margin-bottom:5px}
+.form-input{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:var(--fz3);color:var(--text);background:rgba(255,255,255,.07);transition:border-color .2s,box-shadow .2s}
+.form-input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,205,176,.12);background:rgba(255,255,255,.1)}
+.form-input::placeholder{color:var(--text-3)}
+.form-input.err{border-color:#f87171}
+.form-note{font-size:.75rem;color:var(--text-3);text-align:center;margin-top:8px}
 .form-success{display:none;text-align:center;padding:24px 0}
-.form-success-icon{font-size:3rem;margin-bottom:8px}
-.form-success h4{color:var(--blue);margin-bottom:4px}
+.form-success-icon{display:flex;justify-content:center;margin-bottom:12px}
+.form-success h4{color:var(--teal);margin-bottom:4px}
 
-/* ══════════════════════════════════════════ PAIN (gray bg) */
-.pain{background:var(--gray)}
+/* ══════════════════════════════════════════ SECTION HEADER */
 .section-header{max-width:640px;margin:0 auto 52px;text-align:center}
-.pain-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-.pain-card{background:#fff;border-radius:var(--r);padding:26px;border:1.5px solid var(--gray-2);border-top:3px solid var(--black);transition:box-shadow .2s;display:flex;flex-direction:column}
-.pain-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.08)}
-.pain-icon{font-size:1.8rem;margin-bottom:14px}
-.pain-card h3{color:var(--black);margin-bottom:8px}
-.pain-card p{flex:1}
-.pain-example{margin-top:14px;padding:11px 14px;background:var(--gray);border-radius:var(--r-sm);border-left:3px solid var(--blue);font-size:var(--fz4);color:var(--gray-t);font-style:italic}
 
-/* ══════════════════════════════════════════ SOLUTION (white bg) */
+/* ══════════════════════════════════════════ PAIN */
+.pain{background:var(--bg-2)}
+.pain-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+.pain-card{background:var(--bg-card);border-radius:var(--r);padding:26px;border:1.5px solid var(--border);transition:all .25s;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.pain-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.pain-card:hover{transform:translateY(-4px);border-color:var(--border-h);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.pain-icon{width:46px;height:46px;border-radius:var(--r-sm);background:var(--teal-l);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex-shrink:0}
+.pain-icon svg{width:22px;height:22px;stroke:var(--teal)}
+.pain-card h3{color:var(--text);margin-bottom:8px;font-size:var(--fz3);font-weight:700}
+.pain-card p{flex:1;font-size:var(--fz4);color:var(--text-2)}
+.pain-example{margin-top:14px;padding:11px 14px;background:rgba(255,255,255,.04);border-radius:var(--r-sm);border-left:3px solid var(--teal);font-size:var(--fz4);color:var(--text-3);font-style:italic}
+
+/* ══════════════════════════════════════════ SOLUTION */
 .solution-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch;margin-bottom:44px}
-.solution-card{background:#fff;border-radius:var(--r);padding:26px;border:1.5px solid var(--gray-2);transition:all .25s;position:relative;overflow:hidden;display:flex;flex-direction:column}
-.solution-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)}
-.solution-card:hover{transform:translateY(-4px);box-shadow:var(--sh)}
-.solution-card-num{font-size:2.8rem;font-weight:800;color:var(--gray-2);position:absolute;top:14px;right:16px;line-height:1;letter-spacing:-.03em}
-.s-badge{display:inline-flex;align-items:center;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:99px;margin-bottom:12px}
-.s-badge.bl{background:var(--blue-l);color:var(--blue)}
-.s-badge.dk{background:var(--black);color:#fff}
-.solution-card h3{color:var(--black);margin-bottom:8px}
-.solution-card p{flex:1}
+.solution-card{background:var(--bg-card);border-radius:var(--r);padding:26px;border:1.5px solid var(--border);transition:all .25s;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.solution-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--teal))}
+.solution-card:hover{transform:translateY(-4px);border-color:var(--border-h)}
+.solution-card-num{font-size:2.8rem;font-weight:800;color:rgba(255,255,255,.07);position:absolute;top:14px;right:16px;line-height:1;letter-spacing:-.03em}
+.s-badge{display:inline-flex;align-items:center;font-size:var(--fz4);font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:99px;margin-bottom:12px}
+.s-badge.bl{background:var(--teal-l);color:var(--teal)}
+.s-badge.dk{background:rgba(255,255,255,.1);color:var(--text)}
+.solution-card h3{color:var(--text);margin-bottom:8px;font-size:var(--fz3);font-weight:700}
+.solution-card p{flex:1;font-size:var(--fz4);color:var(--text-2)}
 .solution-card ul{list-style:none;margin-top:10px}
-.solution-card ul li{font-size:var(--fz4);color:var(--gray-t);padding:5px 0 5px 18px;position:relative;border-bottom:1px dashed var(--gray-2)}
+.solution-card ul li{font-size:var(--fz4);color:var(--text-2);padding:5px 0 5px 18px;position:relative;border-bottom:1px dashed rgba(255,255,255,.08);line-height:var(--lh)}
 .solution-card ul li:last-child{border-bottom:none}
-.solution-card ul li::before{content:'→';position:absolute;left:0;color:var(--blue);font-size:.8rem}
-.cta-banner{background:var(--blue);border-radius:var(--r);padding:36px 44px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.cta-banner h3{color:#fff;font-size:1.35rem}
-.cta-banner p{color:rgba(255,255,255,.8);font-size:var(--fz4);margin-top:5px}
+.solution-card ul li::before{content:'→';position:absolute;left:0;color:var(--teal);font-size:.8rem}
+.cta-banner{background:linear-gradient(135deg,rgba(21,102,239,.25) 0%,rgba(0,205,176,.15) 100%);border:1.5px solid rgba(0,205,176,.25);border-radius:var(--r);padding:36px 44px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.cta-banner h3{color:var(--text);font-size:1.35rem;font-weight:700}
+.cta-banner p{color:var(--text-2);font-size:var(--fz4);margin-top:5px}
 @media(max-width:640px){.cta-banner{flex-direction:column;text-align:center;padding:24px}.cta-banner .btn{width:100%}}
 
-/* ══════════════════════════════════════════ HOW (gray bg) */
-.how-bg{background:var(--gray)}
+/* ══════════════════════════════════════════ HOW */
+.how-bg{background:var(--bg-2)}
 .steps{display:flex;flex-direction:column;max-width:760px;margin:0 auto}
 .step{display:grid;grid-template-columns:64px 1fr;gap:0;position:relative}
-.step-line{position:absolute;left:31px;top:56px;bottom:0;width:2px;background:linear-gradient(var(--blue),var(--gray-2));z-index:0}
-.step-num{width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;margin-top:4px;box-shadow:0 4px 16px rgba(21,102,239,.3)}
+.step-line{position:absolute;left:31px;top:56px;bottom:0;width:2px;background:linear-gradient(var(--teal),rgba(0,205,176,.05));z-index:0}
+.step-num{width:48px;height:48px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:800;flex-shrink:0;position:relative;z-index:1;margin-top:4px;box-shadow:0 4px 16px rgba(21,102,239,.4)}
 .step-body{padding:0 0 44px 22px}
-.step-body h3{color:var(--black);margin-bottom:8px}
-.step-tip{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 13px;background:var(--blue-l);border-radius:var(--r-sm);font-size:var(--fz4);color:var(--blue);font-weight:600}
+.step-body h3{color:var(--text);margin-bottom:8px}
+.step-tip{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 13px;background:var(--teal-l);border-radius:var(--r-sm);font-size:var(--fz4);color:var(--teal);font-weight:600}
 
-/* ══════════════════════════════════════════ CALCULATOR (black bg) */
-.calc-bg{background:var(--black)}
+/* ══════════════════════════════════════════ CALCULATOR */
+.calc-bg{background:var(--bg)}
 .calc-title-area{max-width:640px;margin:0 auto 52px;text-align:center}
-.calc-title-area h2,.calc-title-area p{color:#fff}
-.calc-title-area p{color:rgba(255,255,255,.6);margin-top:10px}
-
-/* Modern two-column layout */
-.calc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
-
-/* Left panel: inputs */
-.calc-inputs{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:var(--r);padding:28px}
-.calc-inputs-title{font-size:var(--fz4);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:22px}
-.calc-row{margin-bottom:18px}
-.calc-row label{display:block;font-size:var(--fz4);font-weight:600;color:rgba(255,255,255,.75);margin-bottom:8px}
+.calc-title-area h2{color:var(--text)}
+.calc-title-area p{color:var(--text-2);margin-top:10px}
+.calc-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch}
+.calc-inputs{background:var(--bg-card);border:1.5px solid var(--border);border-radius:var(--r);padding:32px;display:flex;flex-direction:column;justify-content:space-between}
+.calc-inputs-title{font-size:var(--fz4);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:28px}
+.calc-row{margin-bottom:28px}
+.calc-row:last-child{margin-bottom:0}
+.calc-row label{display:block;font-size:var(--fz3);font-weight:600;color:var(--text);margin-bottom:14px}
 .calc-slider-wrap{display:flex;align-items:center;gap:12px}
-.calc-slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:rgba(255,255,255,.15);outline:none;cursor:pointer}
-.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 2px 8px rgba(21,102,239,.4);cursor:pointer;transition:transform .15s}
+.calc-slider{flex:1;-webkit-appearance:none;appearance:none;height:8px;border-radius:99px;background:rgba(255,255,255,.15);outline:none;cursor:pointer}
+.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:var(--teal);border:3px solid var(--bg);box-shadow:0 3px 12px rgba(0,205,176,.4);cursor:pointer;transition:transform .15s}
 .calc-slider::-webkit-slider-thumb:hover{transform:scale(1.15)}
-.calc-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid #fff;cursor:pointer}
-.calc-val-badge{min-width:80px;text-align:right;font-size:1rem;font-weight:800;color:#fff;letter-spacing:-.02em;white-space:nowrap}
-
-/* Right panel: results */
+.calc-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--teal);border:3px solid var(--bg);box-shadow:0 3px 12px rgba(0,205,176,.4);cursor:pointer}
+.calc-val-badge{min-width:80px;text-align:right;font-size:1rem;font-weight:800;color:var(--text);letter-spacing:-.02em;white-space:nowrap}
 .calc-results-panel{display:flex;flex-direction:column;gap:14px}
 .calc-result-card{border-radius:var(--r-sm);padding:20px 22px;display:flex;flex-direction:column;gap:4px}
-.calc-result-card.highlight{background:var(--blue);box-shadow:0 8px 28px rgba(21,102,239,.4)}
-.calc-result-card.normal{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1)}
-.cr-label{font-size:var(--fz4);font-weight:600;color:rgba(255,255,255,.65)}
+.calc-result-card.highlight{background:linear-gradient(135deg,var(--blue) 0%,rgba(0,205,176,.6) 100%);box-shadow:0 8px 28px rgba(21,102,239,.35)}
+.calc-result-card.normal{background:var(--bg-card);border:1.5px solid var(--border)}
+.cr-label{font-size:var(--fz4);font-weight:600;color:rgba(255,255,255,.7)}
 .cr-val{font-size:1.75rem;font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.03em}
-.cr-sub{font-size:.78rem;color:rgba(255,255,255,.5);margin-top:2px}
-.calc-compare{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:var(--r-sm);padding:18px 22px}
-.calc-compare-title{font-size:var(--fz4);font-weight:700;color:rgba(255,255,255,.65);margin-bottom:14px}
+.cr-sub{font-size:.78rem;color:rgba(255,255,255,.55);margin-top:2px}
+.calc-compare{background:var(--bg-card);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:18px 22px}
+.calc-compare-title{font-size:var(--fz4);font-weight:700;color:var(--text-2);margin-bottom:14px}
 .calc-compare-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .calc-compare-row:last-child{margin-bottom:0}
-.calc-compare-label{font-size:var(--fz4);color:rgba(255,255,255,.6)}
+.calc-compare-label{font-size:var(--fz4);color:var(--text-2)}
 .calc-compare-vals{display:flex;gap:10px;align-items:center}
 .cv-before{font-size:var(--fz4);font-weight:700;color:#f87171;background:rgba(248,113,113,.12);padding:3px 10px;border-radius:6px}
-.cv-after{font-size:var(--fz4);font-weight:700;color:#6ee7b7;background:rgba(110,231,183,.12);padding:3px 10px;border-radius:6px}
-.cv-arrow{color:rgba(255,255,255,.3);font-size:.75rem}
+.cv-after{font-size:var(--fz4);font-weight:700;color:var(--teal);background:var(--teal-l);padding:3px 10px;border-radius:6px}
+.cv-arrow{color:var(--text-3);font-size:.75rem}
 .calc-cta-row{margin-top:4px}
-
 @media(max-width:900px){.calc-wrapper{grid-template-columns:1fr}}
 
-/* ══════════════════════════════════════════ DEMO TABLE (gray bg) */
-.demo-bg{background:var(--gray)}
+/* ══════════════════════════════════════════ DEMO TABLE */
+.demo-bg{background:var(--bg-2)}
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
-.stat-cell{background:#fff;border-radius:var(--r-sm);padding:18px 20px;border:1.5px solid var(--gray-2)}
-.stat-num{font-size:1.55rem;font-weight:800;color:var(--blue);letter-spacing:-.03em}
-.stat-label{font-size:var(--fz4);color:var(--gray-t);margin-top:3px}
-.table-wrap{background:#fff;border-radius:var(--r);border:1.5px solid var(--gray-2);overflow:hidden}
-.table-toolbar{display:flex;flex-wrap:wrap;gap:6px;padding:12px 14px;border-bottom:1px solid var(--gray-2)}
-.tbl-btn{display:flex;align-items:center;gap:5px;padding:5px 10px;border:1.5px solid var(--gray-2);border-radius:6px;font-size:.78rem;font-weight:600;color:var(--gray-t);background:#fff;cursor:pointer;transition:all .15s;white-space:nowrap}
-.tbl-btn:hover{border-color:var(--blue);color:var(--blue)}
-.tbl-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
-.table-legend{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:7px 14px;background:var(--gray);border-bottom:1px solid var(--gray-2);font-size:.75rem;color:var(--gray-t)}
-.leg-item{display:flex;align-items:center;gap:5px}
-.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
-.leg-dot.syn{background:#dbeafe;border:1px solid #93c5fd}
-.leg-dot.dup{background:#fef9c3;border:1px solid #fde047}
-.leg-dot.min{background:#d1fae5;border:1px solid #6ee7b7}
-.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.pm-table{width:100%;border-collapse:collapse;font-size:.78rem}
-.th-group{background:var(--black);color:#fff;text-align:center;padding:7px 8px;font-size:.72rem;font-weight:700;letter-spacing:.04em;border-right:2px solid rgba(255,255,255,.12);white-space:nowrap}
-.th-group:last-child{border-right:none}
-.th-group.my{background:var(--blue)}
-.th-sub{background:#1e293b;color:rgba(255,255,255,.7);text-align:center;padding:5px 7px;font-size:.72rem;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,.08)}
-.th-sub:last-child{border-right:none}
-.th-sub.my{background:rgba(21,102,239,.85)}
-.pm-table tbody tr{border-bottom:1px solid var(--gray-2)}
-.pm-table tbody tr:last-child{border-bottom:none}
-.pm-table tbody tr:hover{background:var(--blue-l)}
-.pm-table td{padding:8px 9px;vertical-align:middle}
-td.barcode{font-size:.72rem;color:var(--gray-t);white-space:nowrap}
-td.name{font-weight:600;color:var(--black)}
-td.stock{text-align:center;font-weight:700;color:var(--black)}
-td.my-price{text-align:center;font-weight:700;color:var(--black);background:rgba(21,102,239,.05)}
-td.price{text-align:center;color:var(--black)}
-td.na{text-align:center;color:#ccc}
-td.min{text-align:center;background:#d1fae5;color:#065f46;font-weight:800}
-td.akcia{text-align:center;background:#fef9c3;color:#713f12;font-size:.72rem}
-td.cart-btn{padding:4px 7px}
-.cart-ico{width:24px;height:24px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gray-t)}
-.cart-ico:hover{color:var(--blue)}
-.cart-ico svg{width:13px;height:13px}
+.stat-cell{background:var(--bg-card);border-radius:var(--r-sm);padding:18px 20px;border:1.5px solid var(--border)}
+.stat-num{font-size:1.55rem;font-weight:800;color:var(--teal);letter-spacing:-.03em}
+.stat-label{font-size:var(--fz4);color:var(--text-2);margin-top:3px}
 
-/* ══════════════════════════════════════════ TESTIMONIALS (white bg) */
+/* ══════════════════════════════════════════ TESTIMONIALS */
 .test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-.test-card{background:#fff;border-radius:var(--r);padding:26px;border:1.5px solid var(--gray-2);transition:all .2s;display:flex;flex-direction:column}
-.test-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.08);border-color:rgba(21,102,239,.2)}
+.test-card{background:var(--bg-card);border-radius:var(--r);padding:26px;border:1.5px solid var(--border);transition:all .2s;display:flex;flex-direction:column}
+.test-card:hover{border-color:rgba(0,205,176,.3);box-shadow:var(--sh-teal)}
 .test-stars{display:flex;gap:2px;margin-bottom:12px}
 .test-star{color:#f59e0b;font-size:.95rem}
-.test-quote{color:var(--black);font-size:var(--fz3);line-height:var(--lh);margin-bottom:14px;flex:1;padding-left:14px;position:relative}
-.test-quote::before{content:'"';font-size:2.6rem;color:var(--blue-l);font-weight:800;position:absolute;top:-10px;left:-4px;line-height:1;z-index:0;pointer-events:none}
-.test-result{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue);background:var(--blue-l);padding:3px 10px;border-radius:99px;margin-bottom:14px}
+.test-quote{color:var(--text);font-size:var(--fz3);line-height:var(--lh);margin-bottom:14px;flex:1;padding-left:14px;position:relative}
+.test-quote::before{content:'"';font-size:2.6rem;color:var(--teal-l);font-weight:800;position:absolute;top:-10px;left:-4px;line-height:1;z-index:0;pointer-events:none}
+.test-result{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);background:var(--teal-l);padding:3px 10px;border-radius:99px;margin-bottom:14px}
 .test-meta{display:flex;align-items:center;gap:12px;margin-top:auto}
 .test-avatar{width:42px;height:42px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:.95rem;font-weight:800;color:#fff;flex-shrink:0}
-.test-name{font-size:var(--fz4);font-weight:700;color:var(--black)}
-.test-company{font-size:.78rem;color:var(--gray-t)}
+.test-name{font-size:var(--fz4);font-weight:700;color:var(--text)}
+.test-company{font-size:.78rem;color:var(--text-3)}
 
-/* ══════════════════════════════════════════ AUDIENCE (gray bg) */
-.audience-bg{background:var(--gray)}
+/* ══════════════════════════════════════════ AUDIENCE */
+.audience-bg{background:var(--bg-2)}
 .audience-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-.audience-card{background:#fff;border-radius:var(--r);padding:26px;border:1.5px solid var(--gray-2);transition:all .2s;display:flex;flex-direction:column}
-.audience-card:hover{border-color:var(--blue);box-shadow:var(--sh)}
-.aud-icon{width:46px;height:46px;border-radius:var(--r-sm);background:var(--blue-l);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex-shrink:0}
-.aud-icon svg{width:22px;height:22px}
-.audience-card h3{color:var(--black);margin-bottom:8px}
-.audience-card p{flex:1}
+.audience-card{background:var(--bg-card);border-radius:var(--r);padding:26px;border:1.5px solid var(--border);transition:all .2s;display:flex;flex-direction:column}
+.audience-card:hover{border-color:rgba(0,205,176,.3);box-shadow:var(--sh-teal)}
+.aud-icon{width:46px;height:46px;border-radius:var(--r-sm);background:var(--teal-l);display:flex;align-items:center;justify-content:center;margin-bottom:14px;flex-shrink:0}
+.aud-icon svg{width:22px;height:22px;stroke:var(--teal)}
+.audience-card h3{color:var(--text);margin-bottom:8px}
+.audience-card p{flex:1;color:var(--text-2)}
 
-/* ══════════════════════════════════════════ PRICING (white bg) */
+/* ══════════════════════════════════════════ PRICING */
 .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
-.pricing-card{background:#fff;border-radius:var(--r);padding:28px;border:1.5px solid var(--gray-2);display:flex;flex-direction:column;transition:box-shadow .2s}
-.pricing-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.08)}
-.pricing-card.featured{background:var(--black);border-color:var(--black);box-shadow:0 16px 48px rgba(0,0,0,.3)}
-.pricing-badge{display:inline-flex;font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--blue);color:#fff;padding:3px 12px;border-radius:99px;margin-bottom:14px}
-.pricing-card h3{font-size:var(--fz3);margin-bottom:12px;color:var(--black)}
-.pricing-card.featured h3{color:#fff}
-.pricing-price{font-size:2.2rem;font-weight:800;line-height:1;letter-spacing:-.04em;color:var(--black)}
-.pricing-card.featured .pricing-price{color:#fff}
-.pricing-price-note{font-size:var(--fz4);color:var(--gray-t);margin-top:5px;margin-bottom:20px}
-.pricing-card.featured .pricing-price-note{color:rgba(255,255,255,.5)}
+.pricing-card{background:var(--bg-card);border-radius:var(--r);padding:28px;border:1.5px solid var(--border);display:flex;flex-direction:column;transition:all .2s;position:relative;overflow:hidden}
+.pricing-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.08)}
+.pricing-card.featured::before{background:linear-gradient(90deg,var(--blue),var(--teal))}
+.pricing-card:hover{border-color:var(--border-h);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.pricing-card.featured{background:linear-gradient(160deg,rgba(21,102,239,.2) 0%,rgba(0,205,176,.08) 100%);border-color:rgba(0,205,176,.25)}
+.pricing-badge{display:inline-flex;font-size:var(--fz4);font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--teal);color:#0D0F14;padding:3px 12px;border-radius:99px;margin-bottom:14px}
+.pricing-card h3{font-size:var(--fz3);font-weight:700;margin-bottom:12px;color:var(--text)}
+.pricing-price{font-size:2.2rem;font-weight:800;line-height:1;letter-spacing:-.04em;color:var(--text)}
+.pricing-price-note{font-size:var(--fz4);color:var(--text-3);margin-top:5px;margin-bottom:20px}
 .pricing-features{list-style:none;margin-bottom:24px;flex:1}
-.pricing-features li{display:flex;align-items:flex-start;gap:9px;font-size:var(--fz4);padding:7px 0;border-bottom:1px solid var(--gray-2);color:var(--gray-t)}
-.pricing-card.featured .pricing-features li{border-bottom-color:rgba(255,255,255,.1);color:rgba(255,255,255,.72)}
+.pricing-features li{display:flex;align-items:flex-start;gap:9px;font-size:var(--fz4);padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);color:var(--text-2);font-family:var(--font);line-height:var(--lh)}
 .pricing-features li:last-child{border-bottom:none}
-.pricing-features li::before{content:'✓';color:var(--blue);font-weight:800;flex-shrink:0}
-/* button always at bottom */
+.pricing-features li::before{content:'';display:inline-block;width:14px;height:14px;flex-shrink:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300CDB0' stroke-width='2.5' stroke-linecap='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;margin-top:3px}
 .pricing-card .btn{margin-top:auto}
 
-/* ══════════════════════════════════════════ ABOUT (gray bg) */
-.about-bg{background:var(--gray)}
+/* ══════════════════════════════════════════ ABOUT */
+.about-bg{background:var(--bg-2)}
 .about-grid{display:grid;grid-template-columns:340px 1fr;gap:44px;align-items:start}
-.about-card{background:#fff;border-radius:var(--r);padding:28px;text-align:center;border:1.5px solid var(--gray-2)}
+.about-card{background:var(--bg-card);border-radius:var(--r);padding:28px;text-align:center;border:1.5px solid var(--border)}
 .about-logo-mark{width:72px;height:72px;border-radius:var(--r);background:var(--blue);display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
-.about-company-name{font-size:1.25rem;font-weight:800;color:var(--black);margin-bottom:5px}
-.about-company-desc{font-size:var(--fz4);color:var(--gray-t)}
-.contact-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--gray-2);margin-top:14px;font-size:var(--fz4);font-weight:600;color:var(--gray-t);transition:color .2s}
-.contact-row:hover{color:var(--blue)}
-.contact-row svg{flex-shrink:0;width:16px;height:16px}
+.about-company-name{font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:5px}
+.about-company-desc{font-size:var(--fz4);color:var(--text-2)}
+.contact-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--border);margin-top:14px;font-size:var(--fz4);font-weight:600;color:var(--text-2);transition:color .2s}
+.contact-row:hover{color:var(--teal)}
+.contact-row svg{flex-shrink:0;width:16px;height:16px;stroke:var(--teal)}
 .about-points{display:flex;flex-direction:column;gap:22px}
 .about-point{display:flex;gap:14px}
-.about-point-icon{width:42px;height:42px;border-radius:10px;background:var(--blue-l);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.about-point-icon svg{width:19px;height:19px}
-.about-point h3{color:var(--black);margin-bottom:5px}
+.about-point-icon{width:42px;height:42px;border-radius:10px;background:var(--teal-l);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.about-point-icon svg{width:19px;height:19px;stroke:var(--teal)}
+.about-point h3{color:var(--text);margin-bottom:5px}
+.about-point p{color:var(--text-2)}
 @media(max-width:960px){.about-grid{grid-template-columns:1fr}}
 
-/* ══════════════════════════════════════════ FAQ (white bg) */
+/* ══════════════════════════════════════════ FAQ */
 .faq-list{max-width:780px;margin:0 auto}
-.faq-item{border:1.5px solid var(--gray-2);border-radius:var(--r-sm);margin-bottom:8px;transition:border-color .2s;cursor:pointer}
-.faq-item.open{border-color:var(--blue)}
+.faq-item{border:1.5px solid var(--border);border-radius:var(--r-sm);margin-bottom:8px;transition:border-color .2s;cursor:pointer;background:var(--bg-card)}
+.faq-item.open{border-color:var(--teal)}
 .faq-q{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:17px 20px}
-.faq-q h3{font-size:var(--fz3);color:var(--black);font-weight:700}
-.faq-chevron{transition:transform .3s;flex-shrink:0;color:var(--gray-t)}
-.faq-item.open .faq-chevron{transform:rotate(180deg);color:var(--blue)}
+.faq-q h3{font-size:var(--fz3);color:var(--text);font-weight:700}
+.faq-chevron{transition:transform .3s;flex-shrink:0;color:var(--text-3)}
+.faq-item.open .faq-chevron{transform:rotate(180deg);color:var(--teal)}
 .faq-ans{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.faq-ans-inner{padding:0 20px 18px;font-size:var(--fz4);color:var(--gray-t);line-height:var(--lh)}
+.faq-ans-inner{padding:0 20px 18px;font-size:var(--fz4);color:var(--text-2);line-height:var(--lh)}
 
-/* ══════════════════════════════════════════ FINAL CTA (blue bg) */
-.final-cta{background:var(--blue);padding:88px 0}
-.final-cta-inner{max-width:680px;margin:0 auto;text-align:center}
-.final-cta h2{color:#fff;margin-bottom:14px}
-.final-cta > .final-cta-inner > p{color:rgba(255,255,255,.8);margin-bottom:32px;font-size:1.05rem}
-.final-form{background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);border-radius:var(--r);padding:28px}
-.final-form .form-input{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);color:#fff}
-.final-form .form-input::placeholder{color:rgba(255,255,255,.4)}
-.final-form .form-input:focus{border-color:#fff;background:rgba(255,255,255,.18)}
-.final-form .form-label{color:rgba(255,255,255,.8)}
+/* ══════════════════════════════════════════ FINAL CTA */
+.final-cta{background:linear-gradient(135deg,#0D0F14 0%,rgba(21,102,239,.2) 50%,rgba(0,205,176,.1) 100%);padding:88px 0;border-top:1.5px solid var(--border);position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(0,205,176,.08) 0%,transparent 70%);pointer-events:none}
+.final-cta-inner{max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:1}
+.final-cta h2{color:var(--text);margin-bottom:14px}
+.final-cta > .final-cta-inner > p{color:#fff;margin-bottom:32px;font-size:1.05rem}
+.final-form{background:rgba(255,255,255,.06);border:1.5px solid var(--border);border-radius:var(--r);padding:28px}
+.final-form .form-input{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:var(--text)}
+.final-form .form-input::placeholder{color:var(--text-3)}
+.final-form .form-input:focus{border-color:var(--teal);background:rgba(255,255,255,.12);box-shadow:0 0 0 3px rgba(0,205,176,.12)}
+.final-form .form-label{color:var(--text)}
 .final-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
 .cta-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px}
 @media(max-width:640px){.final-form-grid{grid-template-columns:1fr}.final-form{padding:20px}}
 
-/* ══════════════════════════════════════════ FOOTER (black bg) */
-.footer{background:var(--black);padding:36px 0}
+/* ══════════════════════════════════════════ FOOTER */
+.footer{background:var(--black);padding:36px 0;border-top:1.5px solid var(--border)}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
 .footer-logo{display:flex;align-items:center;gap:10px}
-.footer-logo-text{font-size:1rem;font-weight:800;color:#fff}
-.footer-logo-text span{color:var(--blue)}
-.footer-copy{font-size:var(--fz4);color:rgba(255,255,255,.4)}
+.footer-logo-text{font-size:1rem;font-weight:800;color:var(--text)}
+.footer-logo-text span{color:var(--teal)}
+.footer-copy{font-size:var(--fz4);color:var(--text-3)}
 .footer-links{display:flex;gap:16px}
-.footer-links a{font-size:var(--fz4);color:rgba(255,255,255,.4);transition:color .2s}
-.footer-links a:hover{color:#fff}
+.footer-links a{font-size:var(--fz4);color:var(--text-3);transition:color .2s}
+.footer-links a:hover{color:var(--teal)}
 
 /* ══════════════════════════════════════════ SCROLL ANIMATION */
 .fi{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
@@ -392,21 +377,21 @@ td.cart-btn{padding:4px 7px}
   .hero-stats{gap:18px}
 }
 
-/* ══════════════════════════════════════════ EDITOR — floating toolbar */
-#ed-toolbar{position:fixed;z-index:9999;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;display:none;flex-wrap:wrap;gap:6px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.4);pointer-events:auto}
+/* ══════════════════════════════════════════ EDITOR toolbar */
+#ed-toolbar{position:fixed;z-index:9999;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;display:none;flex-wrap:wrap;gap:6px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.5);pointer-events:auto}
 #ed-toolbar.vis{display:flex}
 .tb-grp{display:flex;align-items:center;gap:4px}
 .tb-sep{width:1px;height:18px;background:rgba(255,255,255,.15);flex-shrink:0}
 .tb-btn{background:rgba(255,255,255,.09);color:#f1f5f9;border:none;border-radius:5px;padding:4px 9px;cursor:pointer;font-size:.78rem;font-family:var(--font);transition:background .15s;white-space:nowrap}
-.tb-btn:hover{background:var(--blue)}
+.tb-btn:hover{background:var(--teal);color:#0D0F14}
 .tb-lbl{font-size:.7rem;color:#64748b}
 .tb-sel{background:rgba(255,255,255,.09);color:#f1f5f9;border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 5px;font-size:.78rem;font-family:var(--font);cursor:pointer}
-.tb-sel:focus{outline:none;border-color:var(--blue)}
+.tb-sel:focus{outline:none;border-color:var(--teal)}
 .tb-inp{background:rgba(255,255,255,.09);color:#f1f5f9;border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 7px;font-size:.78rem;width:52px}
-.tb-inp:focus{outline:none;border-color:var(--blue)}
+.tb-inp:focus{outline:none;border-color:var(--teal)}
 .tb-color{width:26px;height:26px;padding:2px;border-radius:5px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:none}
-/* ══════════════════════════════════════════ EDITOR — side panel */
-#ed-panel{position:fixed;bottom:24px;right:24px;z-index:9998;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:16px;box-shadow:0 8px 40px rgba(0,0,0,.4);display:none;flex-direction:column;gap:8px;min-width:236px}
+/* ══════════════════════════════════════════ EDITOR panel */
+#ed-panel{position:fixed;bottom:24px;right:24px;z-index:9998;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:16px;box-shadow:0 8px 40px rgba(0,0,0,.5);display:none;flex-direction:column;gap:8px;min-width:236px}
 #ed-panel.vis{display:flex}
 .ep-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .ep-head h4{color:#f1f5f9;font-size:.9rem;display:flex;align-items:center;gap:7px}
@@ -420,7 +405,6 @@ td.cart-btn{padding:4px 7px}
 .pb.pg:hover{background:#15803d}
 .pb.pb2{background:var(--blue);color:#fff;border-color:transparent}
 .pb.pb2:hover{background:var(--blue-d)}
-/* ══════════════════════════════════════════ EDITOR — toggle button */
 .ed-toggle{position:fixed;bottom:24px;right:24px;z-index:9997;background:var(--blue);color:#fff;border:none;border-radius:var(--r);padding:10px 18px;cursor:pointer;font-size:.85rem;font-family:var(--font);box-shadow:var(--sh);transition:all .2s;font-weight:700;display:flex;align-items:center;gap:8px}
 .ed-toggle:hover{background:var(--blue-d);transform:translateY(-1px)}
 </style>
@@ -436,17 +420,20 @@ td.cart-btn{padding:4px 7px}
 <!-- ════════════════ EDITOR PANEL (side) ════════════════ -->
 <div id="ed-panel" class="editor-only">
   <div class="ep-head">
-    <h4>✏️ Редактор <span class="ep-badge">PM</span></h4>
+    <h4>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Редактор <span class="ep-badge">PM</span>
+    </h4>
     <button class="ep-close" onclick="closeEditor()" title="Закрыть">✕</button>
   </div>
   <div class="ep-sep"></div>
-  <button class="pb" onclick="makeEditable()">➕ Выбрать элемент</button>
-  <button class="pb" onclick="unmakeEditable()">🔒 Снять редактирование</button>
+  <button class="pb" onclick="makeEditable()">+ Выбрать элемент</button>
+  <button class="pb" onclick="unmakeEditable()">Снять редактирование</button>
   <div class="ep-sep"></div>
-  <button class="pb pg" onclick="saveClean()">💾 Сохранить для сервера</button>
-  <button class="pb pb2" onclick="saveEditable()">📝 Сохранить с редактором</button>
+  <button class="pb pg" onclick="saveClean()">Сохранить для сервера</button>
+  <button class="pb pb2" onclick="saveEditable()">Сохранить с редактором</button>
   <div class="ep-sep"></div>
-  <button class="pb" onclick="location.reload()">↩ Сбросить изменения</button>
+  <button class="pb" onclick="location.reload()">Сбросить изменения</button>
 </div>
 
 <!-- ════════════════ FLOATING TOOLBAR ════════════════ -->
@@ -527,10 +514,6 @@ td.cart-btn{padding:4px 7px}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg>
         Калькулятор ROI
       </a>
-      <a href="#s-demo" class="mob-link" onclick="closeMobileMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
-        Интерфейс
-      </a>
       <a href="#s-pricing" class="mob-link" onclick="closeMobileMenu()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
         Тарифы
@@ -576,7 +559,7 @@ td.cart-btn{padding:4px 7px}
           </div>
         </div>
       </div>
-      <div class="hero-card fi d2">
+      <div class="hero-card fi d2 glow-teal">
         <div class="hero-card-header">
           <h3 contenteditable="true">Получите бесплатное демо</h3>
           <p contenteditable="true">Покажем программу на ваших прайсах — за 20 минут</p>
@@ -587,7 +570,7 @@ td.cart-btn{padding:4px 7px}
             <input type="text" name="name" class="form-input" placeholder="Иван Петров">
           </div>
           <div class="form-group">
-            <label class="form-label">Телефон <span style="color:#e53e3e">*</span></label>
+            <label class="form-label" >Телефон <span style="color:#e53e3e">*</span></label>
             <input type="tel" name="phone" class="form-input" placeholder="+7 900 000-00-00">
           </div>
           <div class="form-group">
@@ -601,7 +584,7 @@ td.cart-btn{padding:4px 7px}
           <p class="form-note">Перезвоним в рабочее время. Без спама.</p>
         </form>
         <div class="form-success" id="hero-form-success">
-          <div class="form-success-icon">✅</div>
+          <div class="form-success-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0D0F14" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg></div>
           <h4>Заявка отправлена!</h4>
           <p>Свяжемся с вами в течение рабочего дня</p>
         </div>
@@ -620,19 +603,19 @@ td.cart-btn{padding:4px 7px}
     </div>
     <div class="pain-cards">
       <div class="pain-card fi">
-        <div class="pain-icon">⏰</div>
+        <div class="pain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <h3 contenteditable="true">3–5 часов каждую неделю — в трубу</h3>
         <p contenteditable="true">Менеджеры вручную переносят цены из одного Excel в другой, сравнивают колонки, ошибаются, переделывают. Снова и снова.</p>
         <div class="pain-example" contenteditable="true">«У нас 6 поставщиков и 9 000 позиций. Раньше два человека тратили половину понедельника только на сбор актуальной сводки цен.» — закупщик продовольственного ритейла</div>
       </div>
       <div class="pain-card fi d1">
-        <div class="pain-icon">💸</div>
+        <div class="pain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
         <h3 contenteditable="true">Закупаете не по минимальной цене</h3>
         <p contenteditable="true">Когда данные устаревают или сопоставляются вручную — легко пропустить поставщика с лучшей ценой. Каждая такая закупка — потерянная маржа.</p>
         <div class="pain-example" contenteditable="true">«Обнаружили, что 3 месяца брали кофе у одного поставщика, хотя у другого он был на 8% дешевле. Прайсы просто не успевали сравнивать.» — оптовый дистрибьютор</div>
       </div>
       <div class="pain-card fi d2">
-        <div class="pain-icon">🔍</div>
+        <div class="pain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
         <h3 contenteditable="true">Штрихкоды не совпадают — матчинг срывается</h3>
         <p contenteditable="true">У разных поставщиков один товар может иметь разные ШК, сокращённые названия, разные единицы. Ручное сопоставление 10 000 позиций — нереально.</p>
         <div class="pain-example" contenteditable="true">«Один поставщик пишет "Чай Гринфилд 25п", другой — "Greenfield 25 пак". Сопоставить вручную это невозможно.» — менеджер по закупкам</div>
@@ -650,7 +633,7 @@ td.cart-btn{padding:4px 7px}
       <p class="mt12" contenteditable="true">ПрайсМастер закрывает всю цепочку: от разношёрстных прайсов поставщиков до готового Excel-отчёта с минимальными ценами</p>
     </div>
     <div class="solution-cards">
-      <div class="solution-card fi">
+      <div class="solution-card fi glow-teal">
         <div class="solution-card-num">1</div>
         <div class="s-badge bl">Подготовка данных</div>
         <h3 contenteditable="true">Конвертер прайсов</h3>
@@ -662,7 +645,7 @@ td.cart-btn{padding:4px 7px}
           <li contenteditable="true">Автопереход к следующему файлу</li>
         </ul>
       </div>
-      <div class="solution-card fi d1">
+      <div class="solution-card fi d1 glow-teal">
         <div class="solution-card-num">2</div>
         <div class="s-badge bl">Ядро системы</div>
         <h3 contenteditable="true">Редактор синонимов</h3>
@@ -674,7 +657,7 @@ td.cart-btn{padding:4px 7px}
           <li contenteditable="true">100% точность после настройки</li>
         </ul>
       </div>
-      <div class="solution-card fi d2">
+      <div class="solution-card fi d2 glow-teal">
         <div class="solution-card-num">3</div>
         <div class="s-badge bl">Результат</div>
         <h3 contenteditable="true">Мониторинг и отчёты</h3>
@@ -687,7 +670,7 @@ td.cart-btn{padding:4px 7px}
         </ul>
       </div>
     </div>
-    <div class="cta-banner fi">
+    <div class="cta-banner fi glow-teal">
       <div>
         <h3 contenteditable="true">Хотите увидеть это на своих прайсах?</h3>
         <p contenteditable="true">Покажем живую демонстрацию. Бесплатно и без обязательств.</p>
@@ -771,45 +754,33 @@ td.cart-btn{padding:4px 7px}
     <div class="calc-wrapper">
       <!-- INPUTS -->
       <div class="calc-inputs fi">
-        <div class="calc-inputs-title">Ваши данные</div>
+        <div class="calc-inputs-title">Калькулятор</div>
 
         <div class="calc-row">
-          <label>Поставщиков: <span id="lbl-sup" style="color:#fff;font-weight:800">5</span></label>
+          <label>Поставщиков: <span id="lbl-sup" style="color:var(--teal);font-weight:800">5</span></label>
           <div class="calc-slider-wrap">
             <input type="range" class="calc-slider" id="sl-sup" min="1" max="30" value="5" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-sup">5 постав.</span>
           </div>
         </div>
 
         <div class="calc-row">
-          <label>Позиций в прайсе: <span id="lbl-items" style="color:#fff;font-weight:800">5 000</span></label>
+          <label>Позиций в прайсе: <span id="lbl-items" style="color:var(--teal);font-weight:800">3 000</span></label>
           <div class="calc-slider-wrap">
-            <input type="range" class="calc-slider" id="sl-items" min="500" max="50000" value="5000" step="500" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-items">5 000 поз.</span>
+            <input type="range" class="calc-slider" id="sl-items" min="100" max="50000" value="3000" step="100" oninput="calcUpdate()">
           </div>
         </div>
 
         <div class="calc-row">
-          <label>Сотрудников на задаче: <span id="lbl-ppl" style="color:#fff;font-weight:800">2</span></label>
+          <label>Ставка менеджера: <span id="lbl-sal" style="color:var(--teal);font-weight:800">500 ₽/ч</span></label>
           <div class="calc-slider-wrap">
-            <input type="range" class="calc-slider" id="sl-ppl" min="1" max="10" value="2" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-ppl">2 чел.</span>
+            <input type="range" class="calc-slider" id="sl-sal" min="200" max="2000" value="500" step="50" oninput="calcUpdate()">
           </div>
         </div>
 
         <div class="calc-row">
-          <label>Оклад менеджера: <span id="lbl-sal" style="color:#fff;font-weight:800">60 000 ₽</span></label>
-          <div class="calc-slider-wrap">
-            <input type="range" class="calc-slider" id="sl-sal" min="30000" max="200000" value="60000" step="5000" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-sal">60 000 ₽</span>
-          </div>
-        </div>
-
-        <div class="calc-row">
-          <label>Обновление прайсов в месяц: <span id="lbl-freq" style="color:#fff;font-weight:800">4 раза</span></label>
+          <label>Обновлений прайсов в месяц: <span id="lbl-freq" style="color:var(--teal);font-weight:800">4 раза</span></label>
           <div class="calc-slider-wrap">
             <input type="range" class="calc-slider" id="sl-freq" min="1" max="20" value="4" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-freq">4 раза</span>
           </div>
         </div>
       </div>
@@ -829,7 +800,7 @@ td.cart-btn{padding:4px 7px}
         </div>
 
         <div class="calc-compare">
-          <div class="calc-compare-title">Сравнение: часы на задачу в месяц</div>
+          <div class="calc-compare-title">Человекочасы на задачу в месяц</div>
           <div class="calc-compare-row">
             <span class="calc-compare-label">Сейчас (вручную)</span>
             <div class="calc-compare-vals">
@@ -855,7 +826,7 @@ td.cart-btn{padding:4px 7px}
 </section>
 
 <!-- ════════════════ DEMO TABLE (gray) ════════════════ -->
-<section class="section demo-bg" id="s-demo">
+<section class="section demo-bg" id="s-demo" style="display:none">
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">Демо интерфейса</div>
@@ -1040,32 +1011,32 @@ td.cart-btn{padding:4px 7px}
     </div>
     <div class="audience-cards">
       <div class="audience-card fi">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
         <h3 contenteditable="true">Розничные магазины</h3>
         <p contenteditable="true">Нужно постоянно отслеживать цены нескольких поставщиков и закупать по минимальной цене, сохраняя максимальную маржу.</p>
       </div>
       <div class="audience-card fi d1">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
         <h3 contenteditable="true">Оптовые компании</h3>
         <p contenteditable="true">Большой ассортимент, много поставщиков, постоянно меняющиеся цены. ПрайсМастер справится с любым объёмом данных.</p>
       </div>
       <div class="audience-card fi d2">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
         <h3 contenteditable="true">Интернет-магазины</h3>
         <p contenteditable="true">Мониторинг поставщиков и поиск новых товаров в одном инструменте. Всегда актуальные закупочные цены.</p>
       </div>
       <div class="audience-card fi">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
         <h3 contenteditable="true">Отделы закупок</h3>
         <p contenteditable="true">Категорийщики и закупщики экономят часы каждую неделю и принимают решения на основе актуальных данных.</p>
       </div>
       <div class="audience-card fi d1">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
         <h3 contenteditable="true">Аналитики и руководители</h3>
         <p contenteditable="true">Готовый отчёт по всем поставщикам в Excel для стратегического анализа. Решения — на основе данных.</p>
       </div>
       <div class="audience-card fi d2">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
         <h3 contenteditable="true">Сети и дистрибьюторы</h3>
         <p contenteditable="true">Централизованный мониторинг для сети точек. Единый инструмент для всего закупочного отдела.</p>
       </div>
@@ -1082,7 +1053,7 @@ td.cart-btn{padding:4px 7px}
       <p class="mt12" contenteditable="true">Без скрытых платежей. Без подписки. Платите один раз — используете бессрочно.</p>
     </div>
     <div class="pricing-grid">
-      <div class="pricing-card featured fi">
+      <div class="pricing-card featured fi glow-teal">
         <div class="pricing-badge">Рекомендуем</div>
         <h3>Лицензия на ПО</h3>
         <div class="pricing-price">19 990 ₽</div>
@@ -1097,11 +1068,11 @@ td.cart-btn{padding:4px 7px}
           <li contenteditable="true">Обновления по запросу</li>
         </ul>
         <a href="#cta" class="btn btn-primary btn-full">Купить лицензию</a>
-        <p class="form-note mt8" style="color:rgba(255,255,255,.4)">Окупается за 1–2 месяца</p>
+        <p class="form-note mt8" style="color:var(--text-3)">Окупается за 1–2 месяца</p>
       </div>
       <div class="pricing-card fi d1">
         <h3>Доработка под клиента</h3>
-        <div class="pricing-price" style="font-size:1.8rem">По запросу</div>
+        <div class="pricing-price">По запросу</div>
         <div class="pricing-price-note">индивидуальный расчёт</div>
         <ul class="pricing-features">
           <li contenteditable="true">Адаптация под ваши форматы прайсов</li>
@@ -1153,38 +1124,38 @@ td.cart-btn{padding:4px 7px}
         <div class="about-company-name" contenteditable="true">ПрайсМастер</div>
         <div class="about-company-desc" contenteditable="true">Разработка ПО для автоматизации мониторинга цен поставщиков</div>
         <a href="tel:+79130998250" class="contact-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.1 6.1l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.1 6.1l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           <span contenteditable="true">+7 913 099-82-50</span>
         </a>
         <a href="https://t.me/vorontsov_dmitriy" target="_blank" class="contact-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"/></svg>
           <span contenteditable="true">Написать в Telegram</span>
         </a>
       </div>
       <div class="about-points fi d1">
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
           <div>
             <h3 contenteditable="true">Создано для реальной работы с прайсами</h3>
             <p contenteditable="true">ПрайсМастер разработан как решение настоящей боли при работе с прайс-листами. Каждая функция — ответ на конкретную задачу из практики закупщиков.</p>
           </div>
         </div>
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" width="19" height="19"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
           <div>
             <h3 contenteditable="true">Быстрая доработка под ваши задачи</h3>
             <p contenteditable="true">Не очередь тикетов. Прямой контакт с командой разработки. Если что-то не подходит — обсуждается и дорабатывается в разумные сроки.</p>
           </div>
         </div>
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <div>
             <h3 contenteditable="true">Полная безопасность данных</h3>
             <p contenteditable="true">Программа работает локально в браузере. Никакие данные о ценах, поставщиках и ассортименте не покидают ваш компьютер.</p>
           </div>
         </div>
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" width="19" height="19"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
           <div>
             <h3 contenteditable="true">Внедрение за один день</h3>
             <p contenteditable="true">Не нужен сервер или IT-специалист. Достаточно браузера и Excel. Первая сводная таблица — в день покупки.</p>
@@ -1221,34 +1192,34 @@ td.cart-btn{padding:4px 7px}
     <div class="final-cta-inner">
       <div class="label dark fi">Начните сегодня</div>
       <h2 class="fi d1" contenteditable="true">Хватит тратить часы на то,<br>что можно автоматизировать</h2>
-      <p class="fi d2" contenteditable="true">Оставьте заявку — покажем ПрайсМастер на ваших данных, рассчитаем стоимость и ответим на все вопросы. Бесплатно и без обязательств.</p>
+      <p class="fi d2" contenteditable="true" style="color:#fff">Оставьте заявку — покажем ПрайсМастер на ваших данных, рассчитаем стоимость и ответим на все вопросы. Бесплатно и без обязательств.</p>
       <div class="final-form fi d2">
         <form id="cta-form" onsubmit="submitForm(event,'cta-form')">
           <div class="final-form-grid">
             <div class="form-group" style="margin-bottom:0">
-              <label class="form-label" style="text-align:left;color:rgba(255,255,255,.9)">Ваше имя</label>
+              <label class="form-label" style="text-align:left">Ваше имя</label>
               <input type="text" name="name" class="form-input" placeholder="Иван Петров">
             </div>
             <div class="form-group" style="margin-bottom:0">
-              <label class="form-label" style="text-align:left;color:rgba(255,255,255,.9)">Телефон <span style="color:#f87171">*</span></label>
+              <label class="form-label" style="text-align:left">Телефон <span style="color:#f87171">*</span></label>
               <input type="tel" name="phone" class="form-input" placeholder="+7 900 000-00-00">
             </div>
           </div>
           <div class="form-group mt12">
-            <label class="form-label" style="text-align:left;color:rgba(255,255,255,.9)">Расскажите о задаче</label>
+            <label class="form-label" style="text-align:left">Расскажите о задаче</label>
             <textarea name="comment" class="form-input" rows="2" placeholder="Сколько поставщиков, позиций, как сейчас решаете задачу..."></textarea>
           </div>
-          <button type="submit" class="btn btn-white btn-lg btn-full mt12" style="color:var(--blue)">
+          <button type="submit" class="btn btn-primary btn-lg btn-full mt12">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             Отправить заявку
           </button>
         </form>
         <div class="form-success" id="cta-form-success">
-          <div class="form-success-icon">✅</div>
+          <div class="form-success-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="20 6 9 17 4 12"/></svg></div>
           <h4 style="color:#fff">Заявка отправлена!</h4>
-          <p style="color:rgba(255,255,255,.7)">Свяжемся с вами в течение рабочего дня</p>
+          <p style="color:var(--text-2)">Свяжемся с вами в течение рабочего дня</p>
         </div>
-        <p class="form-note mt8" style="color:rgba(255,255,255,.4)">Или напишите в Telegram: <a href="https://t.me/vorontsov_dmitriy" style="color:rgba(255,255,255,.65);text-decoration:underline">@vorontsov_dmitriy</a></p>
+        <p class="form-note mt8" style="color:var(--text-3)">Или напишите в Telegram: <a href="https://t.me/vorontsov_dmitriy" style="color:rgba(255,255,255,.65);text-decoration:underline">@vorontsov_dmitriy</a></p>
       </div>
       <div class="cta-btns fi d3">
         <a href="https://t.me/vorontsov_dmitriy" target="_blank" class="btn btn-outline-white">
@@ -1350,50 +1321,61 @@ function fmtNum(n){
   return Math.round(n).toLocaleString('ru-RU') + ' ₽';
 }
 
+function fmtHours(h){
+  if(h <= 0) return '0 мин';
+  const totalMin = Math.round(h * 60);
+  const hrs = Math.floor(totalMin / 60);
+  const mins = totalMin % 60;
+  if(hrs === 0) return mins + ' мин';
+  if(mins === 0) return hrs + ' ч';
+  return hrs + ' ч ' + mins + ' мин';
+}
+
 function calcUpdate(){
-  const sup   = parseInt(document.getElementById('sl-sup').value);
-  const items = parseInt(document.getElementById('sl-items').value);
-  const ppl   = parseInt(document.getElementById('sl-ppl').value);
-  const sal   = parseInt(document.getElementById('sl-sal').value);
-  const freq  = parseInt(document.getElementById('sl-freq').value);
+  const sup       = parseInt(document.getElementById('sl-sup').value);
+  const items     = parseInt(document.getElementById('sl-items').value);
+  const hourRate  = parseInt(document.getElementById('sl-sal').value);
+  const freq      = parseInt(document.getElementById('sl-freq').value);
 
   // Update labels
+  const freqLabel = freq===1?'1 раз':freq<5?freq+' раза':freq+' раз';
   document.getElementById('lbl-sup').textContent   = sup;
   document.getElementById('lbl-items').textContent = items.toLocaleString('ru-RU');
-  document.getElementById('lbl-ppl').textContent   = ppl;
-  document.getElementById('lbl-sal').textContent   = sal.toLocaleString('ru-RU') + ' ₽';
-  document.getElementById('lbl-freq').textContent  = freq + ' раз';
+  document.getElementById('lbl-sal').textContent   = hourRate.toLocaleString('ru-RU') + ' ₽/ч';
+  document.getElementById('lbl-freq').textContent  = freqLabel;
 
-  document.getElementById('vb-sup').textContent   = sup + ' постав.';
-  document.getElementById('vb-items').textContent = items.toLocaleString('ru-RU') + ' поз.';
-  document.getElementById('vb-ppl').textContent   = ppl + ' чел.';
-  document.getElementById('vb-sal').textContent   = sal.toLocaleString('ru-RU') + ' ₽';
-  document.getElementById('vb-freq').textContent  = freq + ' раз';
+  // MANUAL: items × suppliers × 25 sec per lookup ÷ 3600 = hours per update
+  // Doubling items OR suppliers doubles time — linear scaling
+  const secsPerUpdate  = items * sup * 25;
+  const hoursManual    = secsPerUpdate / 3600;        // per update session
+  const hoursNow       = hoursManual * freq;          // per month
 
-  // Hours: ~20-30 min per supplier + scaling with items
-  const hoursPerUpdate = 0.4 + sup * 0.3 + (items / 5000) * 0.25;
-  const hoursNow  = Math.round(hoursPerUpdate * freq * ppl * 10) / 10;
-  const hoursAfter= Math.round(Math.max(0.1, (sup * 0.04 + 0.08) * freq * ppl) * 10) / 10;
-  const freed     = Math.round((hoursNow - hoursAfter) * 10) / 10;
+  // WITH APP: base ~3 min setup + 2 min per supplier per session (loading, checking)
+  // Each additional supplier adds ≤ 2 min — the main work is done automatically
+  const minsAppPerSession = 3 + sup * 2;
+  const hoursAfter    = (minsAppPerSession / 60) * freq;
+
+  const freed = Math.max(0, hoursNow - hoursAfter);
 
   // Money
-  const hourRate   = sal / 21.5 / 8;
-  const savedMonth = Math.round(freed * hourRate);
-  const savedYear  = savedMonth * 12;
-  const payback    = savedMonth > 0 ? Math.ceil(19990 / savedMonth) : null;
-  const pct        = hoursNow > 0 ? Math.round((freed / hoursNow) * 100) : 0;
+  const savedMonth  = Math.round(freed * hourRate);
+  const savedYear   = savedMonth * 12;
+  // Payback in working days (8h/day)
+  const dailyRate   = hourRate * 8;
+  const paybackDays = dailyRate > 0 ? Math.ceil(19990 / dailyRate) : null;
+  const pct         = hoursNow > 0 ? Math.round((freed / hoursNow) * 100) : 0;
 
   // Update results
-  document.getElementById('r-year').textContent     = fmtNum(savedYear);
-  document.getElementById('r-month').textContent    = fmtNum(savedMonth) + '/мес';
-  document.getElementById('r-pct').textContent      = pct + '% рабочего времени возвращается команде';
-  document.getElementById('r-payback').textContent  = payback
-    ? `Лицензия окупается за ${payback} мес.`
+  document.getElementById('r-year').textContent    = fmtNum(savedYear);
+  document.getElementById('r-month').textContent   = fmtNum(savedMonth) + '/мес';
+  document.getElementById('r-pct').textContent     = pct + '% времени освобождается для других задач';
+  document.getElementById('r-payback').textContent = paybackDays
+    ? `Лицензия окупается за ${paybackDays} раб. ${paybackDays===1?'день':paybackDays<5?'дня':'дней'}`
     : 'Введите корректные данные';
 
-  document.getElementById('cv-before').textContent  = hoursNow + ' ч/мес';
-  document.getElementById('cv-after').textContent   = hoursAfter + ' ч/мес';
-  document.getElementById('cv-freed').textContent   = '+' + freed + ' ч/мес свободно';
+  document.getElementById('cv-before').textContent = fmtHours(hoursNow);
+  document.getElementById('cv-after').textContent  = fmtHours(hoursAfter);
+  document.getElementById('cv-freed').textContent  = '+' + fmtHours(freed);
 }
 
 calcUpdate();
@@ -1471,12 +1453,21 @@ function unmakeEditable(){
 function showToolbar(el){
   const tb = document.getElementById('ed-toolbar');
   tb.classList.add('vis');
-  // Position near element
-  const r = el.getBoundingClientRect();
-  const top = Math.max(8, r.top + window.scrollY - 52);
-  const left = Math.min(r.left, window.innerWidth - 620);
-  tb.style.top  = top + 'px';
-  tb.style.left = Math.max(8,left) + 'px';
+  // Calculate toolbar dimensions after making visible
+  requestAnimationFrame(()=>{
+    const tbW = tb.offsetWidth || 600;
+    const tbH = tb.offsetHeight || 50;
+    const r = el.getBoundingClientRect();
+    // Try above the element, fallback to below
+    let top = r.top + window.scrollY - tbH - 10;
+    if(top < window.scrollY + 8) top = r.bottom + window.scrollY + 8;
+    // Clamp left within viewport
+    let left = r.left;
+    const maxLeft = window.innerWidth - tbW - 12;
+    left = Math.max(8, Math.min(left, maxLeft));
+    tb.style.top  = top + 'px';
+    tb.style.left = left + 'px';
+  });
   // Reflect current styles
   const cs = getComputedStyle(el);
   const sz = parseFloat(cs.fontSize);
