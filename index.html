@@ -1,21 +1,13 @@
 <!DOCTYPE html>
-<html lang="ru">
-<head>
+<html lang="ru"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ПрайсМастер — Автоматический мониторинг цен поставщиков</title>
 <meta name="description" content="ПрайсМастер: автоматическое сравнение прайс-листов поставщиков за 5 минут вместо 3 часов. Экономия от 200 000 ₽ в год.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231566EF'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial Black' font-weight='900' font-size='13' fill='white'>PM</text></svg>" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'&gt;&lt;rect width='32' height='32' rx='7' fill='%231566EF'/&gt;&lt;rect x='5' y='5' width='22' height='22' rx='2' fill='none' stroke='white' stroke-width='1.5'/&gt;&lt;line x1='5' y1='12' x2='27' y2='12' stroke='white' stroke-width='1.5'/&gt;&lt;line x1='13' y1='12' x2='13' y2='27' stroke='white' stroke-width='1.5'/&gt;&lt;/svg&gt;" type="image/svg+xml">
 
 <!-- EDITOR STYLES (editor-only) -->
-<style id="editor-css" class="editor-only-style">
-.editor-active [contenteditable=true]:hover{outline:2px dashed rgba(21,102,239,.45);outline-offset:2px;cursor:text;border-radius:3px}
-.editor-active [contenteditable=true]:focus{outline:2px solid #1566EF;outline-offset:2px;border-radius:3px;background:rgba(21,102,239,.04)}
-.editor-active .bctrl{display:flex!important}
-.bctrl{display:none!important;position:absolute;top:8px;right:8px;gap:4px;z-index:50;pointer-events:auto}
-.bcb{background:rgba(15,23,42,.75);color:#fff;border:none;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:.75rem;font-family:var(--font)}
-.bcb:hover{background:#1566EF}
-</style>
+
 
 <style>
 @import url('https://fonts.tildacdn.com/fonts/tildafont/tildasans.css');
@@ -392,47 +384,57 @@ td.cart-btn{padding:4px 7px}
   .hero-stats{gap:18px}
 }
 
-/* ══════════════════════════════════════════ EDITOR PANEL */
-#ed-panel{position:fixed;bottom:0;left:0;right:0;background:#0f172a;color:#e2e8f0;padding:0;height:52px;display:flex;align-items:center;gap:10px;padding:0 16px;z-index:9999;box-shadow:0 -4px 20px rgba(0,0,0,.3);transform:translateY(100%);transition:transform .3s}
-#ed-panel.vis{transform:translateY(0)}
-#ed-panel h4{font-size:.8rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
-.ed-btn{background:#1e293b;color:#e2e8f0;border:1px solid #334155;border-radius:6px;padding:6px 13px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:var(--font);white-space:nowrap;transition:all .15s}
-.ed-btn:hover{background:#334155}
-.ed-btn.g{background:#16a34a;border-color:#16a34a;color:#fff}
-.ed-btn.g:hover{background:#15803d}
-.ed-btn.b{background:var(--blue);border-color:var(--blue);color:#fff}
-.ed-btn.b:hover{background:var(--blue-d)}
-.ed-sep{width:1px;height:28px;background:#334155;flex-shrink:0}
-.ed-toggle{position:fixed;bottom:16px;right:16px;z-index:9998;background:#0f172a;color:#e2e8f0;border:none;border-radius:10px;padding:10px 16px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:var(--font);box-shadow:0 4px 16px rgba(0,0,0,.4);display:flex;align-items:center;gap:6px;transition:background .2s}
-.ed-toggle:hover{background:#1e293b}
+/* ══════════════════════════════════════════ EDITOR — floating toolbar */
+#ed-toolbar{position:fixed;z-index:9999;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;display:none;flex-wrap:wrap;gap:6px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.4);pointer-events:auto}
+#ed-toolbar.vis{display:flex}
+.tb-grp{display:flex;align-items:center;gap:4px}
+.tb-sep{width:1px;height:18px;background:rgba(255,255,255,.15);flex-shrink:0}
+.tb-btn{background:rgba(255,255,255,.09);color:#f1f5f9;border:none;border-radius:5px;padding:4px 9px;cursor:pointer;font-size:.78rem;font-family:var(--font);transition:background .15s;white-space:nowrap}
+.tb-btn:hover{background:var(--blue)}
+.tb-lbl{font-size:.7rem;color:#64748b}
+.tb-sel{background:rgba(255,255,255,.09);color:#f1f5f9;border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 5px;font-size:.78rem;font-family:var(--font);cursor:pointer}
+.tb-sel:focus{outline:none;border-color:var(--blue)}
+.tb-inp{background:rgba(255,255,255,.09);color:#f1f5f9;border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 7px;font-size:.78rem;width:52px}
+.tb-inp:focus{outline:none;border-color:var(--blue)}
+.tb-color{width:26px;height:26px;padding:2px;border-radius:5px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:none}
+/* ══════════════════════════════════════════ EDITOR — side panel */
+#ed-panel{position:fixed;bottom:24px;right:24px;z-index:9998;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:16px;box-shadow:0 8px 40px rgba(0,0,0,.4);display:none;flex-direction:column;gap:8px;min-width:236px}
+#ed-panel.vis{display:flex}
+.ep-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.ep-head h4{color:#f1f5f9;font-size:.9rem;display:flex;align-items:center;gap:7px}
+.ep-badge{background:var(--blue);color:#fff;font-size:.62rem;padding:2px 7px;border-radius:99px;font-weight:700;letter-spacing:.05em}
+.ep-close{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:5px;width:26px;height:26px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.ep-close:hover{background:#ef4444;color:#fff}
+.ep-sep{height:1px;background:rgba(255,255,255,.1);margin:2px 0}
+.pb{background:rgba(255,255,255,.07);color:#cbd5e1;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px 13px;cursor:pointer;font-size:.83rem;text-align:left;transition:background .15s;font-family:var(--font);width:100%}
+.pb:hover{background:rgba(255,255,255,.13);color:#fff}
+.pb.pg{background:#16a34a;color:#fff;border-color:transparent}
+.pb.pg:hover{background:#15803d}
+.pb.pb2{background:var(--blue);color:#fff;border-color:transparent}
+.pb.pb2:hover{background:var(--blue-d)}
+/* ══════════════════════════════════════════ EDITOR — toggle button */
+.ed-toggle{position:fixed;bottom:24px;right:24px;z-index:9997;background:var(--blue);color:#fff;border:none;border-radius:var(--r);padding:10px 18px;cursor:pointer;font-size:.85rem;font-family:var(--font);box-shadow:var(--sh);transition:all .2s;font-weight:700;display:flex;align-items:center;gap:8px}
+.ed-toggle:hover{background:var(--blue-d);transform:translateY(-1px)}
 </style>
 </head>
-<body>
+<body class="">
 
 <!-- ════════════════ EDITOR TOGGLE ════════════════ -->
-<button class="ed-toggle editor-only" id="edToggle" onclick="openEditor()">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-  Редактор
-</button>
 
-<!-- ════════════════ EDITOR PANEL ════════════════ -->
-<div id="ed-panel" class="editor-only">
-  <h4>Редактор</h4>
-  <button class="ed-btn" onclick="makeEditable()">✏️ Выбрать элемент</button>
-  <div class="ed-sep"></div>
-  <button class="ed-btn g" onclick="saveClean()">⬇️ Сохранить для сервера</button>
-  <button class="ed-btn b" onclick="saveEditable()">💾 Сохранить с редактором</button>
-  <div class="ed-sep"></div>
-  <button class="ed-btn" onclick="closeEditor()">✕ Закрыть</button>
-</div>
+
+<!-- ════════════════ EDITOR PANEL (side) ════════════════ -->
+
+
+<!-- ════════════════ FLOATING TOOLBAR ════════════════ -->
+
 
 <!-- ════════════════ NAV ════════════════ -->
-<nav class="nav" id="mainNav">
+<nav class="nav" id="mainNav" style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 20px;">
   <div class="container">
     <div class="nav-inner">
       <a href="#" class="nav-logo">
         <div class="nav-logo-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="9" x2="9" y2="21"></line></svg>
         </div>
         <div class="nav-logo-text">Прайс<span>Мастер</span></div>
       </a>
@@ -446,33 +448,33 @@ td.cart-btn{padding:4px 7px}
       <div class="nav-right">
         <a href="#cta" class="btn btn-primary">Получить демо →</a>
         <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Меню">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
       </div>
     </div>
     <div class="mobile-menu" id="mobileMenu">
       <a href="#s-solution" class="mob-link" onclick="closeMobileMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
         Возможности
       </a>
       <a href="#s-how" class="mob-link" onclick="closeMobileMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
         Как работает
       </a>
       <a href="#s-calc" class="mob-link" onclick="closeMobileMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-4 0v2"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 7V5a2 2 0 0 0-4 0v2"></path></svg>
         Калькулятор ROI
       </a>
       <a href="#s-demo" class="mob-link" onclick="closeMobileMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="9" x2="9" y2="21"></line></svg>
         Интерфейс
       </a>
       <a href="#s-pricing" class="mob-link" onclick="closeMobileMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
         Тарифы
       </a>
       <a href="#s-faq" class="mob-link" onclick="closeMobileMenu()">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 0 1 6 0c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><path d="M9 9a3 3 0 0 1 6 0c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
         FAQ
       </a>
       <div class="mobile-menu-divider"></div>
@@ -488,11 +490,11 @@ td.cart-btn{padding:4px 7px}
     <div class="hero-grid">
       <div>
         <div class="hero-eyebrow fi">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <span contenteditable="true">Программа мониторинга цен</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Программа мониторинга цен</span>
         </div>
         <h1 class="fi d1">Сравнение прайсов<br>за <span class="accent">5 минут</span><br>вместо 3 часов</h1>
-        <p class="hero-sub fi d2" contenteditable="true">ПрайсМастер автоматически сопоставляет прайс-листы поставщиков по штрихкодам, выделяет минимальные цены и выгружает готовый отчёт в Excel. Никакой ручной работы.</p>
+        <p class="hero-sub fi d2">ПрайсМастер автоматически сопоставляет прайс-листы поставщиков по штрихкодам, выделяет минимальные цены и выгружает готовый отчёт в Excel. Никакой ручной работы.</p>
         <div class="hero-ctas fi d3">
           <a href="#cta" class="btn btn-primary btn-lg">Получить бесплатное демо →</a>
           <a href="#s-calc" class="btn btn-outline-white btn-lg">Посчитать выгоду</a>
@@ -514,8 +516,8 @@ td.cart-btn{padding:4px 7px}
       </div>
       <div class="hero-card fi d2">
         <div class="hero-card-header">
-          <h3 contenteditable="true">Получите бесплатное демо</h3>
-          <p contenteditable="true">Покажем программу на ваших прайсах — за 20 минут</p>
+          <h3>Получите бесплатное демо</h3>
+          <p>Покажем программу на ваших прайсах — за 20 минут</p>
         </div>
         <form id="hero-form" onsubmit="submitForm(event,'hero-form')">
           <div class="form-group">
@@ -531,7 +533,7 @@ td.cart-btn{padding:4px 7px}
             <input type="text" name="comment" class="form-input" placeholder="Например: 5 поставщиков, 8 000 позиций">
           </div>
           <button type="submit" class="btn btn-primary btn-full mt8" style="margin-top:4px">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
             Хочу демонстрацию
           </button>
           <p class="form-note">Перезвоним в рабочее время. Без спама.</p>
@@ -551,27 +553,27 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi">
       <div class="label">Реальная проблема</div>
-      <h2 contenteditable="true">Узнаёте себя?</h2>
-      <p class="mt12" contenteditable="true">Закупщики и категорийщики тратят лучшее рабочее время на рутину, которую можно автоматизировать</p>
+      <h2>Узнаёте себя?</h2>
+      <p class="mt12">Закупщики и категорийщики тратят лучшее рабочее время на рутину, которую можно автоматизировать</p>
     </div>
     <div class="pain-cards">
       <div class="pain-card fi">
         <div class="pain-icon">⏰</div>
-        <h3 contenteditable="true">3–5 часов каждую неделю — в трубу</h3>
-        <p contenteditable="true">Менеджеры вручную переносят цены из одного Excel в другой, сравнивают колонки, ошибаются, переделывают. Снова и снова.</p>
-        <div class="pain-example" contenteditable="true">«У нас 6 поставщиков и 9 000 позиций. Раньше два человека тратили половину понедельника только на сбор актуальной сводки цен.» — закупщик продовольственного ритейла</div>
+        <h3>3–5 часов каждую неделю — в трубу</h3>
+        <p>Менеджеры вручную переносят цены из одного Excel в другой, сравнивают колонки, ошибаются, переделывают. Снова и снова.</p>
+        <div class="pain-example">«У нас 6 поставщиков и 9 000 позиций. Раньше два человека тратили половину понедельника только на сбор актуальной сводки цен.» — закупщик продовольственного ритейла</div>
       </div>
       <div class="pain-card fi d1">
         <div class="pain-icon">💸</div>
-        <h3 contenteditable="true">Закупаете не по минимальной цене</h3>
-        <p contenteditable="true">Когда данные устаревают или сопоставляются вручную — легко пропустить поставщика с лучшей ценой. Каждая такая закупка — потерянная маржа.</p>
-        <div class="pain-example" contenteditable="true">«Обнаружили, что 3 месяца брали кофе у одного поставщика, хотя у другого он был на 8% дешевле. Прайсы просто не успевали сравнивать.» — оптовый дистрибьютор</div>
+        <h3>Закупаете не по минимальной цене</h3>
+        <p>Когда данные устаревают или сопоставляются вручную — легко пропустить поставщика с лучшей ценой. Каждая такая закупка — потерянная маржа.</p>
+        <div class="pain-example">«Обнаружили, что 3 месяца брали кофе у одного поставщика, хотя у другого он был на 8% дешевле. Прайсы просто не успевали сравнивать.» — оптовый дистрибьютор</div>
       </div>
       <div class="pain-card fi d2">
         <div class="pain-icon">🔍</div>
-        <h3 contenteditable="true">Штрихкоды не совпадают — матчинг срывается</h3>
-        <p contenteditable="true">У разных поставщиков один товар может иметь разные ШК, сокращённые названия, разные единицы. Ручное сопоставление 10 000 позиций — нереально.</p>
-        <div class="pain-example" contenteditable="true">«Один поставщик пишет "Чай Гринфилд 25п", другой — "Greenfield 25 пак". Сопоставить вручную это невозможно.» — менеджер по закупкам</div>
+        <h3>Штрихкоды не совпадают — матчинг срывается</h3>
+        <p>У разных поставщиков один товар может иметь разные ШК, сокращённые названия, разные единицы. Ручное сопоставление 10 000 позиций — нереально.</p>
+        <div class="pain-example">«Один поставщик пишет "Чай Гринфилд 25п", другой — "Greenfield 25 пак". Сопоставить вручную это невозможно.» — менеджер по закупкам</div>
       </div>
     </div>
   </div>
@@ -582,51 +584,51 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">Решение</div>
-      <h2 contenteditable="true">Три модуля — одна система мониторинга</h2>
-      <p class="mt12" contenteditable="true">ПрайсМастер закрывает всю цепочку: от разношёрстных прайсов поставщиков до готового Excel-отчёта с минимальными ценами</p>
+      <h2>Три модуля — одна система мониторинга</h2>
+      <p class="mt12">ПрайсМастер закрывает всю цепочку: от разношёрстных прайсов поставщиков до готового Excel-отчёта с минимальными ценами</p>
     </div>
     <div class="solution-cards">
       <div class="solution-card fi">
         <div class="solution-card-num">1</div>
-        <div class="s-badge dk">Подготовка данных</div>
-        <h3 contenteditable="true">Конвертер прайсов</h3>
-        <p contenteditable="true">Превращает любой Excel-файл поставщика в стандартный CSV. Автоматически определяет столбцы с ценами и штрихкодами.</p>
+        <div class="s-badge bl">Подготовка данных</div>
+        <h3>Конвертер прайсов</h3>
+        <p>Превращает любой Excel-файл поставщика в стандартный CSV. Автоматически определяет столбцы с ценами и штрихкодами.</p>
         <ul>
-          <li contenteditable="true">Поддержка .xls, .xlsx, .csv</li>
-          <li contenteditable="true">Автоопределение колонок</li>
-          <li contenteditable="true">Пакетная обработка одним кликом</li>
-          <li contenteditable="true">Автопереход к следующему файлу</li>
+          <li>Поддержка .xls, .xlsx, .csv</li>
+          <li>Автоопределение колонок</li>
+          <li>Пакетная обработка одним кликом</li>
+          <li>Автопереход к следующему файлу</li>
         </ul>
       </div>
       <div class="solution-card fi d1">
         <div class="solution-card-num">2</div>
         <div class="s-badge bl">Ядро системы</div>
-        <h3 contenteditable="true">Редактор синонимов</h3>
-        <p contenteditable="true">Настраивает соответствие между разными штрихкодами одного товара у разных поставщиков. Один раз — затем 100% точность.</p>
+        <h3>Редактор синонимов</h3>
+        <p>Настраивает соответствие между разными штрихкодами одного товара у разных поставщиков. Один раз — затем 100% точность.</p>
         <ul>
-          <li contenteditable="true">Визуальный интерфейс сопоставления</li>
-          <li contenteditable="true">Поиск похожих наименований</li>
-          <li contenteditable="true">JSON-база синонимов — ваша собственность</li>
-          <li contenteditable="true">100% точность после настройки</li>
+          <li>Визуальный интерфейс сопоставления</li>
+          <li>Поиск похожих наименований</li>
+          <li>JSON-база синонимов — ваша собственность</li>
+          <li>100% точность после настройки</li>
         </ul>
       </div>
       <div class="solution-card fi d2">
         <div class="solution-card-num">3</div>
         <div class="s-badge bl">Результат</div>
-        <h3 contenteditable="true">Мониторинг и отчёты</h3>
-        <p contenteditable="true">Сводная таблица всех поставщиков с подсветкой минимальной цены. Экспорт в Excel за один клик.</p>
+        <h3>Мониторинг и отчёты</h3>
+        <p>Сводная таблица всех поставщиков с подсветкой минимальной цены. Экспорт в Excel за один клик.</p>
         <ul>
-          <li contenteditable="true">Мгновенное сопоставление 10 000+ позиций</li>
-          <li contenteditable="true">Минимальная цена выделена зелёным</li>
-          <li contenteditable="true">Фильтры: нал/безнал, новинки, разница</li>
-          <li contenteditable="true">Экспорт в Excel одной кнопкой</li>
+          <li>Мгновенное сопоставление 10 000+ позиций</li>
+          <li>Минимальная цена выделена зелёным</li>
+          <li>Фильтры: нал/безнал, новинки, разница</li>
+          <li>Экспорт в Excel одной кнопкой</li>
         </ul>
       </div>
     </div>
     <div class="cta-banner fi">
       <div>
-        <h3 contenteditable="true">Хотите увидеть это на своих прайсах?</h3>
-        <p contenteditable="true">Покажем живую демонстрацию. Бесплатно и без обязательств.</p>
+        <h3>Хотите увидеть это на своих прайсах?</h3>
+        <p>Покажем живую демонстрацию. Бесплатно и без обязательств.</p>
       </div>
       <a href="#cta" class="btn btn-white btn-lg">Записаться на демо →</a>
     </div>
@@ -638,18 +640,18 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">Как это работает</div>
-      <h2 contenteditable="true">От прайсов поставщиков<br>к готовому отчёту за 5 шагов</h2>
+      <h2>От прайсов поставщиков<br>к готовому отчёту за 5 шагов</h2>
     </div>
     <div class="steps">
       <div class="step fi">
         <div class="step-line"></div>
         <div class="step-num">1</div>
         <div class="step-body">
-          <h3 contenteditable="true">Загружаете прайсы поставщиков</h3>
-          <p contenteditable="true">Собираете актуальные Excel-файлы. Форматы могут быть разными — программа разберётся сама.</p>
+          <h3>Загружаете прайсы поставщиков</h3>
+          <p>Собираете актуальные Excel-файлы. Форматы могут быть разными — программа разберётся сама.</p>
           <div class="step-tip">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            <span contenteditable="true">Поддерживаются .xls, .xlsx, .csv любого формата</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
+            <span>Поддерживаются .xls, .xlsx, .csv любого формата</span>
           </div>
         </div>
       </div>
@@ -657,19 +659,19 @@ td.cart-btn{padding:4px 7px}
         <div class="step-line"></div>
         <div class="step-num">2</div>
         <div class="step-body">
-          <h3 contenteditable="true">Конвертируете в единый формат за один клик</h3>
-          <p contenteditable="true">Нажимаете «Сохранить CSV» — прайс готов. Программа автоматически открывает следующий файл.</p>
+          <h3>Конвертируете в единый формат за один клик</h3>
+          <p>Нажимаете «Сохранить CSV» — прайс готов. Программа автоматически открывает следующий файл.</p>
         </div>
       </div>
       <div class="step fi d2">
         <div class="step-line"></div>
         <div class="step-num">3</div>
         <div class="step-body">
-          <h3 contenteditable="true">Настраиваете синонимы штрихкодов (один раз)</h3>
-          <p contenteditable="true">Сопоставляете товары с разными ШК у разных поставщиков. База синонимов сохраняется — дальше всё автоматически.</p>
+          <h3>Настраиваете синонимы штрихкодов (один раз)</h3>
+          <p>Сопоставляете товары с разными ШК у разных поставщиков. База синонимов сохраняется — дальше всё автоматически.</p>
           <div class="step-tip">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <span contenteditable="true">Первичная настройка — один раз. Затем работает само.</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            <span>Первичная настройка — один раз. Затем работает само.</span>
           </div>
         </div>
       </div>
@@ -677,18 +679,18 @@ td.cart-btn{padding:4px 7px}
         <div class="step-line"></div>
         <div class="step-num">4</div>
         <div class="step-body">
-          <h3 contenteditable="true">Запускаете мониторинг</h3>
-          <p contenteditable="true">Загружаете свой прайс и подготовленные прайсы поставщиков. Нажимаете запуск. 10 000+ позиций сопоставляются за секунды.</p>
+          <h3>Запускаете мониторинг</h3>
+          <p>Загружаете свой прайс и подготовленные прайсы поставщиков. Нажимаете запуск. 10 000+ позиций сопоставляются за секунды.</p>
         </div>
       </div>
       <div class="step fi">
         <div class="step-num">5</div>
         <div class="step-body">
-          <h3 contenteditable="true">Скачиваете готовый Excel-отчёт</h3>
-          <p contenteditable="true">Сводная таблица с ценами всех поставщиков. Минимальные цены подсвечены. Принимаете обоснованные решения без единой ошибки.</p>
+          <h3>Скачиваете готовый Excel-отчёт</h3>
+          <p>Сводная таблица с ценами всех поставщиков. Минимальные цены подсвечены. Принимаете обоснованные решения без единой ошибки.</p>
           <div class="step-tip">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span contenteditable="true">После первичной настройки весь цикл — 5–7 минут</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>После первичной настройки весь цикл — 5–7 минут</span>
           </div>
         </div>
       </div>
@@ -701,8 +703,8 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="calc-title-area fi">
       <div class="label dark">Калькулятор выгоды</div>
-      <h2 contenteditable="true">Сколько стоит ручная работа<br>вашей команды?</h2>
-      <p contenteditable="true">Передвигайте ползунки — результаты обновляются мгновенно</p>
+      <h2>Сколько стоит ручная работа<br>вашей команды?</h2>
+      <p>Передвигайте ползунки — результаты обновляются мгновенно</p>
     </div>
     <div class="calc-wrapper">
       <!-- INPUTS -->
@@ -718,10 +720,10 @@ td.cart-btn{padding:4px 7px}
         </div>
 
         <div class="calc-row">
-          <label>Позиций в прайсе: <span id="lbl-items" style="color:#fff;font-weight:800">5 000</span></label>
+          <label>Позиций в прайсе: <span id="lbl-items" style="color:#fff;font-weight:800">5&nbsp;000</span></label>
           <div class="calc-slider-wrap">
             <input type="range" class="calc-slider" id="sl-items" min="500" max="50000" value="5000" step="500" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-items">5 000 поз.</span>
+            <span class="calc-val-badge" id="vb-items">5&nbsp;000 поз.</span>
           </div>
         </div>
 
@@ -734,18 +736,18 @@ td.cart-btn{padding:4px 7px}
         </div>
 
         <div class="calc-row">
-          <label>Оклад менеджера: <span id="lbl-sal" style="color:#fff;font-weight:800">60 000 ₽</span></label>
+          <label>Оклад менеджера: <span id="lbl-sal" style="color:#fff;font-weight:800">60&nbsp;000 ₽</span></label>
           <div class="calc-slider-wrap">
             <input type="range" class="calc-slider" id="sl-sal" min="30000" max="200000" value="60000" step="5000" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-sal">60 000 ₽</span>
+            <span class="calc-val-badge" id="vb-sal">60&nbsp;000 ₽</span>
           </div>
         </div>
 
         <div class="calc-row">
-          <label>Обновление прайсов в месяц: <span id="lbl-freq" style="color:#fff;font-weight:800">4 раза</span></label>
+          <label>Обновление прайсов в месяц: <span id="lbl-freq" style="color:#fff;font-weight:800">4 раз</span></label>
           <div class="calc-slider-wrap">
             <input type="range" class="calc-slider" id="sl-freq" min="1" max="20" value="4" oninput="calcUpdate()">
-            <span class="calc-val-badge" id="vb-freq">4 раза</span>
+            <span class="calc-val-badge" id="vb-freq">4 раз</span>
           </div>
         </div>
       </div>
@@ -754,14 +756,14 @@ td.cart-btn{padding:4px 7px}
       <div class="calc-results-panel fi d1">
         <div class="calc-result-card highlight">
           <div class="cr-label">Экономия на ФОТ в год</div>
-          <div class="cr-val" id="r-year">—</div>
-          <div class="cr-sub" id="r-payback">Лицензия окупается за — мес.</div>
+          <div class="cr-val" id="r-year">62&nbsp;796 ₽</div>
+          <div class="cr-sub" id="r-payback">Лицензия окупается за 4 мес.</div>
         </div>
 
         <div class="calc-result-card normal">
           <div class="cr-label">Экономия в месяц</div>
-          <div class="cr-val" id="r-month">—</div>
-          <div class="cr-sub" id="r-pct">— % рабочего времени возвращается</div>
+          <div class="cr-val" id="r-month">5&nbsp;233 ₽/мес</div>
+          <div class="cr-sub" id="r-pct">87% рабочего времени возвращается команде</div>
         </div>
 
         <div class="calc-compare">
@@ -769,15 +771,15 @@ td.cart-btn{padding:4px 7px}
           <div class="calc-compare-row">
             <span class="calc-compare-label">Сейчас (вручную)</span>
             <div class="calc-compare-vals">
-              <span class="cv-before" id="cv-before">—</span>
+              <span class="cv-before" id="cv-before">17.2 ч/мес</span>
               <span class="cv-arrow">→</span>
-              <span class="cv-after" id="cv-after">—</span>
+              <span class="cv-after" id="cv-after">2.2 ч/мес</span>
             </div>
           </div>
           <div class="calc-compare-row">
             <span class="calc-compare-label">Высвобождается времени</span>
             <div class="calc-compare-vals">
-              <span class="cv-after" id="cv-freed">—</span>
+              <span class="cv-after" id="cv-freed">+15 ч/мес свободно</span>
             </div>
           </div>
         </div>
@@ -795,8 +797,8 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">Демо интерфейса</div>
-      <h2 contenteditable="true">Так выглядит сводная таблица мониторинга</h2>
-      <p class="mt12" contenteditable="true">Зелёным выделена минимальная цена. Клик по цене — штрихкод в буфер. Экспорт в Excel — одной кнопкой.</p>
+      <h2>Так выглядит сводная таблица мониторинга</h2>
+      <p class="mt12">Зелёным выделена минимальная цена. Клик по цене — штрихкод в буфер. Экспорт в Excel — одной кнопкой.</p>
     </div>
     <div class="stats-row fi">
       <div class="stat-cell">
@@ -818,12 +820,12 @@ td.cart-btn{padding:4px 7px}
     </div>
     <div class="table-wrap fi">
       <div class="table-toolbar">
-        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg> Фильтры</button>
-        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Совпадения</button>
-        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/></svg> Большая разница</button>
-        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Поиск новинок</button>
-        <button class="tbl-btn active"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Компактно</button>
-        <button class="tbl-btn" style="margin-left:auto"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Экспорт Excel</button>
+        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg> Фильтры</button>
+        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> Совпадения</button>
+        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline></svg> Большая разница</button>
+        <button class="tbl-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg> Поиск новинок</button>
+        <button class="tbl-btn active"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> Компактно</button>
+        <button class="tbl-btn" style="margin-left:auto"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> Экспорт Excel</button>
       </div>
       <div class="table-legend">
         <span>Подсветка:</span>
@@ -860,7 +862,7 @@ td.cart-btn{padding:4px 7px}
           </thead>
           <tbody>
             <tr>
-              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div></td>
+              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div></td>
               <td class="name">Кофе Амбассадор 150г м/у</td>
               <td class="stock">90</td><td class="na">—</td>
               <td class="my-price">335.0 ₽</td>
@@ -870,7 +872,7 @@ td.cart-btn{padding:4px 7px}
               <td class="price">363.1 ₽</td><td class="na">—</td>
             </tr>
             <tr>
-              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div></td>
+              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div></td>
               <td class="name">Кофе Амбассадор 75г м/у</td>
               <td class="stock">312</td><td class="na">—</td>
               <td class="my-price">165.3 ₽</td>
@@ -880,7 +882,7 @@ td.cart-btn{padding:4px 7px}
               <td class="price">188.9 ₽</td><td class="na">—</td>
             </tr>
             <tr>
-              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div></td>
+              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div></td>
               <td class="name">Кофе Индийский 90г ж/б</td>
               <td class="stock">24</td><td class="na">—</td>
               <td class="my-price">210.5 ₽</td>
@@ -890,7 +892,7 @@ td.cart-btn{padding:4px 7px}
               <td class="na">—</td><td class="min">218.2 ₽</td>
             </tr>
             <tr>
-              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div></td>
+              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div></td>
               <td class="name">Кофе Карт Нуар 1.8г 30шт</td>
               <td class="stock">300</td><td class="na">—</td>
               <td class="my-price">9.8 ₽</td>
@@ -900,7 +902,7 @@ td.cart-btn{padding:4px 7px}
               <td class="na">—</td><td class="min">9.4 ₽</td>
             </tr>
             <tr>
-              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div></td>
+              <td class="cart-btn"><div class="cart-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div></td>
               <td class="name">Кофе МКП Арабика 75г м/у</td>
               <td class="stock">180</td><td class="na">—</td>
               <td class="my-price">277.4 ₽</td>
@@ -921,42 +923,42 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">Отзывы клиентов</div>
-      <h2 contenteditable="true">Реальные результаты<br>реальных компаний</h2>
+      <h2>Реальные результаты<br>реальных компаний</h2>
     </div>
     <div class="test-grid">
       <div class="test-card fi">
         <div class="test-stars">★★★★★</div>
         <div class="test-result">↓ 20 часов/мес → 1 час/мес</div>
-        <p class="test-quote" contenteditable="true">Раньше два менеджера тратили полдня каждый понедельник на сбор и сравнение прайсов шести поставщиков. Теперь один человек закрывает ту же задачу за 15 минут. Ещё и точнее, чем вручную.</p>
+        <p class="test-quote">Раньше два менеджера тратили полдня каждый понедельник на сбор и сравнение прайсов шести поставщиков. Теперь один человек закрывает ту же задачу за 15 минут. Ещё и точнее, чем вручную.</p>
         <div class="test-meta">
           <div class="test-avatar">АС</div>
           <div>
-            <div class="test-name" contenteditable="true">Алексей Смирнов</div>
-            <div class="test-company" contenteditable="true">Рук. отдела закупок, продовольственный ритейл, Новосибирск</div>
+            <div class="test-name">Алексей Смирнов</div>
+            <div class="test-company">Рук. отдела закупок, продовольственный ритейл, Новосибирск</div>
           </div>
         </div>
       </div>
       <div class="test-card fi d1">
         <div class="test-stars">★★★★★</div>
         <div class="test-result">↑ Экономия 380 000 ₽ за квартал</div>
-        <p class="test-quote" contenteditable="true">Обнаружили, что три месяца покупали кофе не у самого выгодного поставщика — просто потому что вручную не успевали всё сравнить. За первый квартал с ПрайсМастером сэкономили около 380 тысяч рублей только на одной категории.</p>
+        <p class="test-quote">Обнаружили, что три месяца покупали кофе не у самого выгодного поставщика — просто потому что вручную не успевали всё сравнить. За первый квартал с ПрайсМастером сэкономили около 380 тысяч рублей только на одной категории.</p>
         <div class="test-meta">
           <div class="test-avatar">МК</div>
           <div>
-            <div class="test-name" contenteditable="true">Марина Козлова</div>
-            <div class="test-company" contenteditable="true">Директор по закупкам, оптовая компания, Екатеринбург</div>
+            <div class="test-name">Марина Козлова</div>
+            <div class="test-company">Директор по закупкам, оптовая компания, Екатеринбург</div>
           </div>
         </div>
       </div>
       <div class="test-card fi d2">
         <div class="test-stars">★★★★★</div>
         <div class="test-result">↑ 140 новых товаров в ассортименте</div>
-        <p class="test-quote" contenteditable="true">Самое ценное — нашли 140 позиций, которых не было в нашем прайсе, но которые есть у поставщиков. Добавили их в ассортимент, и выручка за два месяца заметно выросла. Просто не знали, что эти товары существуют.</p>
+        <p class="test-quote">Самое ценное — нашли 140 позиций, которых не было в нашем прайсе, но которые есть у поставщиков. Добавили их в ассортимент, и выручка за два месяца заметно выросла. Просто не знали, что эти товары существуют.</p>
         <div class="test-meta">
           <div class="test-avatar">ДВ</div>
           <div>
-            <div class="test-name" contenteditable="true">Дмитрий Волков</div>
-            <div class="test-company" contenteditable="true">Владелец интернет-магазина товаров для дома, Москва</div>
+            <div class="test-name">Дмитрий Волков</div>
+            <div class="test-company">Владелец интернет-магазина товаров для дома, Москва</div>
           </div>
         </div>
       </div>
@@ -972,38 +974,38 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">Кому подходит</div>
-      <h2 contenteditable="true">ПрайсМастер создан для вас, если...</h2>
+      <h2>ПрайсМастер создан для вас, если...</h2>
     </div>
     <div class="audience-cards">
       <div class="audience-card fi">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
-        <h3 contenteditable="true">Розничные магазины</h3>
-        <p contenteditable="true">Нужно постоянно отслеживать цены нескольких поставщиков и закупать по минимальной цене, сохраняя максимальную маржу.</p>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></div>
+        <h3>Розничные магазины</h3>
+        <p>Нужно постоянно отслеживать цены нескольких поставщиков и закупать по минимальной цене, сохраняя максимальную маржу.</p>
       </div>
       <div class="audience-card fi d1">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
-        <h3 contenteditable="true">Оптовые компании</h3>
-        <p contenteditable="true">Большой ассортимент, много поставщиков, постоянно меняющиеся цены. ПрайсМастер справится с любым объёмом данных.</p>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg></div>
+        <h3>Оптовые компании</h3>
+        <p>Большой ассортимент, много поставщиков, постоянно меняющиеся цены. ПрайсМастер справится с любым объёмом данных.</p>
       </div>
       <div class="audience-card fi d2">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-        <h3 contenteditable="true">Интернет-магазины</h3>
-        <p contenteditable="true">Мониторинг поставщиков и поиск новых товаров в одном инструменте. Всегда актуальные закупочные цены.</p>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div>
+        <h3>Интернет-магазины</h3>
+        <p>Мониторинг поставщиков и поиск новых товаров в одном инструменте. Всегда актуальные закупочные цены.</p>
       </div>
       <div class="audience-card fi">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-        <h3 contenteditable="true">Отделы закупок</h3>
-        <p contenteditable="true">Категорийщики и закупщики экономят часы каждую неделю и принимают решения на основе актуальных данных.</p>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg></div>
+        <h3>Отделы закупок</h3>
+        <p>Категорийщики и закупщики экономят часы каждую неделю и принимают решения на основе актуальных данных.</p>
       </div>
       <div class="audience-card fi d1">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-        <h3 contenteditable="true">Аналитики и руководители</h3>
-        <p contenteditable="true">Готовый отчёт по всем поставщикам в Excel для стратегического анализа. Решения — на основе данных.</p>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg></div>
+        <h3>Аналитики и руководители</h3>
+        <p>Готовый отчёт по всем поставщикам в Excel для стратегического анализа. Решения — на основе данных.</p>
       </div>
       <div class="audience-card fi d2">
-        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-        <h3 contenteditable="true">Сети и дистрибьюторы</h3>
-        <p contenteditable="true">Централизованный мониторинг для сети точек. Единый инструмент для всего закупочного отдела.</p>
+        <div class="aud-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><rect x="1" y="3" width="15" height="13" rx="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></div>
+        <h3>Сети и дистрибьюторы</h3>
+        <p>Централизованный мониторинг для сети точек. Единый инструмент для всего закупочного отдела.</p>
       </div>
     </div>
   </div>
@@ -1014,8 +1016,8 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">Тарифы</div>
-      <h2 contenteditable="true">Форматы сотрудничества</h2>
-      <p class="mt12" contenteditable="true">Без скрытых платежей. Без подписки. Платите один раз — используете бессрочно.</p>
+      <h2>Форматы сотрудничества</h2>
+      <p class="mt12">Без скрытых платежей. Без подписки. Платите один раз — используете бессрочно.</p>
     </div>
     <div class="pricing-grid">
       <div class="pricing-card featured fi">
@@ -1024,13 +1026,13 @@ td.cart-btn{padding:4px 7px}
         <div class="pricing-price">19 990 ₽</div>
         <div class="pricing-price-note">единоразово · без подписки · навсегда</div>
         <ul class="pricing-features">
-          <li contenteditable="true">Все три модуля в комплекте</li>
-          <li contenteditable="true">Неограниченное число поставщиков</li>
-          <li contenteditable="true">Локальная работа — данные на вашем компьютере</li>
-          <li contenteditable="true">Инструкция и помощь в настройке</li>
-          <li contenteditable="true">Консультация по настройке синонимов</li>
-          <li contenteditable="true">Выгрузка отчётов в Excel</li>
-          <li contenteditable="true">Обновления по запросу</li>
+          <li>Все три модуля в комплекте</li>
+          <li>Неограниченное число поставщиков</li>
+          <li>Локальная работа — данные на вашем компьютере</li>
+          <li>Инструкция и помощь в настройке</li>
+          <li>Консультация по настройке синонимов</li>
+          <li>Выгрузка отчётов в Excel</li>
+          <li>Обновления по запросу</li>
         </ul>
         <a href="#cta" class="btn btn-primary btn-full">Купить лицензию</a>
         <p class="form-note mt8" style="color:rgba(255,255,255,.4)">Окупается за 1–2 месяца</p>
@@ -1040,12 +1042,12 @@ td.cart-btn{padding:4px 7px}
         <div class="pricing-price" style="font-size:1.8rem">По запросу</div>
         <div class="pricing-price-note">индивидуальный расчёт</div>
         <ul class="pricing-features">
-          <li contenteditable="true">Адаптация под ваши форматы прайсов</li>
-          <li contenteditable="true">Дополнительные отчёты и фильтры</li>
-          <li contenteditable="true">Интеграция с учётной системой (1С, WMS)</li>
-          <li contenteditable="true">Обучение команды</li>
-          <li contenteditable="true">Приоритетная поддержка</li>
-          <li contenteditable="true">SLA и регламент обслуживания</li>
+          <li>Адаптация под ваши форматы прайсов</li>
+          <li>Дополнительные отчёты и фильтры</li>
+          <li>Интеграция с учётной системой (1С, WMS)</li>
+          <li>Обучение команды</li>
+          <li>Приоритетная поддержка</li>
+          <li>SLA и регламент обслуживания</li>
         </ul>
         <a href="#cta" class="btn btn-outline btn-full">Обсудить задачу</a>
       </div>
@@ -1054,20 +1056,20 @@ td.cart-btn{padding:4px 7px}
         <div class="pricing-price">от 5 коп.</div>
         <div class="pricing-price-note">за позицию · уточняйте стоимость</div>
         <ul class="pricing-features">
-          <li contenteditable="true">Присылаете прайсы — мы делаем всё</li>
-          <li contenteditable="true">Получаете готовый Excel-отчёт</li>
-          <li contenteditable="true">Идеально для разовых задач</li>
-          <li contenteditable="true">Гибкая тарификация по объёму</li>
-          <li contenteditable="true">Быстрые сроки (1–2 рабочих дня)</li>
-          <li contenteditable="true">Без покупки лицензии</li>
+          <li>Присылаете прайсы — мы делаем всё</li>
+          <li>Получаете готовый Excel-отчёт</li>
+          <li>Идеально для разовых задач</li>
+          <li>Гибкая тарификация по объёму</li>
+          <li>Быстрые сроки (1–2 рабочих дня)</li>
+          <li>Без покупки лицензии</li>
         </ul>
         <a href="#cta" class="btn btn-outline btn-full">Узнать стоимость</a>
       </div>
     </div>
     <div class="cta-banner fi mt40">
       <div>
-        <h3 contenteditable="true">Не уверены, какой формат подойдёт?</h3>
-        <p contenteditable="true">Расскажите о задаче — подберём оптимальное решение за 15 минут.</p>
+        <h3>Не уверены, какой формат подойдёт?</h3>
+        <p>Расскажите о задаче — подберём оптимальное решение за 15 минут.</p>
       </div>
       <a href="#cta" class="btn btn-white btn-lg">Получить консультацию →</a>
     </div>
@@ -1079,51 +1081,51 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">О компании</div>
-      <h2 contenteditable="true">Почему ПрайсМастер — это надёжно</h2>
+      <h2>Почему ПрайсМастер — это надёжно</h2>
     </div>
     <div class="about-grid">
       <div class="about-card fi">
         <div class="about-logo-mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" width="36" height="36"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" width="36" height="36"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="9" x2="9" y2="21"></line></svg>
         </div>
-        <div class="about-company-name" contenteditable="true">ПрайсМастер</div>
-        <div class="about-company-desc" contenteditable="true">Разработка ПО для автоматизации мониторинга цен поставщиков</div>
+        <div class="about-company-name">ПрайсМастер</div>
+        <div class="about-company-desc">Разработка ПО для автоматизации мониторинга цен поставщиков</div>
         <a href="tel:+79130998250" class="contact-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.1 6.1l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          <span contenteditable="true">+7 913 099-82-50</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.3h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.1 6.1l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span>+7 913 099-82-50</span>
         </a>
         <a href="https://t.me/vorontsov_dmitriy" target="_blank" class="contact-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"/></svg>
-          <span contenteditable="true">Написать в Telegram</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13"></path></svg>
+          <span>Написать в Telegram</span>
         </a>
       </div>
       <div class="about-points fi d1">
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg></div>
           <div>
-            <h3 contenteditable="true">Создано для реальной работы с прайсами</h3>
-            <p contenteditable="true">ПрайсМастер разработан как решение настоящей боли при работе с прайс-листами. Каждая функция — ответ на конкретную задачу из практики закупщиков.</p>
+            <h3>Создано для реальной работы с прайсами</h3>
+            <p>ПрайсМастер разработан как решение настоящей боли при работе с прайс-листами. Каждая функция — ответ на конкретную задачу из практики закупщиков.</p>
           </div>
         </div>
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
           <div>
-            <h3 contenteditable="true">Быстрая доработка под ваши задачи</h3>
-            <p contenteditable="true">Не очередь тикетов. Прямой контакт с командой разработки. Если что-то не подходит — обсуждается и дорабатывается в разумные сроки.</p>
+            <h3>Быстрая доработка под ваши задачи</h3>
+            <p>Не очередь тикетов. Прямой контакт с командой разработки. Если что-то не подходит — обсуждается и дорабатывается в разумные сроки.</p>
           </div>
         </div>
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
           <div>
-            <h3 contenteditable="true">Полная безопасность данных</h3>
-            <p contenteditable="true">Программа работает локально в браузере. Никакие данные о ценах, поставщиках и ассортименте не покидают ваш компьютер.</p>
+            <h3>Полная безопасность данных</h3>
+            <p>Программа работает локально в браузере. Никакие данные о ценах, поставщиках и ассортименте не покидают ваш компьютер.</p>
           </div>
         </div>
         <div class="about-point">
-          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="about-point-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" width="19" height="19"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></div>
           <div>
-            <h3 contenteditable="true">Внедрение за один день</h3>
-            <p contenteditable="true">Не нужен сервер или IT-специалист. Достаточно браузера и Excel. Первая сводная таблица — в день покупки.</p>
+            <h3>Внедрение за один день</h3>
+            <p>Не нужен сервер или IT-специалист. Достаточно браузера и Excel. Первая сводная таблица — в день покупки.</p>
           </div>
         </div>
       </div>
@@ -1136,17 +1138,17 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="section-header fi tc">
       <div class="label">FAQ</div>
-      <h2 contenteditable="true">Ответы на частые вопросы</h2>
+      <h2>Ответы на частые вопросы</h2>
     </div>
     <div class="faq-list">
-      <div class="faq-item fi" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">Сложно ли внедрить? Нужны ли технические знания?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">Программа работает в браузере — никаких установок и серверов. Достаточно уметь пользоваться Excel и браузером. Команда помогает с первоначальной настройкой и подготовкой базы синонимов.</div></div></div>
-      <div class="faq-item fi d1" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">В каких форматах могут быть прайсы поставщиков?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">Поддерживаются .xls, .xlsx и .csv. Программа автоматически ищет колонки с наименованиями, штрихкодами и ценами — вне зависимости от структуры файла поставщика.</div></div></div>
-      <div class="faq-item fi d2" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">Насколько точное сопоставление? Могут быть ошибки?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">После корректной настройки базы синонимов — точность 100%. Каждое совпадение при первичном создании синонимов подтверждается вручную. Делается один раз — дальше без ошибок.</div></div></div>
-      <div class="faq-item fi d3" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">Мои коммерческие данные будут в безопасности?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">Да. Программа работает полностью локально в вашем браузере — никакие файлы и данные не уходят на сторонние серверы. Ваши цены и поставщики — только ваши.</div></div></div>
-      <div class="faq-item fi" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">Что если у поставщика два столбца цен (нал/безнал)?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">Программа работает с несколькими ценовыми колонками. Можно настроить группы цен и получить подсветку минимальной цены отдельно для нала и безнала.</div></div></div>
-      <div class="faq-item fi d1" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">Сколько поставщиков и позиций поддерживает программа?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">Ограничений нет. Протестировано на 30+ поставщиках и 12 000+ позициях без замедления. Сопоставление происходит практически мгновенно.</div></div></div>
-      <div class="faq-item fi d2" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">Можно ли заказать мониторинг разово, без покупки лицензии?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">Да! Услуга «под ключ» — вы присылаете прайсы, получаете готовый Excel-отчёт. От 5 копеек за позицию. Свяжитесь для расчёта стоимости.</div></div></div>
-      <div class="faq-item fi d3" onclick="toggleFaq(this)"><div class="faq-q"><h3 contenteditable="true">Есть ли демо-версия или пробный период?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-ans"><div class="faq-ans-inner" contenteditable="true">Свяжитесь в Telegram — покажем программу в действии на живом примере. Бесплатно и без обязательств.</div></div></div>
+      <div class="faq-item fi" onclick="toggleFaq(this)"><div class="faq-q"><h3>Сложно ли внедрить? Нужны ли технические знания?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">Программа работает в браузере — никаких установок и серверов. Достаточно уметь пользоваться Excel и браузером. Команда помогает с первоначальной настройкой и подготовкой базы синонимов.</div></div></div>
+      <div class="faq-item fi d1" onclick="toggleFaq(this)"><div class="faq-q"><h3>В каких форматах могут быть прайсы поставщиков?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">Поддерживаются .xls, .xlsx и .csv. Программа автоматически ищет колонки с наименованиями, штрихкодами и ценами — вне зависимости от структуры файла поставщика.</div></div></div>
+      <div class="faq-item fi d2" onclick="toggleFaq(this)"><div class="faq-q"><h3>Насколько точное сопоставление? Могут быть ошибки?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">После корректной настройки базы синонимов — точность 100%. Каждое совпадение при первичном создании синонимов подтверждается вручную. Делается один раз — дальше без ошибок.</div></div></div>
+      <div class="faq-item fi d3" onclick="toggleFaq(this)"><div class="faq-q"><h3>Мои коммерческие данные будут в безопасности?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">Да. Программа работает полностью локально в вашем браузере — никакие файлы и данные не уходят на сторонние серверы. Ваши цены и поставщики — только ваши.</div></div></div>
+      <div class="faq-item fi" onclick="toggleFaq(this)"><div class="faq-q"><h3>Что если у поставщика два столбца цен (нал/безнал)?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">Программа работает с несколькими ценовыми колонками. Можно настроить группы цен и получить подсветку минимальной цены отдельно для нала и безнала.</div></div></div>
+      <div class="faq-item fi d1" onclick="toggleFaq(this)"><div class="faq-q"><h3>Сколько поставщиков и позиций поддерживает программа?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">Ограничений нет. Протестировано на 30+ поставщиках и 12 000+ позициях без замедления. Сопоставление происходит практически мгновенно.</div></div></div>
+      <div class="faq-item fi d2" onclick="toggleFaq(this)"><div class="faq-q"><h3>Можно ли заказать мониторинг разово, без покупки лицензии?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">Да! Услуга «под ключ» — вы присылаете прайсы, получаете готовый Excel-отчёт. От 5 копеек за позицию. Свяжитесь для расчёта стоимости.</div></div></div>
+      <div class="faq-item fi d3" onclick="toggleFaq(this)"><div class="faq-q"><h3>Есть ли демо-версия или пробный период?</h3><svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="faq-ans"><div class="faq-ans-inner">Свяжитесь в Telegram — покажем программу в действии на живом примере. Бесплатно и без обязательств.</div></div></div>
     </div>
   </div>
 </section>
@@ -1155,27 +1157,27 @@ td.cart-btn{padding:4px 7px}
 <section class="final-cta" id="cta">
   <div class="container">
     <div class="final-cta-inner">
-      <div class="label dark fi">Начните сегодня</div>
-      <h2 class="fi d1" contenteditable="true">Хватит тратить часы на то,<br>что можно автоматизировать</h2>
-      <p class="fi d2" contenteditable="true">Оставьте заявку — покажем ПрайсМастер на ваших данных, рассчитаем стоимость и ответим на все вопросы. Бесплатно и без обязательств.</p>
-      <div class="final-form fi d2">
+      <div class="label dark fi v">Начните сегодня</div>
+      <h2 class="fi d1 v">Хватит тратить часы на то,<br>что можно автоматизировать</h2>
+      <p class="fi d2 v">Оставьте заявку — покажем ПрайсМастер на ваших данных, рассчитаем стоимость и ответим на все вопросы. Бесплатно и без обязательств.</p>
+      <div class="final-form fi d2 v">
         <form id="cta-form" onsubmit="submitForm(event,'cta-form')">
           <div class="final-form-grid">
             <div class="form-group" style="margin-bottom:0">
-              <label class="form-label">Ваше имя</label>
+              <label class="form-label" style="text-align:left;color:rgba(255,255,255,.9)">Ваше имя</label>
               <input type="text" name="name" class="form-input" placeholder="Иван Петров">
             </div>
             <div class="form-group" style="margin-bottom:0">
-              <label class="form-label">Телефон <span style="color:#f87171">*</span></label>
+              <label class="form-label" style="text-align:left;color:rgba(255,255,255,.9)">Телефон <span style="color:#f87171">*</span></label>
               <input type="tel" name="phone" class="form-input" placeholder="+7 900 000-00-00">
             </div>
           </div>
           <div class="form-group mt12">
-            <label class="form-label">Расскажите о задаче</label>
+            <label class="form-label" style="text-align:left;color:rgba(255,255,255,.9)">Расскажите о задаче</label>
             <textarea name="comment" class="form-input" rows="2" placeholder="Сколько поставщиков, позиций, как сейчас решаете задачу..."></textarea>
           </div>
           <button type="submit" class="btn btn-white btn-lg btn-full mt12" style="color:var(--blue)">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
             Отправить заявку
           </button>
         </form>
@@ -1186,13 +1188,13 @@ td.cart-btn{padding:4px 7px}
         </div>
         <p class="form-note mt8" style="color:rgba(255,255,255,.4)">Или напишите в Telegram: <a href="https://t.me/vorontsov_dmitriy" style="color:rgba(255,255,255,.65);text-decoration:underline">@vorontsov_dmitriy</a></p>
       </div>
-      <div class="cta-btns fi d3">
+      <div class="cta-btns fi d3 v">
         <a href="https://t.me/vorontsov_dmitriy" target="_blank" class="btn btn-outline-white">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2.2" stroke-linecap="round"></path></svg>
           Telegram
         </a>
         <a href="tel:+79130998250" class="btn btn-outline-white">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.12-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.3h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.12-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
           +7 913 099-82-50
         </a>
       </div>
@@ -1205,10 +1207,10 @@ td.cart-btn{padding:4px 7px}
   <div class="container">
     <div class="footer-inner">
       <div class="footer-logo">
-        <div class="nav-logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg></div>
+        <div class="nav-logo-mark"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="9" x2="9" y2="21"></line></svg></div>
         <div class="footer-logo-text">Прайс<span>Мастер</span></div>
       </div>
-      <div class="footer-copy">© 2026 ПрайсМастер. Автоматизация мониторинга цен.</div>
+      <div class="footer-copy">© 2025 ПрайсМастер. Автоматизация мониторинга цен.</div>
       <div class="footer-links">
         <a href="https://t.me/vorontsov_dmitriy" target="_blank">Telegram</a>
         <a href="tel:+79130998250">+7 913 099-82-50</a>
@@ -1347,76 +1349,162 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 
 // ══════════════════════════════════════════════════════
-// EDITOR
+// EDITOR — full-featured
 // ══════════════════════════════════════════════════════
-let edMode = false, activeEl = null;
+let edMode = false, curEl = null, toolbarDragging = false, tbDx=0, tbDy=0;
 
 function openEditor(){
   edMode = true;
   document.body.classList.add('editor-active');
   document.getElementById('ed-panel').classList.add('vis');
   document.getElementById('edToggle').style.display = 'none';
-  notify('Редактор включён. Используйте кнопку «Выбрать элемент» для редактирования текста.');
+  // Make all [contenteditable] elements already in HTML editable on click
+  activateEditables();
+  notify('Редактор включён. Кликайте на текст для редактирования.');
 }
 function closeEditor(){
   edMode = false;
   document.body.classList.remove('editor-active');
   document.getElementById('ed-panel').classList.remove('vis');
   document.getElementById('edToggle').style.display = 'flex';
+  closeToolbar();
 }
 
+// Make all pre-marked contenteditable elements clickable
+function activateEditables(){
+  document.querySelectorAll('[contenteditable]').forEach(el=>{
+    if(!el.dataset.edBound){
+      el.dataset.edBound = '1';
+      el.addEventListener('focus', ()=>{ curEl=el; showToolbar(el); });
+      el.addEventListener('click', e=>{ e.stopPropagation(); });
+    }
+  });
+}
+
+// Make any clicked element editable
 function makeEditable(){
-  notify('Кликните на любой текстовый элемент для редактирования.');
+  notify('Кликните на текстовый элемент для редактирования.');
   document.addEventListener('click', function handler(e){
+    if(e.target.closest('#ed-panel')||e.target.closest('#ed-toolbar')||e.target.closest('#edToggle')) return;
     document.removeEventListener('click', handler, true);
-    const el = e.target.closest('p,h1,h2,h3,h4,span,li,div.about-company-name,div.about-company-desc');
-    if(el && !el.closest('#ed-panel') && !el.closest('#edToggle')){
+    const el = e.target.closest('h1,h2,h3,h4,p,span,li,a,div.about-company-name,div.about-company-desc,div.hero-stat-num,div.hero-stat-label,div.cr-label,div.cr-sub,div.cr-val,div.calc-compare-label,div.calc-inputs-title,div.calc-compare-title,div.stat-num,div.stat-label,div.test-name,div.test-company,div.test-result');
+    if(el){
       el.setAttribute('contenteditable','true');
       el.focus();
-      notify('Элемент редактируется. Кликните «Выбрать элемент» снова для другого.');
+      curEl = el;
+      showToolbar(el);
+      if(!el.dataset.edBound){
+        el.dataset.edBound='1';
+        el.addEventListener('focus',()=>{ curEl=el; showToolbar(el); });
+      }
+      notify('Редактируйте текст. Панель форматирования доступна выше.');
     }
-  },{once:true, capture:true});
+  },{capture:true});
+}
+function unmakeEditable(){
+  if(curEl){ curEl.removeAttribute('contenteditable'); closeToolbar(); curEl=null; }
 }
 
+// ── TOOLBAR ─────────────────────────────────────────
+function showToolbar(el){
+  const tb = document.getElementById('ed-toolbar');
+  tb.classList.add('vis');
+  // Position near element
+  const r = el.getBoundingClientRect();
+  const top = Math.max(8, r.top + window.scrollY - 52);
+  const left = Math.min(r.left, window.innerWidth - 620);
+  tb.style.top  = top + 'px';
+  tb.style.left = Math.max(8,left) + 'px';
+  // Reflect current styles
+  const cs = getComputedStyle(el);
+  const sz = parseFloat(cs.fontSize);
+  document.getElementById('tb-sz').value  = Math.round(sz) || '';
+  document.getElementById('tb-col').value = rgbToHex(cs.color) || '#0a0a0a';
+  document.getElementById('tb-bg').value  = rgbToHex(cs.backgroundColor) || '#ffffff';
+}
+function closeToolbar(){ document.getElementById('ed-toolbar').classList.remove('vis'); }
+
+function execCmd(cmd){ document.execCommand(cmd,false,null); }
+function applyFont(v){ if(curEl&&v) curEl.style.fontFamily=v; }
+function applySize(v){ if(curEl&&v){ curEl.style.fontSize=v+'px'; } }
+function applyColor(v){ if(curEl) curEl.style.color=v; }
+function applyBg(v){ if(curEl) curEl.style.background=v; }
+function applyAlign(v){ if(curEl) curEl.style.textAlign=v; }
+
+function rgbToHex(rgb){
+  if(!rgb||rgb==='transparent') return null;
+  const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  if(!m) return null;
+  return '#'+[m[1],m[2],m[3]].map(x=>parseInt(x).toString(16).padStart(2,'0')).join('');
+}
+
+// Drag toolbar
+(function(){
+  const tb = ()=>document.getElementById('ed-toolbar');
+  document.addEventListener('mousedown', e=>{
+    if(e.target.closest('#ed-toolbar') && !e.target.closest('button,input,select')){
+      toolbarDragging=true;
+      const r=tb().getBoundingClientRect();
+      tbDx=e.clientX-r.left; tbDy=e.clientY-r.top;
+    }
+  });
+  document.addEventListener('mousemove', e=>{
+    if(!toolbarDragging) return;
+    tb().style.left=Math.max(0,e.clientX-tbDx)+'px';
+    tb().style.top =Math.max(0,e.clientY-tbDy)+'px';
+  });
+  document.addEventListener('mouseup',()=>{ toolbarDragging=false; });
+})();
+
+// Close toolbar on click outside
+document.addEventListener('click', e=>{
+  if(!e.target.closest('#ed-toolbar') && !e.target.closest('[contenteditable]'))
+    closeToolbar();
+});
+
+// ── SAVE ────────────────────────────────────────────
 function getClean(){
   const doc = document.documentElement.cloneNode(true);
-  // Remove editor-only elements
-  doc.querySelectorAll('.editor-only, #ed-panel, #edToggle, .bctrl, .editor-only-style, #editor-css').forEach(el=>el.remove());
-  // Remove contenteditable attrs
+  doc.querySelectorAll('.editor-only,#ed-panel,#ed-toolbar,#edToggle,.editor-only-style,#editor-css').forEach(el=>el.remove());
   doc.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
-  // Remove editor-active class
+  doc.querySelectorAll('[data-ed-bound]').forEach(el=>el.removeAttribute('data-ed-bound'));
   doc.querySelector('body')?.classList.remove('editor-active');
-  return '<!DOCTYPE html>\n' + doc.outerHTML;
+  return '<!DOCTYPE html>\n'+doc.outerHTML;
 }
 function getEditable(){
   const doc = document.documentElement.cloneNode(true);
   doc.querySelector('body')?.classList.remove('editor-active');
   doc.getElementById('ed-panel')?.classList.remove('vis');
-  return '<!DOCTYPE html>\n' + doc.outerHTML;
+  doc.getElementById('ed-toolbar')?.classList.remove('vis');
+  doc.querySelectorAll('[data-ed-bound]').forEach(el=>el.removeAttribute('data-ed-bound'));
+  return '<!DOCTYPE html>\n'+doc.outerHTML;
 }
 function saveClean(){
   download('pricemaster-server.html', getClean());
-  notify('✅ Файл для сервера сохранён (без кода редактора)');
+  notify('✅ Файл для сервера сохранён — без кода редактора');
 }
 function saveEditable(){
   download('pricemaster-editable.html', getEditable());
-  notify('✅ Редактируемая копия сохранена');
+  notify('✅ Копия с редактором сохранена');
 }
 function download(name, content){
-  const a = document.createElement('a');
-  a.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(content);
-  a.download = name; a.click();
+  const a=document.createElement('a');
+  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(content);
+  a.download=name; a.click();
 }
+
+// ── NOTIFY ──────────────────────────────────────────
 function notify(msg){
-  let n = document.getElementById('pm-notif');
+  let n=document.getElementById('pm-notif');
   if(!n){
-    n = document.createElement('div'); n.id = 'pm-notif';
-    n.style.cssText = 'position:fixed;bottom:66px;right:16px;background:#1e293b;color:#f1f5f9;padding:10px 16px;border-radius:8px;font-size:.8rem;z-index:10000;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:320px;transition:opacity .3s;pointer-events:none;font-family:var(--font)';
+    n=document.createElement('div'); n.id='pm-notif';
+    n.style.cssText='position:fixed;bottom:80px;right:20px;background:#1e293b;color:#f1f5f9;padding:10px 16px;border-radius:8px;font-size:.8rem;z-index:10001;box-shadow:0 4px 20px rgba(0,0,0,.35);max-width:300px;transition:opacity .3s;pointer-events:none;font-family:var(--font);line-height:1.4';
     document.body.appendChild(n);
   }
-  n.textContent = msg; n.style.opacity = '1';
-  clearTimeout(n._t); n._t = setTimeout(()=>{ n.style.opacity='0'; },3500);
+  n.textContent=msg; n.style.opacity='1';
+  clearTimeout(n._t); n._t=setTimeout(()=>n.style.opacity='0',3800);
 }
 </script>
-</body>
-</html>
+
+
+<div id="pm-notif" style="position: fixed; bottom: 80px; right: 20px; background: rgb(30, 41, 59); color: rgb(241, 245, 249); padding: 10px 16px; border-radius: 8px; font-size: 0.8rem; z-index: 10001; box-shadow: rgba(0, 0, 0, 0.35) 0px 4px 20px; max-width: 300px; transition: opacity 0.3s; pointer-events: none; font-family: var(--font); line-height: 1.4; opacity: 1;">Редактор включён. Кликайте на текст для редактирования.</div></body></html>
