@@ -9,12 +9,39 @@
 
 <!-- EDITOR STYLES (editor-only) -->
 <style id="editor-css" class="editor-only-style">
-.editor-active [contenteditable=true]:hover{outline:2px dashed rgba(21,102,239,.45);outline-offset:2px;cursor:text;border-radius:3px}
-.editor-active [contenteditable=true]:focus{outline:2px solid #1566EF;outline-offset:2px;border-radius:3px;background:rgba(21,102,239,.04)}
-.editor-active .bctrl{display:flex!important}
-.bctrl{display:none!important;position:absolute;top:8px;right:8px;gap:4px;z-index:50;pointer-events:auto}
-.bcb{background:rgba(15,23,42,.75);color:#fff;border:none;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:.75rem;font-family:var(--font)}
-.bcb:hover{background:#1566EF}
+body.editor-active .ed-hov{outline:1.5px dashed rgba(21,102,239,.5)!important;outline-offset:2px}
+body.editor-active .ed-sel{outline:2.5px solid #1566EF!important;outline-offset:2px;box-shadow:0 0 0 4px rgba(21,102,239,.13)!important}
+body.editor-active [contenteditable=true]{outline:2px solid #00CDB0!important;outline-offset:2px;cursor:text!important;background:rgba(0,205,176,.04)!important}
+body.editor-active{padding-bottom:200px!important}
+#ed-panel{position:fixed!important;bottom:0!important;left:0!important;right:0!important;z-index:9998;background:#1a2235;border-top:2px solid rgba(21,102,239,.45);display:none;flex-direction:column;box-shadow:0 -8px 40px rgba(0,0,0,.55);font-family:-apple-system,'Segoe UI',sans-serif}
+#ed-panel.vis{display:flex!important}
+#ep-bar{display:flex;align-items:center;gap:8px;padding:7px 14px;background:#0f172a;border-bottom:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
+#ep-bar h4{color:#e2e8f0;font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:6px;white-space:nowrap;margin:0;margin-right:auto}
+.ep-badge{background:#1566EF;color:#fff;font-size:.6rem;padding:2px 7px;border-radius:99px;font-weight:700}
+#ep-elname{font-size:.7rem;color:#94a3b8;background:rgba(255,255,255,.07);padding:2px 8px;border-radius:4px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ep-action-btn{background:rgba(255,255,255,.07);color:#cbd5e1;border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:5px 11px;cursor:pointer;font-size:.75rem;font-family:inherit;transition:all .15s;white-space:nowrap}
+.ep-action-btn:hover{background:rgba(255,255,255,.14);color:#fff}
+.ep-action-btn.green{background:#16a34a;color:#fff;border-color:transparent}
+.ep-action-btn.green:hover{background:#15803d}
+.ep-action-btn.blue{background:#1566EF;color:#fff;border-color:transparent}
+.ep-action-btn.blue:hover{background:#0F4FBF}
+.ep-action-btn.red{background:rgba(239,68,68,.18);color:#f87171;border-color:rgba(239,68,68,.3)}
+.ep-action-btn.red:hover{background:#ef4444;color:#fff}
+#ep-ctrl{display:flex;align-items:center;gap:5px;padding:9px 14px;flex-wrap:wrap;min-height:54px}
+.ec-sep{width:1px;height:22px;background:rgba(255,255,255,.12);flex-shrink:0;margin:0 2px}
+.ec-label{font-size:.67rem;color:#64748b;white-space:nowrap}
+.ec-btn{background:rgba(255,255,255,.09);color:#e2e8f0;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:5px 10px;cursor:pointer;font-size:.78rem;font-family:inherit;transition:all .15s;white-space:nowrap;line-height:1}
+.ec-btn:hover{background:rgba(0,205,176,.22);color:#00CDB0;border-color:rgba(0,205,176,.4)}
+.ec-btn.danger{background:rgba(239,68,68,.15);color:#f87171;border-color:rgba(239,68,68,.3)}
+.ec-btn.danger:hover{background:#ef4444;color:#fff;border-color:transparent}
+.ec-input{background:rgba(255,255,255,.08);color:#e2e8f0;border:1px solid rgba(255,255,255,.14);border-radius:5px;padding:5px 8px;font-size:.78rem;font-family:inherit}
+.ec-input:focus{outline:none;border-color:#00CDB0}
+.ec-num{width:54px;text-align:center}
+.ec-wide{width:170px}
+.ec-color{width:26px;height:26px;padding:2px;border-radius:5px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:none}
+.ec-select{background:rgba(255,255,255,.08);color:#e2e8f0;border:1px solid rgba(255,255,255,.14);border-radius:5px;padding:4px 6px;font-size:.75rem;font-family:inherit;cursor:pointer}
+.ec-select:focus{outline:none;border-color:#00CDB0}
+#ep-nosel{color:#475569;font-size:.8rem;padding:0 14px;display:flex;align-items:center;gap:8px}
 </style>
 
 <style>
@@ -377,34 +404,7 @@ small{font-size:var(--fz4);line-height:var(--lh)}
   .hero-stats{gap:18px}
 }
 
-/* ══════════════════════════════════════════ EDITOR toolbar */
-#ed-toolbar{position:fixed;z-index:9999;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:8px 12px;display:none;flex-wrap:wrap;gap:6px;align-items:center;box-shadow:0 8px 32px rgba(0,0,0,.5);pointer-events:auto}
-#ed-toolbar.vis{display:flex}
-.tb-grp{display:flex;align-items:center;gap:4px}
-.tb-sep{width:1px;height:18px;background:rgba(255,255,255,.15);flex-shrink:0}
-.tb-btn{background:rgba(255,255,255,.09);color:#f1f5f9;border:none;border-radius:5px;padding:4px 9px;cursor:pointer;font-size:.78rem;font-family:var(--font);transition:background .15s;white-space:nowrap}
-.tb-btn:hover{background:var(--teal);color:#0D0F14}
-.tb-lbl{font-size:.7rem;color:#64748b}
-.tb-sel{background:rgba(255,255,255,.09);color:#f1f5f9;border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 5px;font-size:.78rem;font-family:var(--font);cursor:pointer}
-.tb-sel:focus{outline:none;border-color:var(--teal)}
-.tb-inp{background:rgba(255,255,255,.09);color:#f1f5f9;border:1px solid rgba(255,255,255,.15);border-radius:5px;padding:3px 7px;font-size:.78rem;width:52px}
-.tb-inp:focus{outline:none;border-color:var(--teal)}
-.tb-color{width:26px;height:26px;padding:2px;border-radius:5px;cursor:pointer;border:1px solid rgba(255,255,255,.2);background:none}
-/* ══════════════════════════════════════════ EDITOR panel */
-#ed-panel{position:fixed;bottom:24px;right:24px;z-index:9998;background:#1e293b;border:1px solid rgba(255,255,255,.12);border-radius:var(--r);padding:16px;box-shadow:0 8px 40px rgba(0,0,0,.5);display:none;flex-direction:column;gap:8px;min-width:236px}
-#ed-panel.vis{display:flex}
-.ep-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.ep-head h4{color:#f1f5f9;font-size:.9rem;display:flex;align-items:center;gap:7px}
-.ep-badge{background:var(--blue);color:#fff;font-size:.62rem;padding:2px 7px;border-radius:99px;font-weight:700;letter-spacing:.05em}
-.ep-close{background:rgba(255,255,255,.08);color:#94a3b8;border:none;border-radius:5px;width:26px;height:26px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .15s}
-.ep-close:hover{background:#ef4444;color:#fff}
-.ep-sep{height:1px;background:rgba(255,255,255,.1);margin:2px 0}
-.pb{background:rgba(255,255,255,.07);color:#cbd5e1;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:8px 13px;cursor:pointer;font-size:.83rem;text-align:left;transition:background .15s;font-family:var(--font);width:100%}
-.pb:hover{background:rgba(255,255,255,.13);color:#fff}
-.pb.pg{background:#16a34a;color:#fff;border-color:transparent}
-.pb.pg:hover{background:#15803d}
-.pb.pb2{background:var(--blue);color:#fff;border-color:transparent}
-.pb.pb2:hover{background:var(--blue-d)}
+/* ══════════════════════════════════════════ EDITOR toggle btn */
 .ed-toggle{position:fixed;bottom:24px;right:24px;z-index:9997;background:var(--blue);color:#fff;border:none;border-radius:var(--r);padding:10px 18px;cursor:pointer;font-size:.85rem;font-family:var(--font);box-shadow:var(--sh);transition:all .2s;font-weight:700;display:flex;align-items:center;gap:8px}
 .ed-toggle:hover{background:var(--blue-d);transform:translateY(-1px)}
 </style>
@@ -417,64 +417,24 @@ small{font-size:var(--fz4);line-height:var(--lh)}
   Редактор
 </button>
 
-<!-- ════════════════ EDITOR PANEL (side) ════════════════ -->
+<!-- ════════════════ EDITOR BOTTOM PANEL ════════════════ -->
 <div id="ed-panel" class="editor-only">
-  <div class="ep-head">
+  <!-- TOP BAR: title + el name + save buttons -->
+  <div id="ep-bar">
     <h4>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
       Редактор <span class="ep-badge">PM</span>
     </h4>
-    <button class="ep-close" onclick="closeEditor()" title="Закрыть">✕</button>
+    <span id="ep-elname">— Кликните на любой элемент —</span>
+    <button class="ep-action-btn green" onclick="saveClean()">💾 Для сервера</button>
+    <button class="ep-action-btn blue"  onclick="saveEditable()">📋 С редактором</button>
+    <button class="ep-action-btn"       onclick="location.reload()">↺ Сброс</button>
+    <button class="ep-action-btn red"   onclick="closeEditor()">✕ Закрыть</button>
   </div>
-  <div class="ep-sep"></div>
-  <button class="pb" onclick="makeEditable()">+ Выбрать элемент</button>
-  <button class="pb" onclick="unmakeEditable()">Снять редактирование</button>
-  <div class="ep-sep"></div>
-  <button class="pb pg" onclick="saveClean()">Сохранить для сервера</button>
-  <button class="pb pb2" onclick="saveEditable()">Сохранить с редактором</button>
-  <div class="ep-sep"></div>
-  <button class="pb" onclick="location.reload()">Сбросить изменения</button>
-</div>
-
-<!-- ════════════════ FLOATING TOOLBAR ════════════════ -->
-<div id="ed-toolbar" class="editor-only">
-  <div class="tb-grp">
-    <span class="tb-lbl">Шрифт</span>
-    <select class="tb-sel" onchange="applyFont(this.value)">
-      <option value="">Авто</option>
-      <option value="'TildaSans','Manrope',sans-serif">TildaSans</option>
-      <option value="'Manrope',sans-serif">Manrope</option>
-      <option value="Georgia,serif">Georgia</option>
-      <option value="Arial,sans-serif">Arial</option>
-      <option value="'Courier New',monospace">Mono</option>
-    </select>
+  <!-- CONTROLS ROW -->
+  <div id="ep-ctrl">
+    <span id="ep-nosel">👆 Кликните на любой элемент страницы для редактирования</span>
   </div>
-  <div class="tb-sep"></div>
-  <div class="tb-grp">
-    <span class="tb-lbl">px</span>
-    <input type="number" class="tb-inp" id="tb-sz" placeholder="px" min="8" max="120" onchange="applySize(this.value)">
-  </div>
-  <div class="tb-sep"></div>
-  <div class="tb-grp">
-    <button class="tb-btn" onclick="execCmd('bold')"><b>B</b></button>
-    <button class="tb-btn" onclick="execCmd('italic')"><i>I</i></button>
-    <button class="tb-btn" onclick="execCmd('underline')"><u>U</u></button>
-  </div>
-  <div class="tb-sep"></div>
-  <div class="tb-grp">
-    <span class="tb-lbl">Цвет</span>
-    <input type="color" class="tb-color" id="tb-col" onchange="applyColor(this.value)" value="#0a0a0a">
-    <span class="tb-lbl">Фон</span>
-    <input type="color" class="tb-color" id="tb-bg" onchange="applyBg(this.value)" value="#ffffff">
-  </div>
-  <div class="tb-sep"></div>
-  <div class="tb-grp">
-    <button class="tb-btn" onclick="applyAlign('left')" title="По левому краю">⫧</button>
-    <button class="tb-btn" onclick="applyAlign('center')" title="По центру">≡</button>
-    <button class="tb-btn" onclick="applyAlign('right')" title="По правому краю">⫨</button>
-  </div>
-  <div class="tb-sep"></div>
-  <button class="tb-btn" style="background:rgba(239,68,68,.2);color:#ef4444" onclick="closeToolbar()">✕</button>
 </div>
 
 <!-- ════════════════ NAV ════════════════ -->
@@ -757,16 +717,16 @@ small{font-size:var(--fz4);line-height:var(--lh)}
         <div class="calc-inputs-title">Калькулятор</div>
 
         <div class="calc-row">
-          <label>Поставщиков: <span id="lbl-sup" style="color:var(--teal);font-weight:800">5</span></label>
+          <label>Поставщиков: <span id="lbl-sup" style="color:var(--teal);font-weight:800">4</span></label>
           <div class="calc-slider-wrap">
-            <input type="range" class="calc-slider" id="sl-sup" min="1" max="30" value="5" oninput="calcUpdate()">
+            <input type="range" class="calc-slider" id="sl-sup" min="1" max="30" value="4" oninput="calcUpdate()">
           </div>
         </div>
 
         <div class="calc-row">
-          <label>Позиций в прайсе: <span id="lbl-items" style="color:var(--teal);font-weight:800">3 000</span></label>
+          <label>Позиций в прайсе: <span id="lbl-items" style="color:var(--teal);font-weight:800">500</span></label>
           <div class="calc-slider-wrap">
-            <input type="range" class="calc-slider" id="sl-items" min="100" max="50000" value="3000" step="100" oninput="calcUpdate()">
+            <input type="range" class="calc-slider" id="sl-items" min="100" max="50000" value="500" step="100" oninput="calcUpdate()">
           </div>
         </div>
 
@@ -1068,7 +1028,6 @@ small{font-size:var(--fz4);line-height:var(--lh)}
           <li contenteditable="true">Обновления по запросу</li>
         </ul>
         <a href="#cta" class="btn btn-primary btn-full">Купить лицензию</a>
-        <p class="form-note mt8" style="color:var(--text-3)">Окупается за 1–2 месяца</p>
       </div>
       <div class="pricing-card fi d1">
         <h3>Доработка под клиента</h3>
@@ -1393,170 +1352,344 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 
 // ══════════════════════════════════════════════════════
-// EDITOR — full-featured
+// EDITOR — full-featured bottom panel
 // ══════════════════════════════════════════════════════
-let edMode = false, curEl = null, toolbarDragging = false, tbDx=0, tbDy=0;
+(function(){
 
-function openEditor(){
+var edMode = false;
+var selEl  = null;   // currently selected element
+var SKIP   = '#ed-panel,#edToggle,.ed-skip';
+
+// ── IGNORED TAGS ──────────────────────────────────────
+var SKIP_TAGS = ['HTML','HEAD','BODY','SCRIPT','STYLE','NOSCRIPT','META','LINK','TITLE','BR','HR'];
+
+// ── OPEN / CLOSE ──────────────────────────────────────
+window.openEditor = function(){
   edMode = true;
   document.body.classList.add('editor-active');
   document.getElementById('ed-panel').classList.add('vis');
   document.getElementById('edToggle').style.display = 'none';
-  // Make all [contenteditable] elements already in HTML editable on click
-  activateEditables();
-  notify('Редактор включён. Кликайте на текст для редактирования.');
-}
-function closeEditor(){
+  bindHover();
+  notify('✏️ Редактор включён. Кликайте на любой элемент.');
+};
+
+window.closeEditor = function(){
   edMode = false;
   document.body.classList.remove('editor-active');
   document.getElementById('ed-panel').classList.remove('vis');
   document.getElementById('edToggle').style.display = 'flex';
-  closeToolbar();
+  deselect();
+  unbindHover();
+};
+
+// ── HOVER & CLICK BINDING ──────────────────────────────
+function isEditorEl(el){
+  return el.closest('#ed-panel') || el.closest('#edToggle') || el.id==='ed-panel' || el.id==='edToggle';
+}
+function skipEl(el){
+  if(!el || !el.tagName) return true;
+  if(SKIP_TAGS.indexOf(el.tagName) !== -1) return true;
+  if(isEditorEl(el)) return true;
+  return false;
 }
 
-// Make all pre-marked contenteditable elements clickable
-function activateEditables(){
-  document.querySelectorAll('[contenteditable]').forEach(el=>{
-    if(!el.dataset.edBound){
-      el.dataset.edBound = '1';
-      el.addEventListener('focus', ()=>{ curEl=el; showToolbar(el); });
-      el.addEventListener('click', e=>{ e.stopPropagation(); });
+function bindHover(){
+  document.addEventListener('mouseover', onHover, true);
+  document.addEventListener('mouseout',  onOut,   true);
+  document.addEventListener('click',     onClick, true);
+}
+function unbindHover(){
+  document.removeEventListener('mouseover', onHover, true);
+  document.removeEventListener('mouseout',  onOut,   true);
+  document.removeEventListener('click',     onClick, true);
+}
+
+function onHover(e){
+  if(!edMode) return;
+  var el = e.target;
+  if(skipEl(el)) return;
+  // remove hov from others
+  document.querySelectorAll('.ed-hov').forEach(function(x){ x.classList.remove('ed-hov'); });
+  if(el !== selEl) el.classList.add('ed-hov');
+}
+function onOut(e){
+  if(!edMode) return;
+  if(e.target && !skipEl(e.target)) e.target.classList.remove('ed-hov');
+}
+function onClick(e){
+  if(!edMode) return;
+  var el = e.target;
+  if(skipEl(el)) return;
+
+  // If clicking on a link in editor, prevent navigation but still select
+  if(el.tagName === 'A' || el.closest('a')) {
+    e.preventDefault();
+  }
+  // If clicking on a form button, prevent submit
+  if(el.tagName === 'BUTTON' || el.type === 'submit') {
+    e.preventDefault();
+  }
+  e.stopPropagation();
+
+  // Deselect old
+  deselect();
+  // Select new
+  selEl = el;
+  el.classList.remove('ed-hov');
+  el.classList.add('ed-sel');
+  showPanel(el);
+}
+
+// ── DESELECT ──────────────────────────────────────────
+function deselect(){
+  if(selEl){
+    selEl.classList.remove('ed-sel');
+    if(selEl.hasAttribute('contenteditable') && selEl.getAttribute('contenteditable')==='true'){
+      selEl.removeAttribute('contenteditable');
+      selEl.removeAttribute('data-ed-bound');
     }
-  });
+    selEl = null;
+  }
+  document.querySelectorAll('.ed-sel').forEach(function(x){ x.classList.remove('ed-sel'); });
+  // Clear controls
+  var ctrl = document.getElementById('ep-ctrl');
+  ctrl.innerHTML = '<span id="ep-nosel">👆 Кликните на любой элемент страницы для редактирования</span>';
+  document.getElementById('ep-elname').textContent = '— Кликните на любой элемент —';
 }
 
-// Make any clicked element editable
-function makeEditable(){
-  notify('Кликните на текстовый элемент для редактирования.');
-  document.addEventListener('click', function handler(e){
-    if(e.target.closest('#ed-panel')||e.target.closest('#ed-toolbar')||e.target.closest('#edToggle')) return;
-    document.removeEventListener('click', handler, true);
-    const el = e.target.closest('h1,h2,h3,h4,p,span,li,a,div.about-company-name,div.about-company-desc,div.hero-stat-num,div.hero-stat-label,div.cr-label,div.cr-sub,div.cr-val,div.calc-compare-label,div.calc-inputs-title,div.calc-compare-title,div.stat-num,div.stat-label,div.test-name,div.test-company,div.test-result');
-    if(el){
-      el.setAttribute('contenteditable','true');
-      el.focus();
-      curEl = el;
-      showToolbar(el);
-      if(!el.dataset.edBound){
-        el.dataset.edBound='1';
-        el.addEventListener('focus',()=>{ curEl=el; showToolbar(el); });
-      }
-      notify('Редактируйте текст. Панель форматирования доступна выше.');
-    }
-  },{capture:true});
+// ── SHOW PANEL ────────────────────────────────────────
+function elDesc(el){
+  var name = el.tagName.toLowerCase();
+  var cls  = el.className ? ('.'+el.className.replace(/\s+/g,'.').replace(/\.ed-sel|\.ed-hov/g,'').replace(/\.+/g,'.').replace(/\.$|^\./,'')) : '';
+  if(cls.length > 30) cls = cls.substring(0,30)+'…';
+  var id = el.id ? ('#'+el.id) : '';
+  return name + (id||cls||'');
 }
-function unmakeEditable(){
-  if(curEl){ curEl.removeAttribute('contenteditable'); closeToolbar(); curEl=null; }
-}
-
-// ── TOOLBAR ─────────────────────────────────────────
-function showToolbar(el){
-  const tb = document.getElementById('ed-toolbar');
-  tb.classList.add('vis');
-  // Calculate toolbar dimensions after making visible
-  requestAnimationFrame(()=>{
-    const tbW = tb.offsetWidth || 600;
-    const tbH = tb.offsetHeight || 50;
-    const r = el.getBoundingClientRect();
-    // Try above the element, fallback to below
-    let top = r.top + window.scrollY - tbH - 10;
-    if(top < window.scrollY + 8) top = r.bottom + window.scrollY + 8;
-    // Clamp left within viewport
-    let left = r.left;
-    const maxLeft = window.innerWidth - tbW - 12;
-    left = Math.max(8, Math.min(left, maxLeft));
-    tb.style.top  = top + 'px';
-    tb.style.left = left + 'px';
-  });
-  // Reflect current styles
-  const cs = getComputedStyle(el);
-  const sz = parseFloat(cs.fontSize);
-  document.getElementById('tb-sz').value  = Math.round(sz) || '';
-  document.getElementById('tb-col').value = rgbToHex(cs.color) || '#0a0a0a';
-  document.getElementById('tb-bg').value  = rgbToHex(cs.backgroundColor) || '#ffffff';
-}
-function closeToolbar(){ document.getElementById('ed-toolbar').classList.remove('vis'); }
-
-function execCmd(cmd){ document.execCommand(cmd,false,null); }
-function applyFont(v){ if(curEl&&v) curEl.style.fontFamily=v; }
-function applySize(v){ if(curEl&&v){ curEl.style.fontSize=v+'px'; } }
-function applyColor(v){ if(curEl) curEl.style.color=v; }
-function applyBg(v){ if(curEl) curEl.style.background=v; }
-function applyAlign(v){ if(curEl) curEl.style.textAlign=v; }
 
 function rgbToHex(rgb){
-  if(!rgb||rgb==='transparent') return null;
-  const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-  if(!m) return null;
-  return '#'+[m[1],m[2],m[3]].map(x=>parseInt(x).toString(16).padStart(2,'0')).join('');
+  if(!rgb || rgb==='transparent' || rgb==='rgba(0, 0, 0, 0)') return '#000000';
+  var m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+  if(!m) return '#000000';
+  return '#'+[m[1],m[2],m[3]].map(function(x){ return parseInt(x).toString(16).padStart(2,'0'); }).join('');
 }
 
-// Drag toolbar
-(function(){
-  const tb = ()=>document.getElementById('ed-toolbar');
-  document.addEventListener('mousedown', e=>{
-    if(e.target.closest('#ed-toolbar') && !e.target.closest('button,input,select')){
-      toolbarDragging=true;
-      const r=tb().getBoundingClientRect();
-      tbDx=e.clientX-r.left; tbDy=e.clientY-r.top;
+function isTextEl(el){
+  var t = el.tagName;
+  return ['H1','H2','H3','H4','H5','H6','P','SPAN','LI','TD','TH','LABEL','A','BUTTON','DIV'].indexOf(t) !== -1;
+}
+
+function showPanel(el){
+  var ctrl = document.getElementById('ep-ctrl');
+  var cs   = getComputedStyle(el);
+  document.getElementById('ep-elname').textContent = elDesc(el);
+
+  var isText = isTextEl(el);
+  var isLink = el.tagName === 'A' || el.closest('a');
+  var linkEl = el.tagName === 'A' ? el : el.closest('a');
+  var isImg  = el.tagName === 'IMG';
+
+  var html = '';
+
+  // ── TEXT / INLINE EDIT ────────────────────────────
+  if(isText){
+    // Make editable
+    el.setAttribute('contenteditable','true');
+    el.focus();
+    var sz = Math.round(parseFloat(cs.fontSize)) || '';
+    var col = rgbToHex(cs.color);
+    var bg  = (cs.backgroundColor==='rgba(0, 0, 0, 0)'||cs.backgroundColor==='transparent') ? '#ffffff' : rgbToHex(cs.backgroundColor);
+
+    html += '<span class="ec-label">Шрифт</span>';
+    html += '<select class="ec-select" id="ec-font" onchange="window.ED.applyFont(this.value)">';
+    html += '<option value="">Авто</option>';
+    html += '<option value="\'TildaSans\',\'Manrope\',sans-serif">TildaSans</option>';
+    html += '<option value="\'Manrope\',sans-serif">Manrope</option>';
+    html += '<option value="Georgia,serif">Georgia</option>';
+    html += '<option value="Arial,sans-serif">Arial</option>';
+    html += '<option value="\'Courier New\',monospace">Mono</option>';
+    html += '</select>';
+    html += '<div class="ec-sep"></div>';
+    html += '<span class="ec-label">px</span>';
+    html += '<input type="number" id="ec-sz" class="ec-input ec-num" value="'+sz+'" min="8" max="200" placeholder="px" oninput="window.ED.applySize(this.value)">';
+    html += '<div class="ec-sep"></div>';
+    html += '<button class="ec-btn" onclick="window.ED.execFmt(\'bold\')"><b>B</b></button>';
+    html += '<button class="ec-btn" onclick="window.ED.execFmt(\'italic\')"><i>I</i></button>';
+    html += '<button class="ec-btn" onclick="window.ED.execFmt(\'underline\')"><u>U</u></button>';
+    html += '<div class="ec-sep"></div>';
+    html += '<button class="ec-btn" onclick="window.ED.applyAlign(\'left\')" title="По левому краю">⬅</button>';
+    html += '<button class="ec-btn" onclick="window.ED.applyAlign(\'center\')" title="По центру">≡</button>';
+    html += '<button class="ec-btn" onclick="window.ED.applyAlign(\'right\')" title="По правому краю">➡</button>';
+    html += '<div class="ec-sep"></div>';
+    html += '<span class="ec-label">Цвет</span>';
+    html += '<input type="color" class="ec-color" id="ec-col" value="'+col+'" oninput="window.ED.applyColor(this.value)">';
+    html += '<span class="ec-label">Фон</span>';
+    html += '<input type="color" class="ec-color" id="ec-bg" value="'+bg+'" oninput="window.ED.applyBg(this.value)">';
+    html += '<div class="ec-sep"></div>';
+  }
+
+  // ── IMAGE ─────────────────────────────────────────
+  if(isImg){
+    html += '<span class="ec-label">URL картинки</span>';
+    html += '<input type="text" class="ec-input ec-wide" id="ec-imgsrc" value="'+(el.src||'')+'" placeholder="https://..." oninput="window.ED.applyImgSrc(this.value)">';
+    html += '<span class="ec-label">Alt</span>';
+    html += '<input type="text" class="ec-input" style="width:100px" id="ec-imgalt" value="'+(el.alt||'')+'" oninput="window.ED.applyImgAlt(this.value)">';
+    html += '<div class="ec-sep"></div>';
+  }
+
+  // ── LINK ──────────────────────────────────────────
+  if(linkEl){
+    html += '<span class="ec-label">Ссылка</span>';
+    html += '<input type="text" class="ec-input ec-wide" id="ec-href" value="'+(linkEl.getAttribute('href')||'')+'" placeholder="#якорь или https://..." oninput="window.ED.applyHref(this.value)">';
+    html += '<div class="ec-sep"></div>';
+  }
+
+  // ── BLOCK BG ──────────────────────────────────────
+  var blockBg = (cs.backgroundColor==='rgba(0, 0, 0, 0)'||cs.backgroundColor==='transparent') ? '#ffffff' : rgbToHex(cs.backgroundColor);
+  html += '<span class="ec-label">Фон блока</span>';
+  html += '<input type="color" class="ec-color" id="ec-blkbg" value="'+blockBg+'" oninput="window.ED.applyBlockBg(this.value)">';
+  html += '<div class="ec-sep"></div>';
+
+  // ── PADDING ───────────────────────────────────────
+  var pad = el.style.padding || '';
+  html += '<span class="ec-label">Отступы</span>';
+  html += '<input type="text" class="ec-input" style="width:80px" id="ec-pad" value="'+pad+'" placeholder="20px" oninput="window.ED.applyPad(this.value)">';
+  html += '<div class="ec-sep"></div>';
+
+  // ── ACTIONS ───────────────────────────────────────
+  html += '<button class="ec-btn" onclick="window.ED.moveEl(-1)" title="Переместить выше">↑</button>';
+  html += '<button class="ec-btn" onclick="window.ED.moveEl(1)"  title="Переместить ниже">↓</button>';
+  html += '<button class="ec-btn" onclick="window.ED.hideEl()"   title="Скрыть/показать">👁</button>';
+  html += '<button class="ec-btn danger" onclick="window.ED.deleteEl()">🗑 Удалить</button>';
+
+  ctrl.innerHTML = html;
+}
+
+// ── EDIT FUNCTIONS ────────────────────────────────────
+window.ED = {
+  applyFont: function(v){ if(selEl && v) selEl.style.fontFamily = v; },
+  applySize: function(v){ if(selEl && v) selEl.style.fontSize = v+'px'; },
+  applyColor: function(v){ if(selEl) selEl.style.color = v; },
+  applyBg:    function(v){ if(selEl) selEl.style.background = v; },
+  applyBlockBg: function(v){ if(selEl) selEl.style.background = v; },
+  applyAlign: function(v){ if(selEl) selEl.style.textAlign = v; },
+  applyHref:  function(v){
+    if(!selEl) return;
+    var a = selEl.tagName==='A' ? selEl : selEl.closest('a');
+    if(a) a.setAttribute('href', v);
+  },
+  applyImgSrc: function(v){ if(selEl && selEl.tagName==='IMG') selEl.src = v; },
+  applyImgAlt: function(v){ if(selEl && selEl.tagName==='IMG') selEl.alt = v; },
+  applyPad:    function(v){ if(selEl) selEl.style.padding = v; },
+  execFmt: function(cmd){
+    if(selEl && selEl.isContentEditable){
+      document.execCommand(cmd, false, null);
     }
-  });
-  document.addEventListener('mousemove', e=>{
-    if(!toolbarDragging) return;
-    tb().style.left=Math.max(0,e.clientX-tbDx)+'px';
-    tb().style.top =Math.max(0,e.clientY-tbDy)+'px';
-  });
-  document.addEventListener('mouseup',()=>{ toolbarDragging=false; });
-})();
+  },
+  deleteEl: function(){
+    if(!selEl) return;
+    if(!confirm('Удалить элемент «'+elDesc(selEl)+'»?')) return;
+    var parent = selEl.parentNode;
+    parent && parent.removeChild(selEl);
+    selEl = null;
+    deselect();
+    notify('🗑 Элемент удалён');
+  },
+  hideEl: function(){
+    if(!selEl) return;
+    var cur = selEl.style.display;
+    selEl.style.display = (cur==='none') ? '' : 'none';
+    if(selEl.style.display === 'none'){
+      notify('👁 Элемент скрыт. Нажмите 👁 снова для восстановления.');
+    }
+  },
+  moveEl: function(dir){
+    if(!selEl || !selEl.parentNode) return;
+    var parent = selEl.parentNode;
+    if(dir === -1){
+      var prev = selEl.previousElementSibling;
+      if(prev) parent.insertBefore(selEl, prev);
+    } else {
+      var next = selEl.nextElementSibling;
+      if(next) parent.insertBefore(next, selEl);
+    }
+  }
+};
 
-// Close toolbar on click outside
-document.addEventListener('click', e=>{
-  if(!e.target.closest('#ed-toolbar') && !e.target.closest('[contenteditable]'))
-    closeToolbar();
-});
-
-// ── SAVE ────────────────────────────────────────────
+// ── SAVE ──────────────────────────────────────────────
 function getClean(){
-  const doc = document.documentElement.cloneNode(true);
-  doc.querySelectorAll('.editor-only,#ed-panel,#ed-toolbar,#edToggle,.editor-only-style,#editor-css').forEach(el=>el.remove());
-  doc.querySelectorAll('[contenteditable]').forEach(el=>el.removeAttribute('contenteditable'));
-  doc.querySelectorAll('[data-ed-bound]').forEach(el=>el.removeAttribute('data-ed-bound'));
-  doc.querySelector('body')?.classList.remove('editor-active');
+  // Deselect before saving
+  var oldSel = selEl;
+  deselect();
+
+  var doc = document.documentElement.cloneNode(true);
+  // Remove ALL editor-only elements
+  doc.querySelectorAll('.editor-only,.editor-only-style,#ed-panel,#edToggle,#editor-css').forEach(function(el){ el.remove(); });
+  // Clean attributes
+  doc.querySelectorAll('[contenteditable]').forEach(function(el){ el.removeAttribute('contenteditable'); });
+  doc.querySelectorAll('[data-ed-bound]').forEach(function(el){ el.removeAttribute('data-ed-bound'); });
+  doc.querySelectorAll('.ed-sel,.ed-hov').forEach(function(el){
+    el.classList.remove('ed-sel','ed-hov');
+    if(!el.className) el.removeAttribute('class');
+  });
+  doc.querySelector('body').classList.remove('editor-active');
+  // Remove any leftover empty class attrs
+  doc.querySelectorAll('[class=""]').forEach(function(el){ el.removeAttribute('class'); });
+
+  if(oldSel){ selEl = oldSel; selEl.classList.add('ed-sel'); showPanel(selEl); }
   return '<!DOCTYPE html>\n'+doc.outerHTML;
 }
+
 function getEditable(){
-  const doc = document.documentElement.cloneNode(true);
-  doc.querySelector('body')?.classList.remove('editor-active');
-  doc.getElementById('ed-panel')?.classList.remove('vis');
-  doc.getElementById('ed-toolbar')?.classList.remove('vis');
-  doc.querySelectorAll('[data-ed-bound]').forEach(el=>el.removeAttribute('data-ed-bound'));
+  var oldSel = selEl;
+  deselect();
+
+  var doc = document.documentElement.cloneNode(true);
+  // Keep editor panel but reset state
+  doc.querySelector('body').classList.remove('editor-active');
+  doc.getElementById('ed-panel').classList.remove('vis');
+  doc.querySelectorAll('[contenteditable]').forEach(function(el){ el.removeAttribute('contenteditable'); });
+  doc.querySelectorAll('[data-ed-bound]').forEach(function(el){ el.removeAttribute('data-ed-bound'); });
+  doc.querySelectorAll('.ed-sel,.ed-hov').forEach(function(el){
+    el.classList.remove('ed-sel','ed-hov');
+    if(!el.className) el.removeAttribute('class');
+  });
+
+  if(oldSel){ selEl = oldSel; selEl.classList.add('ed-sel'); showPanel(selEl); }
   return '<!DOCTYPE html>\n'+doc.outerHTML;
 }
-function saveClean(){
+
+window.saveClean = function(){
   download('pricemaster-server.html', getClean());
   notify('✅ Файл для сервера сохранён — без кода редактора');
-}
-function saveEditable(){
+};
+window.saveEditable = function(){
   download('pricemaster-editable.html', getEditable());
   notify('✅ Копия с редактором сохранена');
-}
+};
 function download(name, content){
-  const a=document.createElement('a');
-  a.href='data:text/html;charset=utf-8,'+encodeURIComponent(content);
-  a.download=name; a.click();
+  var a = document.createElement('a');
+  a.href = 'data:text/html;charset=utf-8,'+encodeURIComponent(content);
+  a.download = name;
+  a.click();
 }
 
-// ── NOTIFY ──────────────────────────────────────────
+// ── NOTIFY ────────────────────────────────────────────
 function notify(msg){
-  let n=document.getElementById('pm-notif');
+  var n = document.getElementById('pm-notif');
   if(!n){
-    n=document.createElement('div'); n.id='pm-notif';
-    n.style.cssText='position:fixed;bottom:80px;right:20px;background:#1e293b;color:#f1f5f9;padding:10px 16px;border-radius:8px;font-size:.8rem;z-index:10001;box-shadow:0 4px 20px rgba(0,0,0,.35);max-width:300px;transition:opacity .3s;pointer-events:none;font-family:var(--font);line-height:1.4';
+    n = document.createElement('div');
+    n.id = 'pm-notif';
+    n.style.cssText = 'position:fixed;bottom:210px;right:20px;background:#1e293b;color:#f1f5f9;padding:10px 16px;border-radius:8px;font-size:.8rem;z-index:10001;box-shadow:0 4px 20px rgba(0,0,0,.35);max-width:300px;transition:opacity .3s;pointer-events:none;font-family:-apple-system,sans-serif;line-height:1.4';
     document.body.appendChild(n);
   }
-  n.textContent=msg; n.style.opacity='1';
-  clearTimeout(n._t); n._t=setTimeout(()=>n.style.opacity='0',3800);
+  n.textContent = msg;
+  n.style.opacity = '1';
+  clearTimeout(n._t);
+  n._t = setTimeout(function(){ n.style.opacity = '0'; }, 3800);
 }
+window.notify = notify;
+
+})();
 </script>
 </body>
 </html>
