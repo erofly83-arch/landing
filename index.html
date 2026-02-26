@@ -630,6 +630,53 @@ small{font-size:var(--fz4);line-height:var(--lh)}
 .about-photo-wrap{text-align:center}
 #about-photo-url::placeholder{color:rgba(240,242,247,.3)}
 
+/* ══════════════════════════════════════════ PAIN CARD ANIMATIONS */
+.pain-icon-full{width:100%;height:100px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;border-radius:var(--r-sm);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);overflow:visible}
+.pain-svg{width:100%;max-width:180px;height:90px}
+
+/* Clock card */
+@keyframes clock-minute{0%{transform-origin:60px 40px;transform:rotate(0deg)}100%{transform-origin:60px 40px;transform:rotate(360deg)}}
+@keyframes clock-ring{0%,30%{stroke-dashoffset:176}70%,100%{stroke-dashoffset:0}}
+@keyframes cross-draw{0%,40%{stroke-dashoffset:20}80%,100%{stroke-dashoffset:0}}
+.pain-clock-m{animation:clock-minute 4s linear infinite}
+.pain-svg-circle{animation:clock-ring 2.5s ease forwards;animation-delay:.3s}
+.pain-cross-1{animation:cross-draw 1s ease forwards;animation-delay:1.5s}
+.pain-cross-2{animation:cross-draw 1s ease forwards;animation-delay:1.8s}
+
+/* Money card */
+@keyframes coin-fall{0%,20%{transform:translateY(0);opacity:1}60%{transform:translateY(30px);opacity:.3}61%{transform:translateY(-20px);opacity:0}80%{transform:translateY(-20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes leak-pulse{0%,100%{opacity:.4;transform:translateY(0)}50%{opacity:1;transform:translateY(3px)}}
+@keyframes q-float{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(-5px);opacity:1}}
+.pain-coin-fall{animation:coin-fall 2.8s ease-in-out infinite}
+.pain-leak{animation:leak-pulse 1.2s ease-in-out infinite}
+.pain-q1{animation:q-float 2s ease-in-out infinite}
+.pain-q2{animation:q-float 2s ease-in-out infinite;animation-delay:.7s}
+
+/* Barcode card */
+@keyframes bar-flicker{0%,100%{opacity:1}45%{opacity:1}50%{opacity:.15}55%{opacity:1}}
+@keyframes chain-dash{0%{stroke-dashoffset:0}100%{stroke-dashoffset:12}}
+@keyframes x-pulse{0%,100%{transform-origin:60px 40px;transform:scale(1)}50%{transform-origin:60px 40px;transform:scale(1.15)}}
+.pain-bar-1{animation:bar-flicker 2.4s ease-in-out infinite}
+.pain-bar-2{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.15s}
+.pain-bar-3{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.05s}
+.pain-bar-4{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.2s}
+.pain-bar-5{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.1s}
+.pain-bar-6{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.3s}
+.pain-bar-7{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.08s}
+.pain-bar-8{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.22s}
+.pain-bar-9{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.14s}
+.pain-bar-10{animation:bar-flicker 2.4s ease-in-out infinite;animation-delay:.06s}
+.pain-chain{animation:chain-dash .6s linear infinite}
+.pain-x-circle{animation:x-pulse 1.8s ease-in-out infinite}
+.pain-x-line{animation:x-pulse 1.8s ease-in-out infinite}
+
+/* ══════════════════════════════════════════ CALC CTA BUTTON ARROW */
+@keyframes arrow-nudge{0%,100%{transform:translateX(0)}40%{transform:translateX(6px)}70%{transform:translateX(2px)}}
+.calc-cta-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--blue)!important;color:#fff!important;border-color:var(--blue)!important}
+.calc-cta-btn:hover{background:#1055cc!important}
+.calc-arrow-wrap{display:flex;align-items:center;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.15);flex-shrink:0}
+.calc-arrow{animation:arrow-nudge 1.6s ease-in-out infinite}
+
 /* ══════════════════════════════════════════ SCROLL ANIMATION */
 .fi{opacity:0;transform:translateY(18px);transition:opacity .5s,transform .5s}
 .fi.d1{transition-delay:.1s}
@@ -808,20 +855,83 @@ small{font-size:var(--fz4);line-height:var(--lh)}
       <p class="mt12" contenteditable="true">Закупщики и категорийщики тратят лучшее рабочее время на рутину, которую можно автоматизировать</p>
     </div>
     <div class="pain-cards">
+      <!-- Card 1: wasted time -->
       <div class="pain-card fi">
-        <div class="pain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="pain-icon-full">
+          <svg class="pain-svg" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- clock face -->
+            <circle cx="60" cy="40" r="28" stroke="rgba(0,205,176,.2)" stroke-width="2"/>
+            <circle cx="60" cy="40" r="28" stroke="var(--teal)" stroke-width="2" stroke-dasharray="176" stroke-dashoffset="176" class="pain-svg-circle"/>
+            <!-- clock tick marks -->
+            <line x1="60" y1="14" x2="60" y2="18" stroke="var(--teal)" stroke-width="2" opacity=".5"/>
+            <line x1="60" y1="62" x2="60" y2="66" stroke="var(--teal)" stroke-width="2" opacity=".5"/>
+            <line x1="32" y1="40" x2="36" y2="40" stroke="var(--teal)" stroke-width="2" opacity=".5"/>
+            <line x1="84" y1="40" x2="88" y2="40" stroke="var(--teal)" stroke-width="2" opacity=".5"/>
+            <!-- hour hand -->
+            <line x1="60" y1="40" x2="60" y2="22" stroke="white" stroke-width="2.5" stroke-linecap="round" class="pain-clock-h"/>
+            <!-- minute hand - animates -->
+            <line x1="60" y1="40" x2="75" y2="32" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" class="pain-clock-m"/>
+            <!-- center dot -->
+            <circle cx="60" cy="40" r="3" fill="var(--teal)"/>
+            <!-- red X overlay coming in -->
+            <line x1="96" y1="16" x2="110" y2="2" stroke="#ef4444" stroke-width="3" stroke-linecap="round" class="pain-cross-1" stroke-dasharray="20" stroke-dashoffset="20"/>
+            <line x1="110" y1="16" x2="96" y2="2" stroke="#ef4444" stroke-width="3" stroke-linecap="round" class="pain-cross-2" stroke-dasharray="20" stroke-dashoffset="20"/>
+          </svg>
+        </div>
         <h3 contenteditable="true">3–5 часов каждую неделю — в трубу</h3>
         <p contenteditable="true">Менеджеры вручную переносят цены из одного Excel в другой, сравнивают колонки, ошибаются, переделывают. Снова и снова.</p>
         <div class="pain-example" contenteditable="true">«У нас 6 поставщиков и 9 000 позиций. Раньше два человека тратили половину понедельника только на сбор актуальной сводки цен.» — закупщик продовольственного ритейла</div>
       </div>
+
+      <!-- Card 2: money lost -->
       <div class="pain-card fi d1">
-        <div class="pain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="pain-icon-full">
+          <svg class="pain-svg" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- coin stack base -->
+            <ellipse cx="60" cy="62" rx="22" ry="7" fill="rgba(0,205,176,.08)" stroke="rgba(0,205,176,.3)" stroke-width="1.5"/>
+            <rect x="38" y="50" width="44" height="12" rx="1" fill="rgba(0,205,176,.05)" stroke="rgba(0,205,176,.2)" stroke-width="1.5"/>
+            <ellipse cx="60" cy="50" rx="22" ry="7" fill="rgba(0,205,176,.1)" stroke="rgba(0,205,176,.35)" stroke-width="1.5"/>
+            <!-- falling coin -->
+            <ellipse cx="60" cy="28" rx="14" ry="14" fill="rgba(0,205,176,.08)" stroke="var(--teal)" stroke-width="2" class="pain-coin-fall"/>
+            <text x="60" y="33" text-anchor="middle" font-size="13" font-weight="700" fill="var(--teal)" class="pain-coin-fall" font-family="sans-serif">₽</text>
+            <!-- downward arrow leaking -->
+            <polyline points="60,44 60,54" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" class="pain-leak"/>
+            <polyline points="54,49 60,55 66,49" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="pain-leak"/>
+            <!-- question marks floating -->
+            <text x="92" y="32" font-size="14" fill="rgba(239,68,68,.6)" font-family="sans-serif" class="pain-q1">?</text>
+            <text x="20" y="36" font-size="11" fill="rgba(239,68,68,.4)" font-family="sans-serif" class="pain-q2">?</text>
+          </svg>
+        </div>
         <h3 contenteditable="true">Закупаете не по минимальной цене</h3>
         <p contenteditable="true">Когда данные устаревают или сопоставляются вручную — легко пропустить поставщика с лучшей ценой. Каждая такая закупка — потерянная маржа.</p>
         <div class="pain-example" contenteditable="true">«Обнаружили, что 3 месяца брали кофе у одного поставщика, хотя у другого он был на 8% дешевле. Прайсы просто не успевали сравнивать.» — оптовый дистрибьютор</div>
       </div>
+
+      <!-- Card 3: barcodes don't match -->
       <div class="pain-card fi d2">
-        <div class="pain-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="pain-icon-full">
+          <svg class="pain-svg" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- left barcode bars -->
+            <rect x="14" y="20" width="3" height="40" rx="1" fill="rgba(0,205,176,.5)" class="pain-bar pain-bar-1"/>
+            <rect x="20" y="20" width="2" height="40" rx="1" fill="rgba(0,205,176,.3)" class="pain-bar pain-bar-2"/>
+            <rect x="25" y="20" width="4" height="40" rx="1" fill="rgba(0,205,176,.5)" class="pain-bar pain-bar-3"/>
+            <rect x="32" y="20" width="2" height="40" rx="1" fill="rgba(0,205,176,.3)" class="pain-bar pain-bar-4"/>
+            <rect x="37" y="20" width="3" height="40" rx="1" fill="rgba(0,205,176,.5)" class="pain-bar pain-bar-5"/>
+            <!-- right barcode bars (slightly different) -->
+            <rect x="81" y="20" width="2" height="40" rx="1" fill="rgba(0,205,176,.3)" class="pain-bar pain-bar-6"/>
+            <rect x="86" y="20" width="4" height="40" rx="1" fill="rgba(0,205,176,.5)" class="pain-bar pain-bar-7"/>
+            <rect x="93" y="20" width="3" height="40" rx="1" fill="rgba(0,205,176,.3)" class="pain-bar pain-bar-8"/>
+            <rect x="99" y="20" width="2" height="40" rx="1" fill="rgba(0,205,176,.5)" class="pain-bar pain-bar-9"/>
+            <rect x="104" y="20" width="3" height="40" rx="1" fill="rgba(0,205,176,.3)" class="pain-bar pain-bar-10"/>
+            <!-- broken link chain in middle -->
+            <line x1="44" y1="40" x2="52" y2="40" stroke="rgba(239,68,68,.7)" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3" class="pain-chain"/>
+            <line x1="68" y1="40" x2="76" y2="40" stroke="rgba(239,68,68,.7)" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3" class="pain-chain"/>
+            <!-- X in centre -->
+            <circle cx="60" cy="40" r="10" fill="rgba(239,68,68,.12)" stroke="rgba(239,68,68,.5)" stroke-width="1.5" class="pain-x-circle"/>
+            <line x1="54" y1="34" x2="66" y2="46" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" class="pain-x-line"/>
+            <line x1="66" y1="34" x2="54" y2="46" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" class="pain-x-line"/>
+          </svg>
+        </div>
         <h3 contenteditable="true">Штрихкоды не совпадают — матчинг срывается</h3>
         <p contenteditable="true">У разных поставщиков один товар может иметь разные ШК, сокращённые названия, разные единицы. Ручное сопоставление 10 000 позиций — нереально.</p>
         <div class="pain-example" contenteditable="true">«Один поставщик пишет "Чай Гринфилд 25п", другой — "Greenfield 25 пак". Сопоставить вручную это невозможно.» — менеджер по закупкам</div>
@@ -1024,7 +1134,12 @@ small{font-size:var(--fz4);line-height:var(--lh)}
         </div>
 
         <div class="calc-cta-row">
-          <a href="#cta" class="btn btn-white btn-full">Хочу внедрить ПрайсМастер →</a>
+          <a href="#cta" class="btn btn-primary btn-full calc-cta-btn">
+            Хочу внедрить ПрайсМастер
+            <span class="calc-arrow-wrap">
+              <svg class="calc-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+            </span>
+          </a>
         </div>
       </div>
     </div>
@@ -1408,7 +1523,6 @@ small{font-size:var(--fz4);line-height:var(--lh)}
             <span contenteditable="true">Просто передумали — возвращаем</span>
           </div>
         </div>
-        <a href="#cta" class="btn btn-white btn-lg" style="margin-top:24px;display:inline-flex">Попробовать без риска →</a>
       </div>
     </div>
   </div>
