@@ -1,0 +1,2219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сравнение цен</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50%25' y='50%25' dominant-baseline='central' text-anchor='middle' font-size='80'%3E%F0%9F%92%B2%3C/text%3E%3C/svg%3E" />
+    <script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+/* ===== RESET ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* ===== BODY & BACKGROUND ===== */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f0f0f0;
+  min-height: 100vh;
+  padding: 0 0 32px 0;
+  color: #1f1f1f;
+}
+
+/* ===== APP NAV ===== */
+.app-nav {
+  position: sticky; top: 0; z-index: 5000;
+  background: #14512e;
+  display: flex; align-items: stretch;
+  padding: 0 10px; gap: 2px;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+.app-nav a {
+  color: rgba(255,255,255,0.55);
+  text-decoration: none; font-size: 13px; font-weight: 500;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 8px 18px; border-bottom: 3px solid transparent;
+  white-space: nowrap; letter-spacing: 0.01em;
+  transition: color .15s, background .15s;
+  display: flex; align-items: center;
+}
+.app-nav a:hover { color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.07); }
+.app-nav a.nav-active { color: #fff; border-bottom-color: #5dce8a; font-weight: 700; }
+
+/* ===== MAIN CONTAINER ===== */
+.container {
+  max-width: 100%;
+  margin: 12px 12px 0;
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  border: 1px solid #d0d0d0;
+}
+
+h1 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #1f1f1f;
+}
+
+/* ===== UPLOAD SECTION ===== */
+.upload-section {
+  display: grid;
+  grid-template-columns: 0.7fr 1.15fr 1.15fr;
+  gap: 7px;
+  margin-bottom: 10px;
+  align-items: stretch;
+}
+.upload-card {
+  background: #f8f8f8;
+  border-radius: 5px;
+  padding: 7px 9px;
+  border: 1px solid #d0d0d0;
+  transition: border-color 0.15s;
+  display: flex;
+  flex-direction: column;
+}
+.upload-card:hover { border-color: #217346; }
+.upload-card.my-price { border-color: #2d9a5f; background: #f0faf2; }
+.upload-card.my-price:hover { border-color: #155724; }
+.upload-card.suppliers { border-color: #4a90d9; background: #f0f6ff; }
+.upload-card.suppliers:hover { border-color: #2255a4; }
+.upload-label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.upload-label-hint {
+  font-weight: 400;
+  font-size: 9px;
+  color: #a07800;
+  text-transform: none;
+  letter-spacing: 0;
+  opacity: .8;
+}
+.upload-card.my-price .upload-label { color: #155724; }
+.upload-card.suppliers .upload-label { color: #1a4a8a; }
+.upload-status {
+  font-size: 10px;
+  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.upload-status--idle  { color: #999; }
+.upload-status--ok    { color: #217346; font-weight: 600; }
+.upload-status--error { color: #c0392b; }
+
+.btn-xs { font-size: 10px !important; padding: 2px 6px !important; }
+.file-input-wrapper { position: relative; }
+.file-input-wrapper input[type="file"] { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.file-input-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  background: white;
+  border-radius: 3px;
+  font-size: 11px;
+  color: #217346;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid #c0c0c0;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.file-input-display:hover { background: #eaf4ee; border-color: #217346; }
+.upload-card.my-price .file-input-display { color: #155724; border-color: #b8d8c8; }
+.upload-card.my-price .file-input-display:hover { background: #e0f0e8; }
+.upload-card.suppliers .file-input-display { color: #1a4a8a; border-color: #aac4e8; }
+.upload-card.suppliers .file-input-display:hover { background: #e0ecff; border-color: #4a90d9; }
+.upload-card.synonyms { border-color: #d4a017; background: #fffdf0; }
+.upload-card.synonyms .upload-label { color: #7d5a00; }
+
+/* ===== SEARCH ===== */
+.search-box { margin-bottom: 10px; }
+.search-box--above-table { margin-top: 8px; margin-bottom: 6px; }
+.search-input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: inherit;
+  background: #fff;
+  transition: border-color 0.15s;
+}
+.search-input:focus { outline: none; border-color: #217346; box-shadow: 0 0 0 2px rgba(33,115,70,0.12); }
+
+/* ===== CONTROLS (grouped) ===== */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+.controls-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #f8f8f8;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  padding: 5px 8px;
+}
+.controls-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-right: 2px;
+  white-space: nowrap;
+}
+.controls-group.export-group { background: #f0faf2; border-color: #b8d8c8; }
+.controls-group.export-group .controls-group-label { color: #155724; }
+.controls-group.danger-group { background: #fff8f8; border-color: #f5c6c6; }
+.controls-group.danger-group .controls-group-label { color: #c0392b; }
+
+/* ===== BUTTONS ===== */
+.btn {
+  padding: 4px 10px;
+  border: 1px solid #c0c0c0;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 12px;
+  font-family: inherit;
+  transition: background 0.12s, border-color 0.12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1.4;
+  white-space: nowrap;
+  background: #fff;
+  color: #1f1f1f;
+}
+.btn span.icon { font-size: 13px; }
+.btn:hover:not(:disabled) { background: #eaf4ee; border-color: #217346; color: #155724; }
+.btn-primary { background: #217346; color: white; border-color: #185c38; }
+.btn-primary:hover:not(:disabled) { background: #185c38; color: white; }
+.btn-success { background: #217346; color: white; border-color: #185c38; }
+.btn-success:hover:not(:disabled) { background: #185c38; color: white; }
+.btn-warning { background: #d4a017; color: white; border-color: #b8860b; }
+.btn-warning:hover:not(:disabled) { background: #b8860b; color: white; }
+.btn-danger { background: #fff; color: #c0392b; border-color: #e0a0a0; }
+.btn-danger:hover:not(:disabled) { background: #fce8e6; border-color: #c0392b; color: #c0392b; }
+.btn-secondary { background: #fff; color: #1f1f1f; border: 1px solid #c0c0c0; }
+.btn-secondary:hover:not(:disabled) { background: #eaf4ee; border-color: #217346; color: #155724; }
+.btn-secondary.active { background: #217346; color: white; border-color: #185c38; }
+.btn:disabled { background: #f5f5f5; color: #aaa; cursor: not-allowed; border-color: #e0e0e0; }
+.cart-badge {
+  background: #c0392b;
+  color: white;
+  border-radius: 8px;
+  padding: 1px 5px;
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 16px;
+  text-align: center;
+}
+
+/* ===== INFO CARDS ===== */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.info-card {
+  background: #f8f8f8;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  padding: 10px 14px;
+  color: #1f1f1f;
+  border-left: 3px solid #217346;
+}
+.info-card:nth-child(2) { border-left-color: #2d9a5f; }
+.info-card:nth-child(3) { border-left-color: #5a9e7a; }
+.info-card:nth-child(4) { border-left-color: #155724; }
+.info-value { font-size: 20px; font-weight: 700; margin-bottom: 2px; color: #217346; }
+.info-label { font-size: 11px; color: #666; font-weight: 500; }
+
+/* ===== HIDDEN COLUMNS PANEL ===== */
+.hidden-columns {
+  background: #fffdf0;
+  border: 1px solid #d4a017;
+  border-radius: 3px;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.hidden-columns-label { font-size: 11px; font-weight: 600; color: #7d5a00; }
+.restore-column-btn {
+  padding: 3px 7px;
+  background: white;
+  border: 1px solid #d4a017;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #7d5a00;
+  cursor: pointer;
+  transition: background 0.12s;
+}
+.restore-column-btn:hover { background: #fff3cd; border-color: #b8860b; }
+
+/* ===== LEGEND ===== */
+.legend-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: flex-start;
+  background: #f8f8f8;
+  border: 1px solid #d0d0d0;
+  border-radius: 3px;
+  padding: 6px 12px;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.legend-item { display: flex; align-items: center; gap: 5px; white-space: normal; max-width: 500px; line-height: 1.3; }
+.legend-swatch { width: 16px; height: 16px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.1); flex-shrink: 0; }
+
+/* ===== TABLE ===== */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 0;
+  border: 1px solid #d0d0d0;
+  max-height: 200vh;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+  font-size: 13px;
+}
+th {
+  background: #217346;
+  padding: 5px 8px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  color: #fff;
+  border-bottom: 2px solid #185c38;
+  border-right: 1px solid #185c38;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  letter-spacing: 0.2px;
+  max-width: 160px;
+  overflow: visible;
+  vertical-align: top;
+}
+th:last-child { border-right: none; }
+th.col-barcode { min-width: 140px; max-width: 140px; cursor: pointer; user-select: none; }
+th.col-barcode:hover { background: #185c38; }
+th.col-name { min-width: 320px; max-width: 320px; }
+th.col-actions { min-width: 55px; max-width: 55px; }
+.column-header { display: flex; flex-direction: column; gap: 2px; min-width: 80px; }
+th.col-meta, th.col-my-price { min-width: 55px; max-width: 55px; }
+th.col-meta .column-header, th.col-my-price .column-header { min-width: 40px; }
+.column-header-title { display: flex; align-items: center; gap: 3px; }
+.column-name-text { overflow: hidden; text-overflow: ellipsis; white-space: normal; word-break: break-word; font-size: 10px; line-height: 1.3; color: rgba(255,255,255,0.9); }
+.column-file-name { font-size: 10px; color: rgba(255,255,255,0.75); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: none; letter-spacing: 0; border-bottom: 1px solid rgba(255,255,255,0.25); padding-bottom: 2px; margin-bottom: 2px; }
+.column-file-name--my-price { color: rgba(255,255,255,0.95); font-style: italic; }
+
+td {
+  padding: 5px 8px;
+  border-bottom: 1px solid #e0e0e0;
+  border-right: 1px solid #e8e8e8;
+  font-size: 13px;
+  color: #1f1f1f;
+  max-width: 150px;
+  vertical-align: top;
+}
+td:last-child { border-right: none; }
+td.col-barcode { min-width: 140px; max-width: 140px; }
+td.col-name { min-width: 320px; max-width: 320px; line-height: 1.3; padding: 0; }
+.name-cell { width: 100%; }
+.name-item { padding: 4px 8px; border-bottom: 1px solid #e8e8e8; }
+.name-item:last-child { border-bottom: none; }
+.name-compact { padding: 4px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+td.col-actions { min-width: 44px; max-width: 44px; }
+
+tr { border-top: 1px solid #e8e8e8; }
+tr.group-border-top { border-top: 2px solid #b0b8c1; }
+tr.group-border-bottom { border-bottom: 2px solid #b0b8c1; }
+tr:hover { background: #f0f7f2; }
+tr.my-price-row { background: #f0faf2; }
+tr.my-price-row:hover { background: #e4f4ea; }
+tr.in-cart { background: #d8f0de; }
+tr.in-cart:hover { background: #c8e8d0; }
+tr.duplicate-row { background: #fce8e6 !important; }
+tr.duplicate-row:hover { background: #f8d8d5 !important; }
+tr.duplicate-row.in-cart { background: #f5c6c2 !important; }
+tr.duplicate-row.in-cart:hover { background: #f0b8b4 !important; }
+tr.synonym-row { background: #e8f4ff !important; }
+tr.synonym-row:hover { background: #d8ecff !important; }
+tr.synonym-row.in-cart { background: #c5e2ff !important; }
+tr.synonym-row.in-cart:hover { background: #b5d8ff !important; }
+
+/* ===== MULTI-VALUE ===== */
+.multi-value-container { display: flex; flex-direction: column; gap: 4px; }
+.value-variant { display: flex; flex-direction: column; border-bottom: 1px dashed #e8e0fa; padding-bottom: 2px; position: relative; padding-right: 15px; }
+.div-wrapper { position: absolute; top: 0; right: 0; width: 14px; height: 14px; overflow: hidden; }
+.div-icon { color: #e11d48; font-size: 14px; line-height: 1; font-weight: bold; text-align: center; pointer-events: none; }
+.div-select { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 16px; }
+.value-variant:last-child { border-bottom: none; padding-bottom: 0; }
+.price-val.is-min { color: #16a34a; font-weight: 700; }
+.price-clickable { cursor: pointer; transition: all 0.15s; }
+.price-clickable:hover { background: #eaf4ee; padding: 2px 4px; margin: -2px -4px; border-radius: 3px; }
+
+/* ===== CART BUTTON ===== */
+.cart-btn { background: transparent; color: #217346; border: none; padding: 1px; border-radius: 3px; cursor: pointer; font-size: 13px; line-height: 1; transition: background 0.15s; }
+.cart-btn:hover { background: #eaf4ee; }
+.cart-btn.in-cart { color: #155724; }
+
+/* ===== BARCODE CELL ===== */
+.barcode-cell { display: flex; align-items: center; gap: 4px; }
+.barcode-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.copy-btn { border: 1px solid #c0c0c0; background: #f8f8f8; border-radius: 3px; padding: 2px 5px; font-size: 11px; cursor: pointer; color: #555; flex-shrink: 0; }
+.copy-btn:hover { background: #eaf4ee; border-color: #217346; color: #155724; }
+
+/* ===== HIDDEN BARCODE COLS ===== */
+.hidden-barcode-col { display: none; }
+
+/* ===== EMPTY STATE ===== */
+.empty-state { text-align: center; padding: 40px 20px; color: #888; }
+.empty-state-icon { font-size: 42px; margin-bottom: 10px; }
+.empty-state h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: #1f1f1f; }
+.empty-state p { font-size: 13px; }
+
+/* ===== AUTO DIV BADGE ===== */
+.auto-div-badge { display: inline-block; margin-left: 4px; color: #ffcc00; font-weight: 900; font-size: 13px; line-height: 1; text-shadow: 0 1px 0 rgba(0,0,0,0.15); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) { .upload-section { grid-template-columns: 1fr; } .container { margin: 8px 6px 0; padding: 12px; } }
+@media (max-width: 768px) { .info-grid { grid-template-columns: repeat(2, 1fr); } }
+
+
+
+/* ── Tutorial tooltip ─────────────────────────────────────────────────────── */
+#tutorialTooltip {
+    position: fixed;
+    z-index: 999999;
+    background: #0f172a;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 10px 14px;
+    max-width: 320px;
+    font-size: 13px;
+    line-height: 1.5;
+    box-shadow: 0 8px 32px rgba(0,0,0,.45);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .15s;
+}
+#tutorialTooltip.visible { opacity: 1; }
+#tutorialTooltip .tt-title {
+    font-weight: 700;
+    font-size: 13px;
+    color: #7dd3fc;
+    margin-bottom: 4px;
+}
+#tutorialTooltip .tt-body { color: #cbd5e1; font-size: 12px; }
+body.tutorial-active * { cursor: help !important; }
+body.tutorial-active button, body.tutorial-active input,
+body.tutorial-active .file-input-wrapper { cursor: help !important; }
+#tutorialBtn.active { background: #f59e0b; color: #fff; border-color: #d97706; }
+#tutorialBtn.active:hover { background: #d97706; }
+
+</style>
+</head>
+<body>
+<nav class="app-nav">
+  <a href="https://erofly83-arch.github.io/obrezatel/">Excel в CSV</a>
+  <a href="https://erofly83-arch.github.io/pricematcher/" class="nav-active">Мониторинг</a>
+  <a href="https://erofly83-arch.github.io/poiskovikexcel/">Синонимы</a>
+</nav>
+<div class="container">
+    <h1>📊 Сравнение цен</h1>
+
+    <div class="upload-section">
+
+        <div class="upload-card synonyms">
+            <label class="upload-label">🔗 Синонимы <span class="upload-label-hint">необязательно</span></label>
+            <div class="file-input-wrapper">
+                <input type="file" id="synonymsInput" accept=".json"/>
+                <div class="file-input-display" title="Загрузить файл synonyms.json с группами штрихкодов">
+                    <span>🧩 synonyms.json</span>
+                </div>
+            </div>
+            <div id="synonymsStatus" class="upload-status upload-status--idle">Не загружены</div>
+        </div>
+
+        <div class="upload-card my-price">
+            <label class="upload-label">🏷️ Мой прайс</label>
+            <div class="file-input-wrapper">
+                <input type="file" id="myPriceInput" accept=".csv,.xlsx,.xls"/>
+                <div class="file-input-display" title="Загрузить ваш прайс-файл">
+                    <span>📄 Выбрать файл</span>
+                </div>
+            </div>
+            <div id="myPriceStatus" class="upload-status upload-status--idle">Не загружен</div>
+        </div>
+
+        <div class="upload-card suppliers">
+            <label class="upload-label">📦 Прайсы поставщиков</label>
+            <div class="file-input-wrapper">
+                <input type="file" id="competitorInput" multiple accept=".csv,.xlsx,.xls"/>
+                <div class="file-input-display" title="Загрузить файлы поставщиков">
+                    <span>📁 Выбрать файлы</span>
+                </div>
+            </div>
+            <div id="competitorStatus" class="upload-status upload-status--idle">Не загружены</div>
+        </div>
+
+    </div>
+
+    <div id="infoPanel" class="info-grid" style="display:none;">
+        <div class="info-card">
+            <div class="info-value" id="productCount">0</div>
+            <div class="info-label">Уникальных товаров</div>
+        </div>
+        <div class="info-card">
+            <div class="info-value" id="fileCount">0</div>
+            <div class="info-label">Файлов загружено</div>
+        </div>
+        <div class="info-card">
+            <div class="info-value" id="columnCount">0</div>
+            <div class="info-label">Колонок данных</div>
+        </div>
+        <div class="info-card">
+            <div class="info-value" id="matchCount">0</div>
+            <div class="info-label">Совпадений по штрихкоду</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <!-- ГРУППА: Фильтры и отображение -->
+        <div class="controls-group">
+            <span class="controls-group-label">🔍 Фильтры</span>
+            <button id="sortMatchesBtn" class="btn btn-secondary" disabled
+                    title="Показывать сначала товары, которые есть в нескольких файлах">
+                <span class="icon">🔄</span> Совпадения
+            </button>
+            <button id="bigDiffBtn" class="btn btn-secondary" disabled
+                    title="Показать только товары с совпадениями, где разница цен больше 10%">
+                <span class="icon">📊</span> Большая разница
+            </button>
+            <button id="showMyPriceBtn" class="btn btn-secondary" disabled
+                    title="Показать только товары из вашего прайса">
+                <span class="icon">⭐</span> Мой прайс
+            </button>
+            <button id="showCartBtn" class="btn btn-secondary" disabled
+                    title="Показать только товары, добавленные в корзину">
+                <span class="icon">🛒👁️</span> Корзина
+            </button>
+            <button id="maxCoverageBtn" class="btn btn-secondary" disabled
+                    title="Сортировать по количеству поставщиков, у которых есть цена на товар">
+                <span class="icon">📊</span> Поиск новинок
+            </button>
+        </div>
+
+        <!-- ГРУППА: Вид таблицы -->
+        <div class="controls-group">
+            <span class="controls-group-label">🖥️ Вид</span>
+            <button id="compactMatchesBtn" class="btn btn-secondary" disabled
+                    title="Уменьшить высоту строк с совпадениями, показывать все наименования в одну строку">
+                <span class="icon">📏</span> Компактно
+            </button>
+            <button id="toggleFileBarcodesBtn" class="btn btn-secondary" disabled
+                    title="Показать/скрыть колонки со штрихкодами по файлам">
+                <span class="icon">🔎</span> ШК по файлам
+            </button>
+            <button id="sortPayBtn" class="btn btn-secondary" disabled title="Нал → Бн"><span class="icon">💳</span> Нал/Бн</button>
+        </div>
+
+        <!-- ГРУППА: Экспорт -->
+        <div class="controls-group export-group">
+            <span class="controls-group-label">💾 Экспорт</span>
+            <button id="exportMyPriceBtn" class="btn btn-success" disabled
+                    title="Скачать Excel с товарами из вашего прайса и выбранными ценами">
+                <span class="icon">⭐💾</span> Мой прайс
+            </button>
+            <button id="exportAllBtn" class="btn btn-success" disabled
+                    title="Скачать Excel со всеми товарами и выбранными колонками">
+                <span class="icon">💾</span> Всё
+            </button>
+            <button id="exportCurrentBtn" class="btn btn-success" disabled
+                    title="Скачать Excel с учётом текущего поиска, фильтров и сортировки">
+                <span class="icon">🔍💾</span> Текущий вид
+            </button>
+            <button id="exportCartBtn" class="btn btn-warning" disabled
+                    title="Скачать Excel только с товарами из корзины">
+                <span class="icon">🛒💾</span> Корзина
+                <span id="cartBadge" class="cart-badge" style="display:none;">0</span>
+            </button>
+        </div>
+
+        <!-- ГРУППА: Управление корзиной и сброс -->
+        <div class="controls-group" id="tutorialGroup">
+            <span class="controls-group-label">❓ Помощь</span>
+            <button id="tutorialBtn" class="btn btn-secondary" title="Включить режим обучения: наведите мышь на любой элемент — появится подсказка">
+                🎓 Обучение
+            </button>
+        </div>
+
+        <div class="controls-group danger-group">
+            <span class="controls-group-label">⚠️ Очистка</span>
+            <button id="clearCartBtn" class="btn btn-danger" disabled
+                    title="Очистить все товары из корзины">
+                <span class="icon">🛒🗑️</span> Очистить корзину
+            </button>
+            <button id="clearBtn" class="btn btn-danger" disabled
+                    title="Очистить все загруженные данные и начать заново">
+                <span class="icon">🗑️</span> Сбросить всё
+            </button>
+        </div>
+    </div>
+
+    <div id="hiddenColumnsPanel" class="hidden-columns">
+        <span class="hidden-columns-label">🔍 Скрытые колонки:</span>
+        <div id="hiddenColumnsList"></div>
+    </div>
+
+    <div class="legend-panel" id="legendPanel" style="display:none;">
+        <strong style="font-size:12px;color:#555;margin-right:4px;">Подсветка строк:</strong>
+        <div class="legend-item"><div class="legend-swatch" style="background:#e6f7ff;"></div><span><b>Синонимы</b> — Совпадения по синонимам</span></div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#ffe6f0;"></div><span><b>Дубль штрихкода</b> — Несколько совпадений в одном прайсе</span></div>
+        <div class="legend-item"><div class="legend-swatch" style="background:#fff;border:2px solid #28a745;"></div><span style="color:#28a745;font-weight:600;">Минимальная цена</span></div>
+    </div>
+    <div class="search-box search-box--above-table">
+        <input type="text" id="searchInput" class="search-input"
+               placeholder="🔍 Поиск по названию товара..."
+               title="Введите название или часть названия для фильтрации товаров">
+    </div>
+
+    <div id="tableContainer">
+        <div class="empty-state">
+            <div class="empty-state-icon">📦</div>
+            <h3>Загрузите прайс-листы</h3>
+            <p>Загрузите ваш прайс и файлы конкурентов для автоматического сравнения</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    let barcodeAliasMap=new Map(),synonymsLoaded=false,_usingBuiltin=false;
+    function _buildAliasMap(j){const m=new Map();Object.keys(j).forEach(k=>{const mk=String(k).trim();if(!mk)return;m.set(mk,mk);const l=j[k];if(Array.isArray(l))l.forEach(b=>{const v=String(b).trim();if(v)m.set(v,mk);});});return m;}
+    // По умолчанию синонимы не загружены
+
+    function resetBarcodeAliases(){
+        barcodeAliasMap=new Map();synonymsLoaded=false;_usingBuiltin=false;
+        const s=document.getElementById('synonymsStatus');
+        if(s){s.className='upload-status upload-status--idle';s.textContent='Не загружены';}
+    }
+
+    function loadBarcodeAliasesFromFile(file) {
+        const status = document.getElementById('synonymsStatus');
+        if (!file) {
+            resetBarcodeAliases();
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const text = e.target.result;
+                const json = JSON.parse(text);
+                barcodeAliasMap=_buildAliasMap(json);synonymsLoaded=true;_usingBuiltin=false;
+                if(status){status.className='upload-status upload-status--ok';status.textContent='✅ Групп: '+Object.keys(json).length;}
+                if (allFilesData.length > 0) {
+                    processData();
+                    renderTable();
+                    updateUI();
+                }
+            } catch (err) {
+                console.error('Ошибка чтения synonyms.json:', err);
+                resetBarcodeAliases();
+                if (status) {
+                    status.className = 'upload-status upload-status--error';
+                    status.textContent = '❌ Неверный формат JSON';
+                }
+                alert('Ошибка при чтении файла синонимов. Проверьте формат JSON.');
+            }
+        };
+        reader.onerror = () => {
+            resetBarcodeAliases();
+            if (status) {
+                status.className = 'upload-status upload-status--error';
+                status.textContent = '❌ Ошибка чтения файла';
+            }
+            alert('Не удалось прочитать файл синонимов.');
+        };
+        reader.readAsText(file, 'utf-8');
+    }
+
+    function canonicalizeBarcode(rawBarcode) {
+        if (rawBarcode === undefined || rawBarcode === null) return { canonical: rawBarcode, wasSynonym: false };
+        const b = String(rawBarcode).trim();
+        if (!synonymsLoaded) return { canonical: b, wasSynonym: false };
+        const canon = barcodeAliasMap.get(b);
+        if (canon && canon !== b) {
+            return { canonical: canon, wasSynonym: true };
+        }
+        return { canonical: b, wasSynonym: false };
+    }
+
+    // ======== ОСНОВНОЙ КОД ПРИЛОЖЕНИЯ ========
+
+    let myPriceData = null;
+    let competitorFilesData = [];
+    let allFilesData = [];
+    let groupedData = [];
+    let allColumns = [];
+    let visibleColumns = new Set();
+    let cart = new Set();
+    let barcodeColumn = null;
+    let nameColumn = null;
+    let stockColumn = null; // колонка остатка в МОЁМ прайсе (если есть)
+    let sortMode = 'default';
+    let compactMatches = false;
+    let searchQuery = '';
+    let barcodeSortOrder = 0;
+    let showFileBarcodes = false; // UI: отображать ли колонки ШК по файлам
+    let filterNewItems = false;   // Фильтр новинок: показывать только то, чего нет в моём прайсе
+
+    const myPriceInput = document.getElementById('myPriceInput');
+    const competitorInput = document.getElementById('competitorInput');
+    const synonymsInput = document.getElementById('synonymsInput');
+    const searchInput = document.getElementById('searchInput');
+    const sortMatchesBtn = document.getElementById('sortMatchesBtn');
+    const bigDiffBtn = document.getElementById('bigDiffBtn');
+    const showMyPriceBtn = document.getElementById('showMyPriceBtn');
+    const showCartBtn = document.getElementById('showCartBtn');
+    const compactMatchesBtn = document.getElementById('compactMatchesBtn');
+    const maxCoverageBtn = document.getElementById('maxCoverageBtn');
+    const toggleFileBarcodesBtn = document.getElementById('toggleFileBarcodesBtn');
+    const exportMyPriceBtn = document.getElementById('exportMyPriceBtn');
+    const exportAllBtn = document.getElementById('exportAllBtn');
+    const exportCurrentBtn = document.getElementById('exportCurrentBtn');
+    const exportCartBtn = document.getElementById('exportCartBtn');
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    const sortPayBtn=document.getElementById('sortPayBtn');
+    const downloadSynBtn=document.getElementById('downloadSynBtn');
+    const resetSynBtn=document.getElementById('resetSynBtn');
+    const clearBtn=document.getElementById('clearBtn');
+    const infoPanel = document.getElementById('infoPanel');
+    const hiddenColumnsPanel = document.getElementById('hiddenColumnsPanel');
+    const hiddenColumnsList = document.getElementById('hiddenColumnsList');
+    const tableContainer = document.getElementById('tableContainer');
+    const cartBadge = document.getElementById('cartBadge');
+
+    const BARCODE_SYNONYMS = [
+        'штрих-код', 'штрихкод', 'barcode', 'Штрих-код', 'Штрихкод', 'Barcode',
+        'код', 'Код', 'ean', 'EAN', 'ean13', 'EAN13', 'штрих код', 'Штрих код',
+        'bar_code', 'bar-code', 'product_code', 'sku', 'SKU', 'артикул', 'Артикул'
+    ];
+
+    const NAME_SYNONYMS = [
+        'название', 'name', 'Название', 'Name', 'наименование', 'Наименование',
+        'товар', 'Товар', 'product', 'Product', 'описание', 'Описание',
+        'product_name', 'title', 'Title', 'имя', 'Имя'
+    ];
+
+    myPriceInput.addEventListener('change', handleMyPriceUpload);
+    competitorInput.addEventListener('change', handleCompetitorUpload);
+    synonymsInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        loadBarcodeAliasesFromFile(file);
+    });
+    searchInput.addEventListener('input', handleSearch);
+    sortMatchesBtn.addEventListener('click', toggleSortMatches);
+    bigDiffBtn.addEventListener('click', toggleBigDiff);
+    showMyPriceBtn.addEventListener('click', toggleMyPriceView);
+    showCartBtn.addEventListener('click', toggleCartView);
+    compactMatchesBtn.addEventListener('click', toggleCompactMatches);
+    maxCoverageBtn.addEventListener('click', toggleMaxCoverage);
+    toggleFileBarcodesBtn.addEventListener('click', toggleFileBarcodesVisibility);
+exportMyPriceBtn.addEventListener('click', async () => await generateExcel('myprice'));
+exportAllBtn.addEventListener('click', async () => await generateExcel('all'));
+    exportCurrentBtn.addEventListener('click', async () => await generateExcel('current'));
+exportCartBtn.addEventListener('click', async () => await generateExcel('cart'));
+
+    clearCartBtn.addEventListener('click', clearCart);
+    sortPayBtn.addEventListener('click',applySortByPayment);
+    downloadSynBtn && downloadSynBtn.addEventListener('click',downloadCurrentSynonyms);
+    resetSynBtn && resetSynBtn.addEventListener('click',()=>{resetBarcodeAliases();document.getElementById('synonymsInput').value='';if(allFilesData.length>0){processData();renderTable();updateUI();}});
+    clearBtn.addEventListener('click', clearAll);
+
+    function normalizeString(str) {
+        return str?.toString().trim().toLowerCase() || '';
+    }
+
+
+
+// --- Deduplicate same-price duplicates inside one supplier file ---
+const PRICE_COL_SYNONYMS = [
+  'цена', 'price', 'cost', 'стоимость', 'прайс', 'опт', 'оптов', 'розн', 'ррц', 'рц',
+  'retail', 'wholesale'
+];
+
+const MY_PRICE_FILE_NAME = '🏷️ Мой прайс';
+const META_STOCK_KEY = '__meta_stock';
+const META_TRANSIT_KEY = '__meta_transit';
+const STOCK_COL_SYNONYMS = ['остаток', 'остатки', 'наличие', 'склад'];
+
+
+const PRICE_DECIMALS = 1;
+
+function roundPrice(n) {
+  const m = 10 ** PRICE_DECIMALS;
+  return Math.round(n * m) / m;
+}
+
+
+function isPriceLikeColumn(colName) {
+  const s = String(colName || '').toLowerCase();
+  // Исключаем колонки с остатками
+  const isStock = STOCK_COL_SYNONYMS.some(k => s.includes(k));
+  if (isStock) return false;
+  return PRICE_COL_SYNONYMS.some(k => s.includes(k));
+}
+
+
+function parsePriceNumber(val) {
+  const s = String(val ?? '').trim();
+  if (!s) return null;
+  const n = parseFloat(s.replace(/[^0-9.,-]/g, '').replace(',', '.'));
+  return Number.isFinite(n) ? n : null;
+}
+
+function getColPayGroup(col){const n=(col.displayName||col.columnName||"").toLowerCase();if(n.includes("нал"))return"нал";if(n.includes("бн"))return"бн";return"other";}
+function extractPackQtyFromName(name) {
+  const s = String(name ?? '');
+  // Любое число перед "шт"/"штук": 30шт/24бл, 30 шт, 30 шт.
+  const m = s.match(/(\d{1,6})\s*(?:шт|штук)(?=[^0-9A-Za-zА-Яа-я]|$)/i);
+  if (!m) return null;
+  const q = parseInt(m[1], 10);
+  if (!Number.isFinite(q) || q <= 1) return null;
+  return q;
+}
+
+
+function round2(n) {
+  return Math.round(n * 100) / 100;
+}
+
+function samePrice(a, b) {
+  const na = parsePriceNumber(a);
+  const nb = parsePriceNumber(b);
+  if (na !== null && nb !== null) return roundPrice(na) === roundPrice(nb);
+  return String(a ?? '').trim() === String(b ?? '').trim();
+}
+    function removeFileExtension(fileName) {
+        return fileName.replace(/\.(csv|xlsx|xls)$/i, '');
+    }
+
+    function handleSearch(e) {
+        searchQuery = e.target.value.toLowerCase().trim();
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    async function handleMyPriceUpload(e) {
+        try {
+            const file = e.target.files[0];
+            if (!file) return;
+            myPriceData = await parseFile(file, '🏷️ Мой прайс');
+        const _mpSt=document.getElementById('myPriceStatus');if(_mpSt){_mpSt.className='upload-status upload-status--ok';_mpSt.textContent='✅ '+file.name;}
+            processAllData();
+        } catch (error) {
+            console.error("Ошибка загрузки файла:", error);
+            alert("Ошибка при загрузке файла: " + error.message);
+        }
+    }
+
+    async function handleCompetitorUpload(e) {
+        try {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+            competitorFilesData = [];
+            for (const file of files) {
+                const fileData = await parseFile(file, removeFileExtension(file.name));
+                competitorFilesData.push(fileData);
+            }
+            const _cSt=document.getElementById('competitorStatus');
+            if(_cSt){_cSt.className='upload-status upload-status--ok';_cSt.textContent='✅ '+files.length+' файл'+(files.length===1?'':'а'+(files.length<5?'':'ов'))+'  ('+files.map(f=>f.name.replace(/\.(csv|xlsx?)/i,'')).join(', ').substring(0,60)+')';}
+            processAllData();
+        } catch (error) {
+            console.error("Ошибка загрузки файлов:", error);
+            alert("Ошибка при загрузке файлов: " + error.message);
+        }
+    }
+
+    async function parseFile(file, fileName) {
+        try {
+            if (file.name.endsWith('.csv')) {
+                return await parseCSV(file, fileName);
+            } else {
+                return await parseExcel(file, fileName);
+            }
+        } catch (error) {
+            console.error("Ошибка парсинга:", error);
+            throw new Error("Не удалось прочитать файл");
+        }
+    }
+
+    function parseCSV(file, fileName) {
+        return new Promise(resolve => {
+            Papa.parse(file, {
+                header: true,
+                encoding: 'UTF-8',
+                skipEmptyLines: true,
+                complete: (results) => {
+                    resolve({
+                        fileName,
+                        data: results.data,
+                        isMyPrice: fileName === '🏷️ Мой прайс'
+                    });
+                }
+            });
+        });
+    }
+
+    function parseExcel(file, fileName) {
+        return new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onload = e => {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, {type: 'array'});
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+                resolve({fileName, data: jsonData, isMyPrice: fileName === '🏷️ Мой прайс'});
+            };
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    function processAllData() {
+        if (!myPriceData && competitorFilesData.length === 0) return;
+        allFilesData = [];
+        if (myPriceData) allFilesData.push(myPriceData);
+        allFilesData = allFilesData.concat(competitorFilesData);
+
+        autoDetectColumns();
+        processData();
+        updateHiddenColumnsPanel();
+        renderTable();
+        updateUI();
+        showCompletionToast();
+    }
+
+    function autoDetectColumns() {
+        allColumns = [];
+        visibleColumns.clear();
+        stockColumn = null;
+        barcodeColumn = null;
+        nameColumn = null;
+
+        if (allFilesData.length > 0 && allFilesData[0].data.length > 0) {
+            const firstFileColumns = Object.keys(allFilesData[0].data[0]);
+            barcodeColumn = firstFileColumns.find(col =>
+                BARCODE_SYNONYMS.some(syn => col.toLowerCase().includes(syn.toLowerCase()))
+            ) || firstFileColumns[0];
+
+            nameColumn = firstFileColumns.find(col =>
+                col !== barcodeColumn &&
+                NAME_SYNONYMS.some(syn => col.toLowerCase().includes(syn.toLowerCase()))
+            ) || (firstFileColumns.length > 1 ? firstFileColumns[1] : firstFileColumns[0]);
+
+        // Определяем колонку остатков только в моем прайсе (если есть)
+        if (myPriceData && myPriceData.data && myPriceData.data.length > 0) {
+            const myCols = Object.keys(myPriceData.data[0]);
+            stockColumn = myCols.find(c => STOCK_COL_SYNONYMS.some(s => String(c).toLowerCase().includes(s))) || null;
+        }
+
+        }
+
+        allFilesData.forEach(({fileName, data}) => {
+            if (data.length > 0) {
+                const fileColumns = Object.keys(data[0]);
+                fileColumns.forEach(colName => {
+            if (colName === barcodeColumn || colName === nameColumn) return;
+            if (fileName === MY_PRICE_FILE_NAME && stockColumn && colName === stockColumn) return;
+                    const colKey = `${fileName}|${colName}`;
+                    allColumns.push({
+                        fileName,
+                        columnName: colName,
+                        displayName: `${fileName} - ${colName}`,
+                        key: colKey
+                    });
+                    visibleColumns.add(colKey);
+                });
+            }
+        });
+    
+
+        // Добавляем служебные колонки Остаток и В пути (только если в моем прайсе есть остаток)
+        if (stockColumn) {
+            const stockCol = { fileName: MY_PRICE_FILE_NAME, columnName: 'Остаток', displayName: 'Остаток', key: META_STOCK_KEY, metaType: 'stock' };
+            const transitCol = { fileName: MY_PRICE_FILE_NAME, columnName: 'В пути', displayName: 'В пути', key: META_TRANSIT_KEY, metaType: 'transit' };
+            allColumns.unshift(transitCol);
+            allColumns.unshift(stockCol);
+            visibleColumns.add(META_STOCK_KEY);
+            visibleColumns.add(META_TRANSIT_KEY);
+        }
+        const _am=allColumns.filter(c=>c.metaType);const _ap=allColumns.filter(c=>!c.metaType&&c.fileName===MY_PRICE_FILE_NAME);const _as=allColumns.filter(c=>!c.metaType&&c.fileName!==MY_PRICE_FILE_NAME);
+        _as.sort((a,b)=>{const o={"нал":0,"бн":1,"other":2};return(o[getColPayGroup(a)]??2)-(o[getColPayGroup(b)]??2);});allColumns=[..._am,..._ap,..._as];
+}
+
+    function toggleColumn(colKey) {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        if (visibleColumns.has(colKey)) visibleColumns.delete(colKey);
+        else visibleColumns.add(colKey);
+        updateHiddenColumnsPanel();
+        processData();
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function updateHiddenColumnsPanel() {
+        const hiddenCols = allColumns.filter(col => !visibleColumns.has(col.key));
+        if (hiddenCols.length > 0) {
+            let html = '';
+            hiddenCols.forEach(col => {
+                html += `<button class="restore-column-btn" onclick="toggleColumn('${col.key}')" title="Показать колонку ${col.displayName}">
+                        ↩️ ${col.displayName}
+                    </button>`;
+            });
+            hiddenColumnsList.innerHTML = html;
+            hiddenColumnsPanel.style.display = 'flex';
+        } else {
+            hiddenColumnsPanel.style.display = 'none';
+        }
+    }
+
+    function processData() {
+        const barcodeMap = new Map();
+
+        allFilesData.forEach(({fileName, data, isMyPrice}) => {
+            data.forEach((row, index) => {
+                let rawBarcode = row[barcodeColumn];
+                if (!rawBarcode) return;
+
+                const { canonical, wasSynonym } = canonicalizeBarcode(rawBarcode);
+                const barcode = canonical;
+
+                if (!barcodeMap.has(barcode)) {
+                    barcodeMap.set(barcode, {
+                        barcode,
+                        names: [],
+                        values: new Map(),
+                        isInMyPrice: false,
+                        myPriceOrder: -1,
+                        filesWithBarcode: new Set(),
+                        namesByFile: new Map(),
+                        originalBarcodesByFile: new Map(),
+                        isSynonym: false
+                    });
+                }
+
+                const item = barcodeMap.get(barcode);
+                item.filesWithBarcode.add(fileName);
+                item.originalBarcodesByFile.set(fileName, rawBarcode);
+
+                if (wasSynonym) {
+                    item.isSynonym = true;
+                }
+
+                if (isMyPrice) {
+                    item.isInMyPrice = true;
+                    item.myPriceOrder = index;
+                }
+
+                const currentRowName = row[nameColumn];
+
+                    // Остаток только из моего прайса (если колонка найдена)
+                    if (isMyPrice && stockColumn) {
+                        const stockVal = row[stockColumn];
+                        if (!item.values.has(META_STOCK_KEY)) item.values.set(META_STOCK_KEY, []);
+                        const arrStock = item.values.get(META_STOCK_KEY);
+                        arrStock.length = 0;
+                        arrStock.push({ val: (stockVal === undefined || stockVal === null) ? '' : stockVal, rowName: currentRowName, originalBarcode: rawBarcode, meta: true });
+                    }
+                if (currentRowName) {
+                    const nameObj = {fileName, name: currentRowName};
+                    if (!item.names.some(n => n.fileName === fileName && n.name === currentRowName)) {
+                        item.names.push(nameObj);
+                    }
+                    if (!item.namesByFile.has(fileName)) {
+                        item.namesByFile.set(fileName, currentRowName);
+                    }
+
+                    if (isMyPrice) {
+                        // Берём количество только из моего прайса, но ищем не только в nameColumn
+                        const vals = Object.values(row).map(v => (v === undefined || v === null) ? '' : String(v));
+                        for (const t of vals) {
+                            const q = extractPackQtyFromName(t);
+                            if (q) { item.packQty = q; break; }
+                        }
+                    }
+                }
+
+                Object.keys(row).forEach(colName => {
+                    if (colName !== barcodeColumn && colName !== nameColumn) {
+                        const key = `${fileName}|${colName}`;
+                        const value = row[colName];
+                        if (value !== undefined && value !== null && value !== '') {
+                            if (!item.values.has(key)) {
+                                item.values.set(key, []);
+                            }
+                            const arr = item.values.get(key);
+
+                            // Для колонок с ценой: одинаковые цены не создают новую вариацию
+                            if (isPriceLikeColumn(colName)) {
+                                const exists = arr.some(v => samePrice(v.val, value));
+                                if (!exists) {
+                                    arr.push({val: value, rowName: currentRowName, originalBarcode: rawBarcode});
+                                }
+                            } else {
+                                arr.push({val: value, rowName: currentRowName, originalBarcode: rawBarcode});
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        groupedData = Array.from(barcodeMap.values()).map(item => {
+            const visibleCols = allColumns.filter(col => visibleColumns.has(col.key));
+            const numericValues = [];
+            visibleCols.forEach(col => {
+                const valuesArr = item.values.get(col.key);
+                if (valuesArr && valuesArr.length > 0) {
+                    valuesArr.forEach(vObj => {
+                        const numValue = parseFloat(String(vObj.val).replace(/[^0-9.,]/g, '').replace(',', '.'));
+                        if (!isNaN(numValue) && numValue > 0) {
+                            numericValues.push(numValue);
+                        }
+                    });
+                }
+            });
+
+
+
+            // Авто-деление: если загружен "Мой прайс" и в названии найдено количество (например 30шт/24бл),
+            // то делим все цены в строке, которые выше минимальной в 3 раза, на это количество.
+            const hasMyPriceLoaded = !!myPriceData;
+            const packQty = (hasMyPriceLoaded && item.packQty) ? item.packQty : null;
+            let autoDivFactor = null;
+
+            if (packQty) {
+                // Автологика не должна зависеть от скрытия колонок в UI
+                const cols2 = allColumns;
+
+                // Колонки цен поставщиков (мой прайс исключён, meta-колонки исключены)
+                const supplierPriceCols2 = cols2.filter(col => !col.metaType && col.fileName !== MY_PRICE_FILE_NAME && isPriceLikeColumn(col.columnName));
+
+                // Колонки цен в моём прайсе (для исключения)
+                const myPriceCols2 = cols2.filter(col => !col.metaType && col.fileName === MY_PRICE_FILE_NAME && isPriceLikeColumn(col.columnName));
+
+                const myNums2 = [];
+                myPriceCols2.forEach(col => {
+                    const arr = item.values.get(col.key);
+                    if (!arr || arr.length === 0) return;
+                    arr.forEach(v => {
+                        const n = parsePriceNumber(v.val);
+                        if (n !== null && n > 0) myNums2.push(n);
+                    });
+                });
+                const myMin2 = myNums2.length ? Math.min(...myNums2) : null;
+
+                const supplierNums2 = [];
+                supplierPriceCols2.forEach(col => {
+                    const arr = item.values.get(col.key);
+                    if (!arr || arr.length === 0) return;
+                    arr.forEach(v => {
+                        const n = parsePriceNumber(v.val);
+                        if (n !== null && n > 0) supplierNums2.push(n);
+                    });
+                });
+
+                if (supplierNums2.length > 0) {
+                    const minSupplier = Math.min(...supplierNums2);
+                    const thresholdSupplier = minSupplier * 3;
+
+                    // Исключение: если абсолютно все цены поставщиков >= (моя цена * 3),
+                    // то делим ВСЕ цены поставщиков на packQty.
+                    const allSuppliers3xAboveMy = (myMin2 !== null) && supplierNums2.every(n => n >= myMin2 * 3);
+
+                    let changed2 = false;
+                    supplierPriceCols2.forEach(col => {
+                        const arr = item.values.get(col.key);
+                        if (!arr || arr.length === 0) return;
+                        arr.forEach(vObj => {
+                            const n = parsePriceNumber(vObj.val);
+                            if (n === null || n <= 0) return;
+
+                            if (allSuppliers3xAboveMy || n >= thresholdSupplier) {
+                                if (vObj._autoDiv) return;
+                                vObj._origVal = vObj.val;
+                                vObj.val = roundPrice(n / packQty);
+                                vObj._autoDiv = true;
+                                vObj._autoDivFactor = packQty;
+                                changed2 = true;
+                            }
+                        });
+                    });
+
+                    if (changed2) autoDivFactor = packQty;
+                }
+            }
+            let priceDiffPercent = 0;
+            if (numericValues.length > 1) {
+                const minPrice = Math.min(...numericValues);
+                const maxPrice = Math.max(...numericValues);
+                if (minPrice > 0) {
+                    priceDiffPercent = ((maxPrice - minPrice) / minPrice) * 100;
+                }
+            }
+
+            const priceKeys = new Set(
+                allColumns
+                    .filter(c => isPriceLikeColumn(c.columnName))
+                    .map(c => c.key)
+            );
+
+            const isDuplicate = false;
+            const filesWithPrices = new Set();
+            for (const [key, valuesArr] of item.values.entries()) {
+                if (valuesArr && valuesArr.length > 0) {
+                    const fileName = key.split('|')[0];
+                    filesWithPrices.add(fileName);
+                }
+            }
+            const coverageCount = filesWithPrices.size;
+
+                        // Гарантируем служебные колонки (пустые, если нет значения)
+            if (stockColumn) {
+                if (!item.values.has(META_STOCK_KEY)) {
+                    item.values.set(META_STOCK_KEY, [{ val: '', rowName: '', originalBarcode: item.barcode, meta: true }]);
+                }
+                if (!item.values.has(META_TRANSIT_KEY)) {
+                    item.values.set(META_TRANSIT_KEY, [{ val: '', rowName: '', originalBarcode: item.barcode, meta: true }]);
+                }
+            }
+
+return { barcode: item.barcode, packQty, autoDivFactor,
+                names: item.names,
+                namesByFile: item.namesByFile,
+                values: item.values,
+                isInMyPrice: item.isInMyPrice,
+                myPriceOrder: item.myPriceOrder,
+                originalFileCount: item.filesWithBarcode.size,
+                priceDiffPercent,
+                isDuplicate,
+                coverageCount,
+                isSynonym: item.isSynonym,
+                originalBarcodesByFile: item.originalBarcodesByFile
+            };
+        });
+    }
+
+    function toggleCart(barcode) {
+        if (cart.has(barcode)) cart.delete(barcode);
+        else cart.add(barcode);
+        updateCartUI();
+
+        const inCart = cart.has(barcode);
+        document.querySelectorAll('tr[data-barcode]').forEach(row => {
+            if (row.dataset.barcode !== String(barcode)) return;
+            const isInMyPrice = row.dataset.inMyPrice === '1';
+            const isSynonym = row.dataset.isSynonym === '1';
+
+            row.classList.toggle('in-cart', inCart);
+            row.classList.toggle('my-price-row', !inCart && isInMyPrice && !isSynonym);
+
+            const btn = row.querySelector('.cart-btn');
+            if (btn) {
+                btn.textContent = inCart ? '✓' : '🛒';
+                btn.title = inCart ? 'Убрать из корзины' : 'Добавить в корзину';
+                btn.classList.toggle('in-cart', inCart);
+            }
+        });
+    }
+
+    function clearCart() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        cart.clear();
+        updateCartUI();
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function updateCartUI() {
+        const cartSize = cart.size;
+        if (cartSize > 0) {
+            cartBadge.textContent = cartSize;
+            cartBadge.style.display = 'block';
+            exportCartBtn.disabled = false;
+            clearCartBtn.disabled = false;
+            showCartBtn.disabled = false;
+        } else {
+            cartBadge.style.display = 'none';
+            exportCartBtn.disabled = true;
+            clearCartBtn.disabled = true;
+            showCartBtn.disabled = true;
+            if (sortMode === 'cart') {
+                sortMode = 'default';
+                showCartBtn.classList.remove('active');
+                renderTable();
+            }
+        }
+    }
+
+    function toggleSortMatches() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        if (sortMode === 'matches') {
+            sortMode = 'default';
+            sortPayBtn.classList.remove('active');
+        sortMatchesBtn.classList.remove('active');
+        } else {
+            sortMode = 'matches';
+            sortMatchesBtn.classList.add('active');
+            bigDiffBtn.classList.remove('active');
+            showMyPriceBtn.classList.remove('active');
+            showCartBtn.classList.remove('active');
+        }
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function toggleBigDiff() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        if (sortMode === 'bigdiff') {
+            sortMode = 'default';
+            bigDiffBtn.classList.remove('active');
+        } else {
+            sortMode = 'bigdiff';
+            bigDiffBtn.classList.add('active');
+            sortPayBtn.classList.remove('active');
+        sortMatchesBtn.classList.remove('active');
+            showMyPriceBtn.classList.remove('active');
+            showCartBtn.classList.remove('active');
+            maxCoverageBtn.classList.remove('active');
+        }
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function toggleMyPriceView() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        if (sortMode === 'myprice') {
+            sortMode = 'default';
+            showMyPriceBtn.classList.remove('active');
+        } else {
+            sortMode = 'myprice';
+            showMyPriceBtn.classList.add('active');
+            sortPayBtn.classList.remove('active');
+        sortMatchesBtn.classList.remove('active');
+            bigDiffBtn.classList.remove('active');
+            showCartBtn.classList.remove('active');
+            maxCoverageBtn.classList.remove('active');
+        }
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function toggleCartView() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        if (sortMode === 'cart') {
+            sortMode = 'default';
+            showCartBtn.classList.remove('active');
+        } else {
+            sortMode = 'cart';
+            showCartBtn.classList.add('active');
+            sortPayBtn.classList.remove('active');
+        sortMatchesBtn.classList.remove('active');
+            bigDiffBtn.classList.remove('active');
+            showMyPriceBtn.classList.remove('active');
+            maxCoverageBtn.classList.remove('active');
+        }
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function toggleMaxCoverage() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        filterNewItems = !filterNewItems;
+        if (filterNewItems) {
+            maxCoverageBtn.classList.add('active');
+        } else {
+            maxCoverageBtn.classList.remove('active');
+        }
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function toggleCompactMatches() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        compactMatches = !compactMatches;
+        if (compactMatches) compactMatchesBtn.classList.add('active');
+        else compactMatchesBtn.classList.remove('active');
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function toggleBarcodeSort() {
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        if (barcodeSortOrder === 0) barcodeSortOrder = 1;
+        else if (barcodeSortOrder === 1) barcodeSortOrder = -1;
+        else barcodeSortOrder = 0;
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    function toggleFileBarcodesVisibility() {
+        showFileBarcodes = !showFileBarcodes;
+        if (showFileBarcodes) {
+            toggleFileBarcodesBtn.classList.add('active');
+        } else {
+            toggleFileBarcodesBtn.classList.remove('active');
+        }
+        renderTable();
+    }
+
+    function getSortedData() {
+        let data = [...groupedData];
+
+        if (searchQuery) {
+            data = data.filter(item =>
+                item.names.some(n => n.name.toLowerCase().includes(searchQuery))
+            );
+        }
+
+        // Фильтр новинок (независимый от sortMode)
+        if (filterNewItems) {
+            data = data.filter(item => !item.isInMyPrice);
+        }
+
+        if (sortMode === 'matches') {
+            data.sort((a, b) => {
+                if (a.originalFileCount > 1 && b.originalFileCount === 1) return -1;
+                if (a.originalFileCount === 1 && b.originalFileCount > 1) return 1;
+                return 0;
+            });
+        } else if (sortMode === 'bigdiff') {
+            data = data.filter(item => item.originalFileCount > 1 && item.priceDiffPercent > 10);
+            data.sort((a, b) => b.priceDiffPercent - a.priceDiffPercent);
+        } else if (sortMode === 'myprice') {
+            data = data.filter(item => item.isInMyPrice);
+            data.sort((a, b) => a.myPriceOrder - b.myPriceOrder);
+        } else if (sortMode === 'cart') {
+            data = data.filter(item => cart.has(item.barcode));
+        } else if (sortMode === 'maxcoverage' || filterNewItems) {
+            data.sort((a, b) => b.coverageCount - a.coverageCount);
+        }
+
+        if (barcodeSortOrder !== 0) {
+            data.sort((a, b) => {
+                const bcA = String(a.barcode);
+                const bcB = String(b.barcode);
+                return barcodeSortOrder === 1 ? bcA.localeCompare(bcB) : bcB.localeCompare(bcA);
+            });
+        }
+
+        return data;
+    }
+
+    function copyBarcode(barcode, btn) {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText(String(barcode)).then(() => {
+            const orig = btn.textContent;
+            btn.textContent = '✓';
+            setTimeout(() => {
+                btn.textContent = orig;
+            }, 600);
+        }).catch(() => {
+        });
+    }
+
+    function copyBarcodeFromPrice(barcode) {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText(String(barcode)).then(() => {
+            console.log('Скопирован штрихкод:', barcode);
+        }).catch(() => {});
+    }
+
+    function editColumnName(colKey) {
+        const col = allColumns.find(c => c.key === colKey);
+        if (!col) return;
+        const newName = prompt('Новое название колонки:', col.displayName);
+        if (newName && newName.trim() !== '' && newName.trim() !== col.displayName) {
+            col.displayName = newName.trim();
+            const wrapper = document.querySelector('.table-wrapper');
+            const scrollTop = wrapper ? wrapper.scrollTop : 0;
+            updateHiddenColumnsPanel();
+            renderTable();
+            const newWrapper = document.querySelector('.table-wrapper');
+            if (newWrapper) newWrapper.scrollTop = scrollTop;
+        }
+    }
+
+    function renderTable() {
+        const dataToShow = getSortedData();
+
+        if (dataToShow.length === 0) {
+            tableContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">⚠️</div>
+                    <h3>Нет данных для отображения</h3>
+                    <p>Проверьте содержимое загруженных файлов или измените фильтры</p>
+                </div>`;
+            return;
+        }
+
+        const visibleCols = allColumns.filter(col => visibleColumns.has(col.key));
+
+        let html = '<div class="table-wrapper"><table><thead><tr>';
+        html += `<th class="col-actions"></th>`;
+
+        let sortIcon = '';
+        if (barcodeSortOrder === 1) sortIcon = ' ▲';
+        else if (barcodeSortOrder === -1) sortIcon = ' ▼';
+        html += `<th class="col-barcode" onclick="toggleBarcodeSort()" title="Нажмите для сортировки по штрихкоду">Штрихкод${sortIcon}</th>`;
+
+        // Колонки со штрихкодами по файлам (по умолчанию скрыты)
+        allFilesData.forEach(({fileName}, idx) => {
+            const extraClass = showFileBarcodes ? '' : 'hidden-barcode-col';
+            html += `<th class="col-barcode file-barcode-col ${extraClass}" data-file-index="${idx}" title="Штрихкод из файла ${fileName}">Штрихкод (${fileName})</th>`;
+        });
+
+        html += `<th class="col-name">${nameColumn}</th>`;
+
+        visibleCols.forEach((col)=>{
+            const _isMyP = !col.metaType && col.fileName===MY_PRICE_FILE_NAME;
+            const _isMeta = !!col.metaType;
+            const _cL = col.metaType ? col.displayName : col.columnName;
+            const _fL = col.metaType ? null : col.fileName;
+            // Мой прайс и мета: только колонка; Поставщик: файл + колонка
+            if(_isMyP||_isMeta){
+                const _thClass = _isMyP ? "col-my-price" : "col-meta";
+                const _fileLabel = MY_PRICE_FILE_NAME;
+                html+=`<th class="${_thClass}" title="${_fileLabel} — ${_cL}"><div class="column-header"><div class="column-file-name column-file-name--my-price" title="${_fileLabel}">${_fileLabel}</div><div class="column-header-title"><span class="column-name-text">${_cL}</span></div></div></th>`;
+            } else {
+                html+=`<th title="${_fL} — ${_cL}"><div class="column-header"><div class="column-file-name" title="${_fL}">${_fL}</div><div class="column-header-title"><span class="column-name-text">${_cL}</span></div></div></th>`;
+            }
+        });
+
+        html += '</tr></thead><tbody>';
+
+        dataToShow.forEach((item, index) => {
+            const inCart = cart.has(item.barcode);
+            let rowClass = '';
+            
+            if (item.isSynonym) rowClass = 'synonym-row';
+            
+            if (inCart) {
+                if (item.isSynonym) rowClass = 'in-cart synonym-row';
+                else rowClass = 'in-cart';
+            } else if (item.isInMyPrice && !item.isSynonym) {
+                rowClass = 'my-price-row';
+            }
+
+            const prev = dataToShow[index - 1];
+            const next = dataToShow[index + 1];
+            const isGroupStart = !prev || prev.barcode !== item.barcode;
+            const isGroupEnd = !next || next.barcode !== item.barcode;
+            if (isGroupStart) rowClass += (rowClass ? ' ' : '') + 'group-border-top';
+            if (isGroupEnd) rowClass += (rowClass ? ' ' : '') + 'group-border-bottom';
+
+            html += `<tr class="${rowClass}" data-barcode="${item.barcode}" data-in-my-price="${item.isInMyPrice?'1':'0'}" data-is-synonym="${item.isSynonym?'1':'0'}">`;
+            html += `<td class="col-actions">
+                    <button class="cart-btn ${inCart ? 'in-cart' : ''}"
+                            title="${inCart ? 'Убрать из корзины' : 'Добавить в корзину'}"
+                            onclick="toggleCart('${item.barcode}')">
+                        ${inCart ? '✓' : '🛒'}
+                    </button>
+                </td>`;
+
+            html += `<td class="col-barcode">
+                    <div class="barcode-cell">
+                        <span class="barcode-text" title="${item.barcode}">${item.barcode}</span>
+                        <button class="copy-btn" title="Скопировать штрихкод"
+                                onclick="copyBarcode('${item.barcode}', this)">📋</button>
+                    </div>
+                </td>`;
+
+            // Ячейки с ШК по файлам
+            allFilesData.forEach(({fileName}, idx) => {
+                const extraClass = showFileBarcodes ? '' : 'hidden-barcode-col';
+                const origBarcode = item.originalBarcodesByFile.get(fileName) || '—';
+                html += `<td class="col-barcode file-barcode-col ${extraClass}" data-file-index="${idx}">
+                        <div class="barcode-cell">
+                            <span class="barcode-text" title="${origBarcode}">${origBarcode}</span>
+                            ${origBarcode !== '—' ? `<button class="copy-btn" title="Скопировать штрихкод" onclick="copyBarcode('${origBarcode}', this)">📋</button>` : ''}
+                        </div>
+                    </td>`;
+            });
+
+            if (compactMatches && item.names.length > 1) {
+                const text = item.names.map(n => n.name).join(' | ');
+                html += `<td class="col-name">
+                        <div class="name-compact" title="${text}">
+                            ${text}
+                        </div>
+                    </td>`;
+            } else {
+                if (item.names.length > 0) {
+                    html+=`<td class="col-name"><div class="name-cell">`;const _nm=new Map();item.names.forEach(n=>{if(!_nm.has(n.name))_nm.set(n.name,n.fileName);});_nm.forEach((fn,name)=>{html+=`<div class="name-item" title="📁 ${fn}">${name}</div>`;});html+=`</div></td>`;
+                } else {
+                    html += `<td class="col-name">Без названия</td>`;
+                }
+            }
+
+            const numericValues=[];
+
+            const supplierVisiblePriceCols=visibleCols.filter(col=>!col.metaType&&col.fileName!==MY_PRICE_FILE_NAME&&isPriceLikeColumn(col.columnName));
+            const _gn={"нал":[],"бн":[],"other":[]};supplierVisiblePriceCols.forEach(col=>{const _g=getColPayGroup(col);const valuesArr=item.values.get(col.key);if(valuesArr)valuesArr.forEach(vObj=>{const n=parsePriceNumber(vObj.val);if(n!==null&&n>0){numericValues.push(n);_gn[_g].push(n);}});});
+            const _gMin={"нал":_gn["нал"].length>0?Math.min(..._gn["нал"]):null,"бн":_gn["бн"].length>0?Math.min(..._gn["бн"]):null,"other":_gn["other"].length>0?Math.min(..._gn["other"]):null};
+            const _gM={"нал":_gn["нал"].length>1,"бн":_gn["бн"].length>1,"other":_gn["other"].length>1};
+            const globalMin=numericValues.length>0?Math.min(...numericValues):null;
+            const globalMax=numericValues.length>0?Math.max(...numericValues):null;
+            const hasMultipleGlobals=numericValues.length>1;
+
+            visibleCols.forEach(col => {
+                const valuesArr = item.values.get(col.key);
+                let cellContent = '—';
+
+                if(col.metaType){const _mv=(valuesArr&&valuesArr.length>0)?valuesArr[0].val:"";if(_mv===undefined||_mv===null||String(_mv).trim()===""){cellContent="—";}else{const _mn=parseFloat(String(_mv).replace(",","."));cellContent=!isNaN(_mn)?String(Math.round(_mn)):String(_mv);}html+=`<td>${cellContent}</td>`;return;}
+
+                if (valuesArr && valuesArr.length > 0) {
+                    cellContent = '<div class="multi-value-container">';
+                    valuesArr.forEach((vObj, vIndex) => {
+                        let displayValue;
+                        let isMin = false;
+                        let isMax = false;
+                        let numValue = null;
+
+                        const parsed = parseFloat(String(vObj.val).replace(/[^0-9.,]/g, '').replace(',', '.'));
+                        if(!isNaN(parsed)&&parsed>0){numValue=parsed;displayValue=parsed.toFixed(PRICE_DECIMALS)+" ₽";const _pg=getColPayGroup(col);if(_gM[_pg]&&_gMin[_pg]!==null&&parsed===_gMin[_pg])isMin=true;if(hasMultipleGlobals&&parsed===globalMax&&globalMax>=3*globalMin)isMax=true;}else{displayValue=vObj.val;}
+
+                        const barcodeForCopy = vObj.originalBarcode || item.barcode;
+                        const autoBadge = vObj._autoDiv ? `<span class="auto-div-badge" title="Автоделение /${vObj._autoDivFactor || item.packQty}">÷</span>` : '';
+                        let innerHtml = `<span class="price-clickable" onclick="copyBarcodeFromPrice('${barcodeForCopy}')" title="Клик → копировать штрихкод ${barcodeForCopy}">${displayValue}</span>${autoBadge}`;
+                        
+                        if (isMin) {
+                            innerHtml = `<span class="price-val is-min price-clickable" onclick="copyBarcodeFromPrice('${barcodeForCopy}')" title="Клик → копировать штрихкод ${barcodeForCopy}">${displayValue}</span>${autoBadge}`;
+                        }
+
+                        if (isMax && numValue) {
+                            innerHtml = `<span class="price-clickable" onclick="copyBarcodeFromPrice('${barcodeForCopy}')" title="Клик → копировать штрихкод ${barcodeForCopy}">${displayValue}</span>${autoBadge}
+                                <div class="div-wrapper" title="Цена указана за блок? Разделите на количество штук">
+                                    <div class="div-icon">÷</div>
+                                    <select class="div-select" onchange="dividePrice('${item.barcode}','${col.key}', ${vIndex}, this.value); this.value='';">
+                                        <option value="" disabled selected>÷</option>
+                                        ${Array.from({length: 99}, (_, i) => i + 2).map(n => `<option value="${n}">${n}</option>`).join('')}
+                                    </select>
+                                </div>`;
+                        }
+
+                        cellContent += `<div class="value-variant">${innerHtml}</div>`;
+                    });
+                    cellContent += '</div>';
+                }
+
+                html += `<td>${cellContent}</td>`;
+            });
+
+            html += '</tr>';
+        });
+
+        html += '</tbody></table></div>';
+        tableContainer.innerHTML = html;
+    }
+
+    function dividePrice(barcode, colKey, valueIndex, factorStr) {
+        const factor = parseFloat(factorStr);
+        if (!factor || factor <= 0) return;
+
+        const item = groupedData.find(x => String(x.barcode) === String(barcode));
+        if (!item) return;
+
+        const visibleCols = allColumns.filter(col => visibleColumns.has(col.key));
+    const priceCols = visibleCols.filter(col => !col.metaType && isPriceLikeColumn(col.columnName));
+    const nums = [];
+        priceCols.forEach(col => {
+            const arr = item.values.get(col.key);
+            if (!arr || arr.length === 0) return;
+            arr.forEach(v => {
+                const n = parsePriceNumber(v.val);
+                if (n !== null && n > 0) nums.push(n);
+            });
+        });
+        if (nums.length === 0) return;
+
+        const minValue = Math.min(...nums);
+        const threshold = minValue * 3;
+
+        let changed = false;
+        priceCols.forEach(col => {
+            const arr = item.values.get(col.key);
+            if (!arr || arr.length === 0) return;
+            arr.forEach(vObj => {
+                const n = parsePriceNumber(vObj.val);
+                if (n === null || n <= 0) return;
+                if (n > threshold) {
+                    vObj.val = roundPrice(n / factor);
+                    changed = true;
+                }
+            });
+        });
+
+        if (!changed) return;
+
+        const wrapper = document.querySelector('.table-wrapper');
+        const scrollTop = wrapper ? wrapper.scrollTop : 0;
+        renderTable();
+        const newWrapper = document.querySelector('.table-wrapper');
+        if (newWrapper) newWrapper.scrollTop = scrollTop;
+    }
+
+    // ── helpers ──────────────────────────────────────────────────────────────
+
+    // Проверить разрешение на запись в сохранённую директорию
+    // Простое сохранение через стандартный диалог браузера
+    function saveBlobWithDialogOrDownload(blob, fileName) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    async function generateExcel(mode) {
+    try {
+    const _exMeta=allColumns.filter(c=>c.metaType&&visibleColumns.has(c.key));
+    const _exMyP =allColumns.filter(c=>!c.metaType&&c.fileName===MY_PRICE_FILE_NAME&&visibleColumns.has(c.key));
+    const _exSup =allColumns.filter(c=>!c.metaType&&c.fileName!==MY_PRICE_FILE_NAME&&visibleColumns.has(c.key));
+    const excelCols=[..._exMeta,..._exMyP,..._exSup];
+    const fileNames=allFilesData.map(f=>f.fileName);
+    const hasMyPrice=!!myPriceData;
+    const myPriceFileName=hasMyPrice?MY_PRICE_FILE_NAME:null;
+    const nameFileOrder=[];
+    if(hasMyPrice) nameFileOrder.push(myPriceFileName);
+    fileNames.forEach(fn=>{if(!hasMyPrice||fn!==myPriceFileName)nameFileOrder.push(fn);});
+    const priceStartColBase=1+fileNames.length+nameFileOrder.length;
+
+    // Жирные разделители: мой прайс→поставщики + нал↔бн
+    const thickLeftAt=new Set();
+    const _fsi=excelCols.findIndex(c=>!c.metaType&&c.fileName!==MY_PRICE_FILE_NAME);
+    if(_fsi>0) thickLeftAt.add(_fsi);
+    for(let i=1;i<excelCols.length;i++){
+        const p=excelCols[i-1],c=excelCols[i];
+        if(!c.metaType&&c.fileName!==MY_PRICE_FILE_NAME&&!p.metaType&&p.fileName!==MY_PRICE_FILE_NAME)
+            if(getColPayGroup(p)!==getColPayGroup(c)) thickLeftAt.add(i);
+    }
+
+    let dataToExport=[];
+    if(mode==='cart')         dataToExport=groupedData.filter(item=>cart.has(item.barcode));
+    else if(mode==='myprice') dataToExport=groupedData.filter(item=>item.isInMyPrice).sort((a,b)=>a.myPriceOrder-b.myPriceOrder);
+    else if(mode==='current') dataToExport=getSortedData();
+    else                      dataToExport=groupedData;
+
+    const workbook=new ExcelJS.Workbook();
+    const worksheet=workbook.addWorksheet('Сравнение');
+    const totalCols=1+fileNames.length+nameFileOrder.length+excelCols.length;
+
+    // Заголовки: мой прайс — только колонка, поставщик — файл+колонка
+    const headers=['Штрихкод'];
+    fileNames.forEach(fn=>headers.push(`Штрихкод (${fn})`));
+    nameFileOrder.forEach(fn=>headers.push('Наименование'));
+    excelCols.forEach(col=>{
+        const _isMyP=!col.metaType&&col.fileName===MY_PRICE_FILE_NAME;
+        if(_isMyP||col.metaType){
+            headers.push(col.metaType?col.displayName:col.columnName);
+        } else {
+            headers.push(col.fileName+'\n'+col.columnName);
+        }
+    });
+    const _xlH=worksheet.addRow(headers);
+    _xlH.alignment={vertical:'middle',horizontal:'center',wrapText:true};
+    _xlH.height=45;
+
+    // Данные
+    dataToExport.forEach(item=>{
+        {
+            const row=[item.barcode];
+            fileNames.forEach(fn=>row.push(item.originalBarcodesByFile.get(fn)||''));
+            if(mode==='current'){
+                const _bestName=(item.names||[]).filter(n=>n.fileName!==MY_PRICE_FILE_NAME).reduce((b,n)=>n.name&&n.name.length>b.length?n.name:b,'');
+                nameFileOrder.forEach((_fn,_i)=>row.push(_i===0?_bestName:''));
+            } else {
+                nameFileOrder.forEach(fn=>row.push((item.namesByFile&&item.namesByFile.get(fn))||''));
+            }
+            const priceStartCol=row.length;
+            const numericColsInRow=[];
+            const _eg={'нал':[],'бн':[],'other':[]};
+            const _ei={'нал':[],'бн':[],'other':[]};
+            const _multiValCols=new Set();
+            excelCols.forEach((col,idx)=>{
+                const va=item.values.get(col.key);let cellValue='';
+                if(va&&va.length>0){
+                    if(!col.metaType&&isPriceLikeColumn(col.columnName)){
+                        const uniquePrices=[];
+                        va.forEach(vObj=>{
+                            const num=parseFloat(String(vObj.val).replace(/[^0-9.,]/g,'').replace(',','.'));
+                            if(!isNaN(num)&&num>0){const r=roundPrice(num);if(!uniquePrices.includes(r))uniquePrices.push(r);}
+                        });
+                        if(uniquePrices.length===1){
+                            cellValue=uniquePrices[0];
+                            numericColsInRow.push(priceStartCol+idx);
+                            if(col.fileName!==MY_PRICE_FILE_NAME){
+                                const _g=getColPayGroup(col);
+                                _eg[_g].push(uniquePrices[0]);
+                                _ei[_g].push({ci:priceStartCol+idx,vi:_eg[_g].length-1});
+                            }
+                        } else if(uniquePrices.length>1){
+                            cellValue=uniquePrices.map(p=>String(p).replace('.',',')).join(' / ');
+                            _multiValCols.add(priceStartCol+idx);
+                            if(col.fileName!==MY_PRICE_FILE_NAME){
+                                const _g=getColPayGroup(col);
+                                uniquePrices.forEach(p=>{_eg[_g].push(p);_ei[_g].push({ci:priceStartCol+idx,vi:_eg[_g].length-1});});
+                            }
+                        } else {
+                            cellValue=va[0]?.val||'';
+                        }
+                    } else if(col.metaType){
+                        const num=parseFloat(String(va[0].val).replace(/[^0-9.,]/g,'').replace(',','.'));
+                        cellValue=(!isNaN(num)&&num>0)?Math.round(num):(va[0].val||'');
+                    } else {
+                        cellValue=va[0]?.val||'';
+                    }
+                }
+                row.push(cellValue);
+            });
+            const excelRow=worksheet.addRow(row);
+            numericColsInRow.forEach(ci=>{const c=excelRow.getCell(ci+1);if(typeof c.value==='number')c.numFmt='0.0';});
+            if(item.isSynonym){excelRow.getCell(1).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE6F7FF'}};}
+            ['нал','бн','other'].forEach(g=>{
+                if(_eg[g].length>1){
+                    const mn=Math.min(..._eg[g]);
+                    const minCells=new Set();
+                    _ei[g].forEach(({ci,vi})=>{if(_eg[g][vi]===mn)minCells.add(ci);});
+                    minCells.forEach(ci=>{
+                        const cell=excelRow.getCell(ci+1);
+                        cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFFFCCCC'}};
+                        cell.font={color:{argb:'FF000000'}};
+                    });
+                }
+            });
+        }
+    });
+
+    // Ширины + группировка
+    const fbS=2,fbE=1+fileNames.length,nsS=fbE+1,nsE=nsS+nameFileOrder.length-1;
+    worksheet.columns.forEach((col,idx)=>{
+        const ci=idx+1;
+        if(ci===1)col.width=15;
+        else if(ci>=fbS&&ci<=fbE)col.width=13;
+        else if(ci>=nsS&&ci<=nsE)col.width=(hasMyPrice&&nameFileOrder[0]===myPriceFileName&&ci===nsS)?50:20;
+        else col.width=10;
+    });
+    if(fileNames.length>0){worksheet.properties.outlineProperties={summaryBelow:true};for(let c=fbS;c<=fbE;c++){worksheet.getColumn(c).outlineLevel=1;worksheet.getColumn(c).hidden=true;}}
+    if(nameFileOrder.length>1){worksheet.properties.outlineProperties={summaryBelow:true};const st=hasMyPrice?nsS+1:nsS;for(let c=st;c<=nsE;c++){worksheet.getColumn(c).outlineLevel=1;worksheet.getColumn(c).hidden=true;}}
+    worksheet.views=[{state:'frozen',xSplit:0,ySplit:1}];
+
+    // Границы: тонкие + жирные разделители + жирная внешняя рамка
+    const totalRows=worksheet.rowCount;
+    worksheet.eachRow((row,rowNum)=>{
+        row.eachCell({includeEmpty:true},(cell,colNum)=>{
+            const _eci=colNum-1-priceStartColBase;
+            cell.border={
+                top:   {style:rowNum===1?'medium':'thin'},
+                left:  {style:(colNum===1||(_eci>=0&&thickLeftAt.has(_eci)))?'medium':'thin'},
+                bottom:{style:rowNum===totalRows?'medium':'thin'},
+                right: {style:colNum===totalCols?'medium':'thin'}
+            };
+        });
+    });
+
+    // Заголовок оформление
+    const headerRow=worksheet.getRow(1);
+    headerRow.font={bold:true};
+    headerRow.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE0E0E0'}};
+    headerRow.alignment={vertical:'middle',horizontal:'center',wrapText:true};
+    headerRow.height=45;
+    // Мой прайс колонки в заголовке — зелёный цвет
+    excelCols.forEach((col,idx)=>{
+    });
+    if(fbS<=headers.length)headerRow.getCell(fbS).note='Штрихкоды по файлам';
+    if(nsS<=headers.length)headerRow.getCell(nsS).note='Наименования по файлам';
+
+    const buffer=await workbook.xlsx.writeBuffer();
+    const now=new Date(),yyyy=now.getFullYear(),mm=String(now.getMonth()+1).padStart(2,'0'),dd=String(now.getDate()).padStart(2,'0');
+    let fileName=`monitoring-${yyyy}-${mm}-${dd}.xlsx`;
+    if(mode==='cart')    fileName=`monitoring-cart-${yyyy}-${mm}-${dd}.xlsx`;
+    if(mode==='myprice') fileName=`monitoring-myprice-${yyyy}-${mm}-${dd}.xlsx`;
+    if(mode==='current') fileName=`monitoring-current-${yyyy}-${mm}-${dd}.xlsx`;
+    const blob=new Blob([buffer],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    await saveBlobWithDialogOrDownload(blob,fileName);
+    } catch(err) {
+        console.error('generateExcel error:', err);
+        alert('Ошибка при создании Excel-файла:\n' + (err.message || err));
+    }
+}
+
+
+    function updateUI() {
+        const hasData = groupedData.length > 0;
+        const hasMyPrice = myPriceData !== null;
+
+        sortPayBtn.disabled=!hasData;
+        exportAllBtn.disabled = !hasData;
+        exportCurrentBtn.disabled = !hasData;
+        exportMyPriceBtn.disabled = !hasMyPrice || !hasData;
+        clearBtn.disabled = !hasData;
+        sortMatchesBtn.disabled = !hasData;
+        bigDiffBtn.disabled = !hasData;
+        showMyPriceBtn.disabled = !hasMyPrice || !hasData;
+        compactMatchesBtn.disabled = !hasData;
+        maxCoverageBtn.disabled = !hasData;
+        toggleFileBarcodesBtn.disabled = !hasData;
+        searchInput.disabled = !hasData;
+
+        if (hasData) {
+            infoPanel.style.display='grid';
+            const _lp=document.getElementById('legendPanel');if(_lp)_lp.style.display='flex';
+            const matchCount = groupedData.filter(item => item.originalFileCount > 1).length;
+            document.getElementById('productCount').textContent = groupedData.length;
+            document.getElementById('fileCount').textContent = allFilesData.length;
+            document.getElementById('columnCount').textContent = allColumns.length;
+            document.getElementById('matchCount').textContent = matchCount;
+        } else {
+            infoPanel.style.display='none';
+            const _lp2=document.getElementById('legendPanel');if(_lp2)_lp2.style.display='none';
+        }
+    }
+
+    function clearAll() {
+        myPriceData = null;
+        competitorFilesData = [];
+        allFilesData = [];
+        groupedData = [];
+        allColumns = [];
+        visibleColumns.clear();
+        cart.clear();
+        barcodeColumn = null;
+        nameColumn = null;
+        sortMode = 'default';
+        compactMatches = false;
+        searchQuery = '';
+        barcodeSortOrder = 0;
+        showFileBarcodes = false;
+        filterNewItems = false;
+
+        myPriceInput.value = '';
+        competitorInput.value = '';
+        synonymsInput.value = '';
+        const _mpSt2=document.getElementById('myPriceStatus');if(_mpSt2){_mpSt2.className='upload-status upload-status--idle';_mpSt2.textContent='Не загружен';}
+        const _cSt2=document.getElementById('competitorStatus');if(_cSt2){_cSt2.className='upload-status upload-status--idle';_cSt2.textContent='Не загружены';}
+        const _snSt2=document.getElementById('synonymsStatus');if(_snSt2){_snSt2.className='upload-status upload-status--idle';_snSt2.textContent='Не загружены';}
+        resetBarcodeAliases();
+        searchInput.value = '';
+        sortPayBtn.classList.remove('active');
+        sortMatchesBtn.classList.remove('active');
+        bigDiffBtn.classList.remove('active');
+        showMyPriceBtn.classList.remove('active');
+        showCartBtn.classList.remove('active');
+        compactMatchesBtn.classList.remove('active');
+        maxCoverageBtn.classList.remove('active');
+        toggleFileBarcodesBtn.classList.remove('active');
+        hiddenColumnsPanel.style.display = 'none';
+        updateCartUI();
+
+        tableContainer.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-icon">📦</div>
+                <h3>Загрузите прайс-листы</h3>
+                <p>Загрузите ваш прайс и файлы конкурентов для автоматического сравнения</p>
+            </div>`;
+        updateUI();
+    }
+
+    function applySortByPayment(){const _m=allColumns.filter(c=>c.metaType);const _p=allColumns.filter(c=>!c.metaType&&c.fileName===MY_PRICE_FILE_NAME);const _s=allColumns.filter(c=>!c.metaType&&c.fileName!==MY_PRICE_FILE_NAME);_s.sort((a,b)=>{const o={"нал":0,"бн":1,"other":2};return(o[getColPayGroup(a)]??2)-(o[getColPayGroup(b)]??2);});allColumns=[..._m,..._p,..._s];const _w=document.querySelector(".table-wrapper"),_st=_w?_w.scrollTop:0;updateHiddenColumnsPanel();renderTable();const _w2=document.querySelector(".table-wrapper");if(_w2)_w2.scrollTop=_st;sortPayBtn.classList.add("active");setTimeout(()=>sortPayBtn.classList.remove("active"),1200);}
+    function downloadCurrentSynonyms(){const g={};barcodeAliasMap.forEach((c,a)=>{if(!g[c])g[c]=[];if(a!==c)g[c].push(a);});const blob=new Blob([JSON.stringify(g,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a"),now=new Date();a.href=url;a.download=`synonyms_${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-${String(now.getDate()).padStart(2,"0")}.json`;a.click();URL.revokeObjectURL(url);}
+    window.toggleColumn = toggleColumn;
+    window.toggleCart = toggleCart;
+    window.copyBarcode = copyBarcode;
+    window.copyBarcodeFromPrice = copyBarcodeFromPrice;
+    window.toggleBarcodeSort = toggleBarcodeSort;
+    window.dividePrice = dividePrice;
+    window.editColumnName = editColumnName;
+
+    // ════════════════════════════════════════════════════════════════════════
+    // РЕЖИМ ОБУЧЕНИЯ
+    // ════════════════════════════════════════════════════════════════════════
+    (function initTutorial() {
+        // ── Словарь подсказок ─────────────────────────────────────────────
+        const TIPS = {
+            // Загрузка файлов
+            'myPriceInput':          { t: '📋 Мой прайс', b: 'Загрузите ваш прайс-лист (CSV, XLS, XLSX). Именно его товары будут базой для сравнения — программа покажет, у кого из поставщиков дешевле.' },
+            'competitorInput':       { t: '📦 Прайсы поставщиков', b: 'Загрузите один или несколько файлов поставщиков. Программа сравнит цены со всеми сразу и выделит лучшие предложения.' },
+            'synonymsInput':         { t: '🔗 Синонимы штрихкодов', b: 'Необязательно. JSON-файл с группами штрихкодов-синонимов: если один и тот же товар в разных файлах записан разными кодами — программа объединит их в одну строку.' },
+            'synonymsStatus':        { t: '📊 Статус синонимов', b: 'Показывает: загружен ли файл синонимов и сколько в нём групп. Если синонимы не загружены — товары сопоставляются только по точному совпадению штрихкода.' },
+            'downloadSynBtn':        { t: '⬇️ Скачать JSON', b: 'Скачать текущий загруженный файл синонимов — чтобы сохранить или отредактировать вне программы.' },
+            'resetSynBtn':           { t: '✖️ Сбросить синонимы', b: 'Отключить сопоставление по синонимам. После сброса товары будут группироваться только по точному совпадению штрихкода.' },
+            // Поиск
+            'searchInput':           { t: '🔍 Поиск по названию', b: 'Введите часть названия товара — таблица мгновенно отфильтруется. Поиск работает по всем загруженным наименованиям.' },
+            // Фильтры
+            'sortMatchesBtn':        { t: '🔝 Сначала совпадения', b: 'Сортирует таблицу так, чтобы товары, найденные сразу у нескольких поставщиков, шли первыми — удобно для поиска лучшей цены.' },
+            'bigDiffBtn':            { t: '📉 Большая разница', b: 'Показывает только товары, у которых разница между вашей ценой и ценой поставщика превышает 10%. Помогает быстро найти самые выгодные позиции.' },
+            'showMyPriceBtn':        { t: '🏷️ Только мой прайс', b: 'Оставляет в таблице только товары, которые есть в вашем прайсе. Удобно сравнивать именно свой ассортимент.' },
+            'showCartBtn':           { t: '🛒 Только корзина', b: 'Показывает только товары, отмеченные кнопкой 🛒 (добавленные в корзину). Удобно для финального просмотра перед экспортом.' },
+            'maxCoverageBtn':        { t: '📊 По охвату', b: 'Сортирует товары по количеству поставщиков, у которых есть цена на этот товар. Вверху — самые «популярные» позиции.' },
+            'filterNewItemsBtn':     { t: '🆕 Новинки', b: 'Показывает только товары поставщиков, которых нет в вашем прайсе. Удобно искать новые позиции для добавления в ассортимент.' },
+            // Вид
+            'compactMatchesBtn':     { t: '📐 Компактный вид', b: 'Уменьшает высоту строк: все наименования товара показываются в одну строку с многоточием. Позволяет видеть больше позиций на экране.' },
+            'toggleFileBarcodesBtn': { t: '# Штрихкоды по файлам', b: 'Показывает/скрывает колонки со штрихкодами из каждого файла. Полезно при отладке сопоставления — можно увидеть, какой именно код был в исходном файле.' },
+            'sortPayBtn':            { t: '💳 Нал / Безнал', b: 'Сортирует колонки поставщиков: сначала идут колонки с наличными ценами, затем безналичные. Программа определяет тип по названию колонки.' },
+            // Экспорт
+            'exportMyPriceBtn':      { t: '⭐ Экспорт: Мой прайс', b: 'Скачивает Excel только с товарами из вашего прайса. В файл войдут видимые колонки: остаток, цены поставщиков и выбранные данные.' },
+            'exportAllBtn':          { t: '💾 Экспорт: Всё', b: 'Скачивает Excel со всеми товарами из всех файлов — без учёта текущего фильтра и поиска. Полный срез данных.' },
+            'exportCurrentBtn':      { t: '🔍 Экспорт: Текущий вид', b: 'Скачивает Excel именно то, что видно сейчас: с учётом поиска, фильтров, сортировки и скрытых колонок.' },
+            'exportCartBtn':         { t: '🛒 Экспорт: Корзина', b: 'Скачивает Excel только с отмеченными товарами (корзина). Удобно для отправки заказа поставщику.' },
+            // Очистка
+            'clearCartBtn':          { t: '🗑️ Очистить корзину', b: 'Снимает отметку 🛒 со всех товаров. Корзина очищается, но данные и таблица остаются.' },
+            'clearBtn':              { t: '⚠️ Очистить всё', b: 'Удаляет все загруженные файлы и сбрасывает программу в начальное состояние. Это действие нельзя отменить.' },
+            // Обучение
+            'tutorialBtn':           { t: '🎓 Режим обучения', b: 'Вы уже в режиме обучения! Наводите мышь на любой элемент интерфейса — появится подсказка с описанием. Нажмите ещё раз, чтобы выйти.' },
+        };
+
+        // ── Подсказки для динамических элементов таблицы (по CSS-классу) ──
+        const CLASS_TIPS = [
+            { sel: '.cart-btn',         t: '🛒 Добавить в корзину', b: 'Нажмите, чтобы добавить товар в корзину. Повторное нажатие — убрать. Товары в корзине можно потом экспортировать отдельно.' },
+            { sel: '.copy-btn',         t: '📋 Скопировать штрихкод', b: 'Копирует штрихкод в буфер обмена. Удобно для поиска товара в других системах.' },
+            { sel: 'td.col-barcode',    t: '# Штрихкод', b: 'Уникальный идентификатор товара. По нему программа объединяет строки из разных файлов в одну группу.' },
+            { sel: 'td.col-name',       t: '📝 Наименование', b: 'Названия товара из разных файлов. Если у одного штрихкода несколько названий — все показываются в одной ячейке.' },
+            { sel: 'th.col-meta',       t: '📊 Мой прайс: метаданные', b: 'Колонка из вашего прайса: Остаток, В пути и т.д. Помогает видеть контекст при сравнении с ценами поставщиков.' },
+            { sel: 'th.col-my-price',   t: '🏷️ Мой прайс: цена', b: 'Ваша текущая цена на этот товар. Сравнивайте с ценами поставщиков, чтобы найти лучшее предложение.' },
+            { sel: 'th.col-barcode',    t: '# Штрихкод (клик = сортировка)', b: 'Нажмите на заголовок, чтобы отсортировать таблицу по штрихкоду. Повторный клик — обратная сортировка.' },
+            { sel: 'th.col-name',       t: '📝 Наименование товара', b: 'Название товара. Программа показывает все варианты названий, найденные в загруженных файлах.' },
+            { sel: 'th.col-actions',    t: '🎛️ Действия', b: 'Кнопки управления строкой: добавить/убрать из корзины.' },
+            { sel: '.price-clickable',  t: '💰 Цена (кликабельна)', b: 'Нажмите на цену, чтобы выбрать её как предпочтительную для экспорта. Выбранная цена выделяется.' },
+            { sel: 'tr.my-price-row td', t: '🏷️ Строка из моего прайса', b: 'Эта строка — из вашего прайса. Светло-зелёный фон означает, что штрихкод найден в вашем файле.' },
+            { sel: 'tr.synonym-row td', t: '🔗 Совпадение по синониму', b: 'Этот товар объединён с группой через синоним штрихкода. Голубой фон — признак синонимной строки.' },
+            { sel: '.legend-item',      t: '📖 Легенда', b: 'Объяснение цветовых обозначений таблицы: зелёный — мой прайс, голубой — синонимы, красный — дубликаты.' },
+            { sel: '.restore-column-btn', t: '👁️ Восстановить колонку', b: 'Нажмите, чтобы снова показать скрытую колонку в таблице.' },
+            { sel: '.hide-col-btn',     t: '✕ Скрыть колонку', b: 'Нажмите, чтобы убрать эту колонку из таблицы. Скрытые колонки можно вернуть через панель выше.' },
+        ];
+
+        // ── Создаём тултип ────────────────────────────────────────────────
+        const tip = document.createElement('div');
+        tip.id = 'tutorialTooltip';
+        tip.innerHTML = '<div class="tt-title"></div><div class="tt-body"></div>';
+        document.body.appendChild(tip);
+        const tipTitle = tip.querySelector('.tt-title');
+        const tipBody  = tip.querySelector('.tt-body');
+        let tutorialActive = false;
+        let hideTimer = null;
+
+        function showTip(x, y, title, body) {
+            clearTimeout(hideTimer);
+            tipTitle.textContent = title;
+            tipBody.textContent  = body;
+            // Позиционируем с отступом от курсора
+            const margin = 14;
+            const tw = 340, th = 120;
+            let left = x + margin;
+            let top  = y + margin;
+            if (left + tw > window.innerWidth)  left = x - tw - margin;
+            if (top  + th > window.innerHeight) top  = y - th - margin;
+            tip.style.left = left + 'px';
+            tip.style.top  = top  + 'px';
+            tip.classList.add('visible');
+        }
+
+        function hideTip(delay = 80) {
+            clearTimeout(hideTimer);
+            hideTimer = setTimeout(() => tip.classList.remove('visible'), delay);
+        }
+
+        function findTip(el) {
+            // Сначала ищем по ID
+            if (el.id && TIPS[el.id]) return TIPS[el.id];
+            // Затем по CSS-классам (от конкретного к общему)
+            for (const {sel, t, b} of CLASS_TIPS) {
+                if (el.matches && el.matches(sel)) return {t, b};
+            }
+            // Ищем у ближайшего подходящего предка
+            const parent = el.parentElement;
+            if (parent && parent !== document.body) return findTip(parent);
+            return null;
+        }
+
+        function onMouseMove(e) {
+            if (!tutorialActive) return;
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            if (!el || el === tip) return;
+            const info = findTip(el);
+            if (info) {
+                showTip(e.clientX, e.clientY, info.t, info.b);
+            } else {
+                hideTip(200);
+            }
+        }
+
+        // Хранилище отключённых title-атрибутов
+        const _savedTitles = new Map();
+
+        function _disableTitles() {
+            document.querySelectorAll('[title]').forEach(el => {
+                _savedTitles.set(el, el.getAttribute('title'));
+                el.setAttribute('data-title-bak', el.getAttribute('title'));
+                el.removeAttribute('title');
+            });
+        }
+
+        function _restoreTitles() {
+            _savedTitles.forEach((val, el) => {
+                // Вернуть только если не был заменён чем-то другим
+                if (!el.hasAttribute('title')) el.setAttribute('title', val);
+            });
+            _savedTitles.clear();
+        }
+
+        // Также отключаем title у элементов, добавляемых в DOM во время обучения
+        let _titleObserver = null;
+
+        function toggleTutorial() {
+            tutorialActive = !tutorialActive;
+            const btn = document.getElementById('tutorialBtn');
+            if (tutorialActive) {
+                document.body.classList.add('tutorial-active');
+                _disableTitles();
+                // Следим за новыми элементами с title (динамическая таблица)
+                _titleObserver = new MutationObserver(() => {
+                    document.querySelectorAll('[title]').forEach(el => {
+                        if (!_savedTitles.has(el)) {
+                            _savedTitles.set(el, el.getAttribute('title'));
+                            el.removeAttribute('title');
+                        }
+                    });
+                });
+                _titleObserver.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['title'] });
+                document.addEventListener('mousemove', onMouseMove);
+                btn.classList.add('active');
+                btn.textContent = '🎓 Выйти из обучения';
+            } else {
+                document.body.classList.remove('tutorial-active');
+                if (_titleObserver) { _titleObserver.disconnect(); _titleObserver = null; }
+                _restoreTitles();
+                document.removeEventListener('mousemove', onMouseMove);
+                tip.classList.remove('visible');
+                btn.classList.remove('active');
+                btn.textContent = '🎓 Обучение';
+            }
+        }
+
+        // Ждём загрузки DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('tutorialBtn');
+            if (btn) btn.addEventListener('click', toggleTutorial);
+        });
+        // Если DOM уже готов
+        if (document.readyState !== 'loading') {
+            const btn = document.getElementById('tutorialBtn');
+            if (btn) btn.addEventListener('click', toggleTutorial);
+        }
+    })();
+
+
+    // ── Тост об успешном завершении мониторинга ───────────────────────────────
+    function showCompletionToast() {
+        // Показываем только если загружены прайсы поставщиков
+        if (competitorFilesData.length === 0) return;
+        const total = groupedData.length;
+        const matched = groupedData.filter(i => i.isInMyPrice).length;
+        const suppliers = competitorFilesData.length;
+        if (total === 0) return;
+
+        let toast = document.getElementById('_completionToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = '_completionToast';
+            Object.assign(toast.style, {
+                position: 'fixed', bottom: '24px', right: '24px',
+                background: '#0f172a', color: '#f1f5f9',
+                border: '1px solid #22c55e',
+                padding: '14px 18px', borderRadius: '10px',
+                fontSize: '13px', lineHeight: '1.6',
+                boxShadow: '0 6px 28px rgba(0,0,0,.45)',
+                zIndex: '99998', maxWidth: '300px',
+                transition: 'opacity .4s, transform .4s',
+                transform: 'translateY(20px)', opacity: '0'
+            });
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML =
+            `<div style="font-size:15px;font-weight:700;color:#22c55e;margin-bottom:6px;">✅ Мониторинг готов!</div>` +
+            `<div>📦 Товаров: <b style="color:#7dd3fc">${total.toLocaleString('ru')}</b></div>` +
+            (matched ? `<div>🏷️ Совпало с прайсом: <b style="color:#7dd3fc">${matched.toLocaleString('ru')}</b></div>` : '') +
+            `<div>📂 Поставщиков: <b style="color:#7dd3fc">${suppliers}</b></div>`;
+
+        // Animate in
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+        });
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(20px)';
+        }, 9000);
+    }
+
+</script>
+
+</body>
+</html>
