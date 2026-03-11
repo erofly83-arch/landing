@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прайс-менеджер — сравнение цен поставщиков без формул Excel</title>
+<meta name="description" content="Автоматическое сравнение прайсов поставщиков по штрихкодам. Загрузите Excel — получите сводную таблицу за секунды. Без ВПР, без формул, данные только у вас.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='24' fill='%233B6FD4'/><rect x='20' y='25' width='45' height='10' rx='5' fill='white'/><rect x='20' y='45' width='30' height='10' rx='5' fill='white'/><rect x='20' y='65' width='20' height='10' rx='5' fill='white'/><circle cx='65' cy='55' r='14' fill='none' stroke='white' stroke-width='8'/><line x1='75' y1='65' x2='85' y2='75' stroke='white' stroke-width='8' stroke-linecap='round'/></svg>" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+<body>
+<nav class="nav" id="mainNav">
+  <div class="container">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="#" class="nav-logo" aria-label="Прайс-менеджер — на главную">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <rect fill="white" height="10" rx="5" width="45" x="20" y="25"/>
+            <rect fill="white" height="10" rx="5" width="30" x="20" y="45"/>
+            <rect fill="white" height="10" rx="5" width="20" x="20" y="65"/>
+            <circle cx="65" cy="55" fill="none" r="14" stroke="white" stroke-width="8"/>
+            <line stroke="white" stroke-linecap="round" stroke-width="8" x1="75" x2="85" y1="65" y2="75"/>
+          </svg>
+        </div>
+        <div class="nav-logo-text">
+          <div class="nav-logo-name">Прайс-менеджер</div>
+          <div class="nav-logo-sub">Автоматический мониторинг цен</div>
+        </div>
+      </a>
+
+      <!-- Links -->
+      <div class="nav-links" role="navigation" aria-label="Основная навигация">
+        <a href="#features">Возможности</a>
+        <a href="#how">Как работает</a>
+        <a href="#privacy">Безопасность</a>
+        <a href="#calc">Калькулятор</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <!-- Right side -->
+      <div class="nav-right">
+        <a href="#contact" class="btn btn-outline" style="font-size:13px;padding:7px 14px;">Обсудить задачу</a>
+        <a href="https://erofly83-arch.github.io/demo/" class="btn btn-primary" target="_blank" rel="noopener" style="font-size:13px;padding:7px 14px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Запустить демо
+        </a>
+        <!-- Mobile only small CTA -->
+        <a href="https://erofly83-arch.github.io/demo/" class="btn btn-primary nav-cta-mobile" target="_blank" rel="noopener" style="font-size:12px;padding:6px 12px;display:none;">
+          Демо
+        </a>
+        <button class="nav-burger" id="navBurger" aria-label="Меню" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile nav -->
+<div class="mob-nav" id="mobNav" role="dialog" aria-label="Мобильное меню">
+  <div class="mob-nav-header">
+    <div class="mob-nav-logo">
+      <div class="mob-nav-logo-icon">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+          <rect fill="white" height="10" rx="5" width="45" x="20" y="25"/>
+          <rect fill="white" height="10" rx="5" width="30" x="20" y="45"/>
+          <rect fill="white" height="10" rx="5" width="20" x="20" y="65"/>
+          <circle cx="65" cy="55" fill="none" r="14" stroke="white" stroke-width="8"/>
+          <line stroke="white" stroke-linecap="round" stroke-width="8" x1="75" x2="85" y1="65" y2="75"/>
+        </svg>
+      </div>
+      <span class="mob-nav-logo-name">Прайс-менеджер</span>
+    </div>
+  </div>
+  <div class="mob-nav-section-label">Меню</div>
+  <a href="#features" class="mob-nav-link">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Возможности
+  </a>
+  <a href="#how" class="mob-nav-link">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Как работает
+  </a>
+  <a href="#compare" class="mob-nav-link">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    Сравнение
+  </a>
+  <a href="#privacy" class="mob-nav-link">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    Безопасность
+  </a>
+  <a href="#calc" class="mob-nav-link">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+    Калькулятор
+  </a>
+  <a href="#faq" class="mob-nav-link">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    Вопросы и ответы
+  </a>
+  <div class="mob-nav-sep"></div>
+  <div class="mob-nav-section-label">Действия</div>
+  <a href="#contact" class="mob-nav-action mob-nav-action--outline">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    Обсудить задачу
+  </a>
+  <a href="https://erofly83-arch.github.io/demo/" class="mob-nav-action mob-nav-action--primary" target="_blank" rel="noopener">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    Запустить демо
+  </a>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section class="hero" id="hero" aria-labelledby="heroTitle">
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
+
+  <div class="container">
+    <div class="hero-inner">
+      <!-- Text -->
+      <div class="hero-content">
+<h1 class="hero-title" id="heroTitle">
+          Сравнение прайсов поставщиков — <span class="accent">без формул, загрузил и готово</span>
+        </h1>
+
+        <p class="hero-lead">
+          Загрузите свой прайс и файлы поставщиков в любом формате Excel или CSV.
+          Программа автоматически сопоставит товары по штрихкодам и покажет, у кого дешевле —
+          <strong>за секунды вместо часов</strong>.
+        </p>
+
+        <div class="hero-cta">
+          <a href="https://erofly83-arch.github.io/demo/" class="btn btn-primary btn-primary-lg" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Попробовать демо
+          </a>
+          <a href="#how" class="btn btn-outline btn-outline-lg">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Как это работает
+          </a>
+          <p class="hero-cta-note">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            14 990 ₽ · Обучение включено · Прайсы не покидают ваш компьютер
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Visual -->
+      <div class="hero-visual">
+        <div class="browser-mock">
+          <div class="browser-bar">
+            <div class="browser-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="browser-url"></div>
+          </div>
+          <div class="browser-screen" id="heroBrowserScreen">
+            <img src="screenshot1.jpg" alt="Интерфейс мониторинга цен" loading="lazy"
+              id="heroScreenImg"
+              style="cursor:zoom-in;"
+              onclick="document.getElementById('heroLightbox').style.display='flex'"
+              onerror="this.style.display='none';document.getElementById('heroScreenFallback').style.display='flex'">
+            <div class="browser-screen-placeholder" id="heroScreenFallback" style="display:none">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" opacity=".4"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              <span style="font-size:13px;color:var(--text-muted)">Скриншот приложения</span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="heroLightbox" onclick="this.style.display='none'" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);align-items:center;justify-content:center;cursor:zoom-out;padding:24px;">
+  <img src="screenshot1.jpg" style="max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,.6);" alt="Интерфейс мониторинга цен">
+  <button onclick="event.stopPropagation();document.getElementById('heroLightbox').style.display='none'" style="position:absolute;top:20px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+</div>
+
+<!-- Universal Lightbox -->
+<div id="uniLightbox" onclick="this.style.display='none'" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);align-items:center;justify-content:center;cursor:zoom-out;padding:24px;">
+  <img id="uniLightboxImg" src="" style="max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 32px 80px rgba(0,0,0,.6);" alt="">
+  <button onclick="event.stopPropagation();document.getElementById('uniLightbox').style.display='none'" style="position:absolute;top:20px;right:24px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     GUARANTEE STRIP
+══════════════════════════════════════════════ -->
+<div class="guarantee-strip" id="guarantee">
+  <div class="container">
+    <div class="guarantee-inner">
+      <div class="guarantee-icon g-pulse">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="guarantee-text">
+        <strong>Не подошло — вернём деньги в течение 7 дней</strong>
+        <span>Оплатили, попробовали, не подошло — вернём полную сумму. Просто напишите.</span>
+      </div>
+      <div class="guarantee-badge">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        100% гарантия
+      </div>
+      <a href="#contact" class="guarantee-badge" style="text-decoration:none;cursor:pointer;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        Запросить возврат
+      </a>
+    </div>
+  </div>
+  <div class="guarantee-subtext">
+    Мы уверены в продукте — поэтому даём гарантию без вопросов и бюрократии. Большинство пользователей возвращаются за новыми фишками, а не за возвратом.
+  </div>
+</div>
+
+
+
+<!-- ══════════════════════════════════════════════
+     БОЛИ → РЕШЕНИЯ
+══════════════════════════════════════════════ -->
+<section class="pain-section" id="problems" aria-labelledby="painTitle">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal">
+<h2 class="section-title" id="painTitle">Узнаёте себя? <span class="hl">Мы это уже решили</span></h2>
+      <p class="section-sub">
+      </p>
+    </div>
+
+    <div class="pain-grid">
+
+      <!-- 1 -->
+      <div class="pain-card reveal reveal-delay-1">
+        <div class="pain-card-pain">
+          <div class="pain-card-pain-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="pain-card-pain-text">«Каждую неделю трачу часы на сводную таблицу в Excel»</div>
+        </div>
+        <div class="pain-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Решение
+        </div>
+        <div class="pain-card-solution">
+          <div class="pain-card-solution-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pain-card-solution-text">
+            <div class="pain-card-solution-title">Автоматическое сравнение за секунды</div>
+            <div class="pain-card-solution-desc">Один раз настройте шаблоны колонок и накопите базу кросскодов. При следующей загрузке программа сделает всё сама — сравнение займёт секунды.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="pain-card reveal reveal-delay-2">
+        <div class="pain-card-pain">
+          <div class="pain-card-pain-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="pain-card-pain-text">«У поставщика другой штрихкод на тот же товар»</div>
+        </div>
+        <div class="pain-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Решение
+        </div>
+        <div class="pain-card-solution">
+          <div class="pain-card-solution-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pain-card-solution-text">
+            <div class="pain-card-solution-title">База кросскодов</div>
+            <div class="pain-card-solution-desc">«Поиск кросскодов» предлагает совпадения автоматически — по схожести наименований. Достаточно подтвердить нажатием, и связь сохранится навсегда.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="pain-card reveal reveal-delay-3">
+        <div class="pain-card-pain">
+          <div class="pain-card-pain-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="pain-card-pain-text">«У поставщиков нал и безнал — постоянная путаница в ценах»</div>
+        </div>
+        <div class="pain-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Решение
+        </div>
+        <div class="pain-card-solution">
+          <div class="pain-card-solution-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pain-card-solution-text">
+            <div class="pain-card-solution-title">Автоматические группы оплаты</div>
+            <div class="pain-card-solution-desc">Назовите колонки «Цена нал» и «Цена бн» — программа разобьёт их по группам и найдёт минимум в каждой отдельно. Нал и безнал не смешиваются.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="pain-card reveal reveal-delay-1">
+        <div class="pain-card-pain">
+          <div class="pain-card-pain-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="pain-card-pain-text">«Поставщик не даёт штрихкоды, только артикулы»</div>
+        </div>
+        <div class="pain-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Решение
+        </div>
+        <div class="pain-card-solution">
+          <div class="pain-card-solution-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pain-card-solution-text">
+            <div class="pain-card-solution-title">Артикулы как кросскоды</div>
+            <div class="pain-card-solution-desc">Назначьте артикул поставщика как «Штрихкод», затем добавьте его в базу кросскодов — привяжите к вашему штрихкоду, и сопоставление заработает.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="pain-card reveal reveal-delay-2">
+        <div class="pain-card-pain">
+          <div class="pain-card-pain-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="pain-card-pain-text">«Нужно следить за ценами конкурентов»</div>
+        </div>
+        <div class="pain-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Решение
+        </div>
+        <div class="pain-card-solution">
+          <div class="pain-card-solution-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pain-card-solution-text">
+            <div class="pain-card-solution-title">Прайсы конкурентов рядом с поставщиками</div>
+            <div class="pain-card-solution-desc">Загружайте прайсы конкурентов вместе с поставщиками. Принцип тот же — сопоставление по штрихкодам. Сразу видно, где ваша цена выше рыночной.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="pain-card reveal reveal-delay-3">
+        <div class="pain-card-pain">
+          <div class="pain-card-pain-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="pain-card-pain-text">«Пропускаем новинки ассортимента от поставщиков»</div>
+        </div>
+        <div class="pain-card-arrow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          Решение
+        </div>
+        <div class="pain-card-solution">
+          <div class="pain-card-solution-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pain-card-solution-text">
+            <div class="pain-card-solution-title">Фильтр «Поиск новинок»</div>
+            <div class="pain-card-solution-desc">Один клик — и таблица показывает только товары поставщиков, которых нет в вашем прайсе. Идеально для расширения ассортимента.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /pain-grid -->
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CUSTOM / ДОРАБОТКИ ПОД КЛИЕНТА
+══════════════════════════════════════════════ -->
+<section class="custom-section" id="custom" aria-labelledby="customTitle">
+  <div class="container">
+    <div class="custom-inner">
+      <div class="reveal">
+<h2 class="custom-title" id="customTitle">Нестандартный процесс?<br>Доработаем под вас</h2>
+        <p class="custom-desc">
+          У вас сложный прайс, нестандартная выгрузка или специфический процесс закупок?
+          Мы дорабатываем программу под запросы конкретного клиента — быстро и без лишней бюрократии.
+        </p>
+        <div class="custom-list">
+          <div class="custom-list-item">
+            <div class="custom-list-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Сложные прайсы с нестандартной структурой
+          </div>
+          <div class="custom-list-item">
+            <div class="custom-list-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Новые фильтры, колонки, группировки
+          </div>
+          <div class="custom-list-item">
+            <div class="custom-list-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Формат выгрузок под вашу учётную систему (1С, МойСклад и&nbsp;др.)
+          </div>
+          <div class="custom-list-item">
+            <div class="custom-list-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Автоматическая наценка, расчёт маржи, ценовые правила
+          </div>
+          <div class="custom-list-item">
+            <div class="custom-list-icon">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            Любые дополнительные функции — обсудим и реализуем
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Visual grid — hover-реакция на курсор -->
+      <div class="custom-visual reveal reveal-delay-2">
+        <div class="custom-card">
+          <div class="custom-card-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="custom-card-title">Сложные прайсы</div>
+          <div class="custom-card-desc">Многоуровневые таблицы, объединённые ячейки, нестандартные форматы</div>
+        </div>
+        <div class="custom-card">
+          <div class="custom-card-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="custom-card-title">Новые функции</div>
+          <div class="custom-card-desc">Фильтры, аналитика, новые колонки и группировки</div>
+        </div>
+        <div class="custom-card">
+          <div class="custom-card-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="custom-card-title">Форматы выгрузок</div>
+          <div class="custom-card-desc">Под 1С, МойСклад и другие учётные системы</div>
+        </div>
+        <div class="custom-card">
+          <div class="custom-card-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <div class="custom-card-title">Быстро</div>
+          <div class="custom-card-desc">Небольшие доработки — от нескольких дней. Обсудим в Telegram</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════ -->
+
+
+<!-- ══════════════════════════════════════════════
+     MICROTASK 2 STYLES
+══════════════════════════════════════════════ -->
+
+
+<!-- ══════════════════════════════════════════════
+     КАК ЭТО РАБОТАЕТ
+══════════════════════════════════════════════ -->
+<section class="how-section" id="how" aria-labelledby="howTitle">
+  <div class="container">
+    <div class="section-left reveal">
+<h2 class="section-title" id="howTitle">Настройте один раз — <span class="hl">Прайс Менеджер работает сам</span></h2>
+      <p class="section-sub">
+        Прайс-менеджер работает сам. Никакой установки, регистрации и настройки сервера. Открыли браузер — и сразу к делу.
+      </p>
+    </div>
+
+    <div class="how-steps">
+
+      <!-- Шаг 1 -->
+      <div class="how-step reveal reveal-delay-1">
+        <div class="how-step-num">
+          <div class="how-step-num-inner">1</div>
+        </div>
+        <div class="how-step-content">
+          <div class="how-step-label">Шаг 1</div>
+          <div class="how-step-title">Загрузите файлы</div>
+          <div class="how-step-desc">
+            Откройте программу в браузере. Загрузите <strong>файл памяти</strong> (если он уже есть),
+            затем свой прайс и один или несколько прайсов поставщиков.
+            Поддерживаются <code style="background:var(--bg);padding:1px 5px;border-radius:4px;font-size:12px;">.xlsx, .xls, .csv</code> — любые форматы без подготовки.
+          </div>
+          <div class="how-step-tip">
+            <strong>Пакетная загрузка:</strong> выберите сразу несколько файлов поставщиков — программа обработает их по очереди автоматически.
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 2 -->
+      <div class="how-step reveal reveal-delay-2">
+        <div class="how-step-num">
+          <div class="how-step-num-inner">2</div>
+        </div>
+        <div class="how-step-content">
+          <div class="how-step-label">Шаг 2</div>
+          <div class="how-step-title">Укажите колонки</div>
+          <div class="how-step-desc">
+            Программа <strong>автоматически определит</strong> колонки по заголовкам — штрихкод,
+            наименование, цена, остаток. Если всё верно — нажмите «Готово».
+            Нужно уточнить — кликните на заголовок и выберите роль.
+          </div>
+          <div class="how-step-tip">
+            <strong>Запоминает навсегда:</strong> шаблоны колонок сохраняются в файле памяти и применяются при каждой следующей загрузке того же поставщика.
+          </div>
+        </div>
+      </div>
+
+      <!-- Шаг 3 -->
+      <div class="how-step reveal reveal-delay-3">
+        <div class="how-step-num">
+          <div class="how-step-num-inner">3</div>
+        </div>
+        <div class="how-step-content">
+          <div class="how-step-label">Шаг 3</div>
+          <div class="how-step-title">Сравнивайте и заказывайте</div>
+          <div class="how-step-desc">
+            Перейдите в «Мониторинг цен» — таблица сформирована.
+            Ищите, фильтруйте, включайте режим заказа, кликайте по ценам,
+            добавляйте товары в корзину и <strong>скачивайте готовый заказ в Excel</strong> одним нажатием.
+          </div>
+          <div class="how-step-tip">
+            <strong>Покрытие растёт:</strong> используйте «Поиск кросскодов» — система сама найдёт похожие товары с разными кодами и предложит их связать.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /how-steps -->
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     FORMATS BANNER — animated file conversion
+══════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════
+     КОНВЕРТЕР — синий блок (замена formats-banner)
+══════════════════════════════════════════════ -->
+<section class="converter-section" aria-label="Как работает объединение прайсов">
+  <div class="container">
+
+    <!-- Заголовок -->
+    <div class="converter-header reveal">
+      <h2 class="converter-title">Загружайте прайсы в любом формате —<br class="converter-br"> получайте один сводный отчёт</h2>
+      <p class="converter-sub">XLS, XLSX, CSV — неважно как называются столбцы и какой разделитель. Программа сама разберётся и сведёт всё в одну таблицу.</p>
+    </div>
+
+    <!-- Схема: входящие файлы → обработка → результат -->
+    <div class="converter-flow reveal reveal-delay-1">
+
+      <!-- Левая часть: входящие файлы -->
+      <div class="converter-inputs">
+        <div class="converter-inputs-label">Ваши прайсы</div>
+        <div class="converter-file cvf-1">
+          <div class="cvf-ext ext-xlsx2">XLS</div>
+          <div class="cvf-info">
+            <div class="cvf-name">прайс_основной.xls</div>
+            <div class="cvf-meta">Поставщик А · 1 240 строк</div>
+          </div>
+          <svg class="cvf-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="converter-file cvf-2">
+          <div class="cvf-ext ext-csv">CSV</div>
+          <div class="cvf-info">
+            <div class="cvf-name">supplier_prices.csv</div>
+            <div class="cvf-meta">Поставщик Б · 890 строк</div>
+          </div>
+          <svg class="cvf-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="converter-file cvf-3">
+          <div class="cvf-ext ext-xlsx">XLSX</div>
+          <div class="cvf-info">
+            <div class="cvf-name">Поставщик_В_опт.xlsx</div>
+            <div class="cvf-meta">Поставщик В · 2 100 строк</div>
+          </div>
+          <svg class="cvf-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="converter-file cvf-4">
+          <div class="cvf-ext ext-csv">CSV</div>
+          <div class="cvf-info">
+            <div class="cvf-name">preis_lieferant_d.csv</div>
+            <div class="cvf-meta">Поставщик Г · 640 строк</div>
+          </div>
+          <svg class="cvf-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+
+      <!-- Центр: пульсирующая стрелка -->
+      <div class="converter-middle">
+        <div class="converter-arrow-line">
+          <div class="converter-arrow-track">
+            <div class="converter-arrow-dot"></div>
+            <div class="converter-arrow-dot" style="animation-delay:.4s"></div>
+            <div class="converter-arrow-dot" style="animation-delay:.8s"></div>
+          </div>
+          <svg class="converter-arrowhead" width="12" height="20" viewBox="0 0 12 20" fill="none"><polyline points="2 2 10 10 2 18" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+
+      <!-- Правая часть: результат -->
+      <div class="converter-output">
+        <div class="converter-inputs-label">Один сводный отчёт</div>
+        <div class="converter-result-mock">
+          <!-- Мок-шапка таблицы -->
+          <div class="crm-header">
+            <div class="crm-col crm-col--name">Товар / Штрихкод</div>
+            <div class="crm-col crm-col--sup">Пост. А</div>
+            <div class="crm-col crm-col--sup">Пост. Б</div>
+            <div class="crm-col crm-col--sup">Пост. В</div>
+            <div class="crm-col crm-col--min">Мин. цена</div>
+          </div>
+          <!-- Строки таблицы -->
+          <div class="crm-row">
+            <div class="crm-col crm-col--name"><span class="crm-name">Масло моторное 5W-30</span><span class="crm-bc">4607177450123</span></div>
+            <div class="crm-col crm-col--sup crm-price">850 ₽</div>
+            <div class="crm-col crm-col--sup crm-price">910 ₽</div>
+            <div class="crm-col crm-col--sup crm-price">830 ₽</div>
+            <div class="crm-col crm-col--min crm-price crm-price--min">830 ₽</div>
+          </div>
+          <div class="crm-row crm-row--alt">
+            <div class="crm-col crm-col--name"><span class="crm-name">Фильтр масляный OC115</span><span class="crm-bc">4001558093105</span></div>
+            <div class="crm-col crm-col--sup crm-price">—</div>
+            <div class="crm-col crm-col--sup crm-price">245 ₽</div>
+            <div class="crm-col crm-col--sup crm-price">260 ₽</div>
+            <div class="crm-col crm-col--min crm-price crm-price--min">245 ₽</div>
+          </div>
+          <div class="crm-row">
+            <div class="crm-col crm-col--name"><span class="crm-name">Свечи зажигания NGK</span><span class="crm-bc">5010117831108</span></div>
+            <div class="crm-col crm-col--sup crm-price">180 ₽</div>
+            <div class="crm-col crm-col--sup crm-price">165 ₽</div>
+            <div class="crm-col crm-col--sup crm-price">—</div>
+            <div class="crm-col crm-col--min crm-price crm-price--min">165 ₽</div>
+          </div>
+          <!-- Нижняя панель результата -->
+          <div class="crm-footer">
+            <span class="crm-badge crm-badge--green">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Мин. цена выделена
+            </span>
+            <span class="crm-badge crm-badge--blue">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Экспорт в Excel
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Три тезиса снизу -->
+    <div class="converter-facts reveal reveal-delay-2">
+      <div class="converter-fact">
+        <div class="converter-fact-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="converter-fact-text">
+          <strong>XLS, XLSX, CSV</strong>
+          <span>Любой формат, любые названия столбцов</span>
+        </div>
+      </div>
+      <div class="converter-fact-sep"></div>
+      <div class="converter-fact">
+        <div class="converter-fact-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="converter-fact-text">
+          <strong>Сопоставление по штрихкоду</strong>
+          <span>Автоматически, без ручных формул</span>
+        </div>
+      </div>
+      <div class="converter-fact-sep"></div>
+      <div class="converter-fact">
+        <div class="converter-fact-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="converter-fact-text">
+          <strong>Все поставщики в одной таблице</strong>
+          <span>Сразу видно у кого дешевле</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     РЕЗУЛЬТАТ — СВОДНАЯ ТАБЛИЦА
+══════════════════════════════════════════════ -->
+<section class="result-section" id="result">
+  <div class="container">
+    <div class="result-inner reveal">
+      <div class="result-header">
+        <h2 class="section-title" style="margin-bottom:8px;">Вот что вы получаете <span class="hl">после мониторинга</span></h2>
+        <p class="section-sub" style="max-width:580px;">Интерфейс мониторинга: все поставщики в одной таблице, минимальная цена подсвечена зелёным, нал и безнал определяются автоматически. Панель статистики сразу показывает покрытие — сколько ваших товаров нашлось у поставщиков.</p>
+      </div>
+      <div class="result-screen-wrap">
+        <div class="result-screen-bar">
+          <div class="browser-dots"><span></span><span></span><span></span></div>
+          <div class="result-screen-bar-title">Прайс-менеджер · Мониторинг цен</div>
+          <a href="https://erofly83-arch.github.io/demo/" class="btn btn-primary" target="_blank" rel="noopener" style="padding:6px 14px;font-size:12px;min-height:32px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Запустить
+          </a>
+        </div>
+        <div class="result-screen-img">
+          <img src="screenshot_monitor.jpg" alt="Интерфейс мониторинга цен поставщиков" loading="lazy"
+            style="cursor:zoom-in;"
+            onclick="var lb=document.getElementById('uniLightbox');document.getElementById('uniLightboxImg').src='screenshot_monitor.jpg';lb.style.display='flex';"
+            onerror="this.parentNode.innerHTML='<div style=\'aspect-ratio:16/7;background:linear-gradient(135deg,#EEF2FF,#F0F8FF);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;gap:8px;\'>📊 Интерфейс мониторинга цен</div>'">
+        </div>
+      </div>
+      <div class="result-chips">
+        <div class="result-chip"><span class="chip-dot chip-green"></span>Минимальная цена подсвечена зелёным</div>
+        <div class="result-chip"><span class="chip-dot chip-blue"></span>Нал и безнал — автоматически в разные группы</div>
+        <div class="result-chip"><span class="chip-dot chip-amber"></span>Покрытие в %: сколько товаров нашлось у поставщиков</div>
+        <div class="result-chip"><span class="chip-dot chip-purple"></span>Фильтры: большая разница, дельта %, поиск новинок</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ДЕМО-СКРИНШОТ EXCEL С АННОТАЦИЯМИ
+══════════════════════════════════════════════ -->
+<section class="demo-section" id="demo" aria-labelledby="demoTitle">
+  <div class="container">
+
+    <div class="demo-wrapper reveal">
+      <div class="demo-header">
+        <div class="demo-header-left">
+          <h2 class="demo-title" id="demoTitle">Все прайсы — в одной таблице.<br>Сразу видно у кого дешевле.</h2>
+          <p class="demo-sub">Один клик — и готовая сводная таблица Excel. Штрихкод, наименование, цены всех поставщиков. Нал и безнал в отдельных столбцах, минимальная цена выделена красным жирным.</p>
+        </div>
+      </div>
+
+      <!-- Excel screenshot mockup -->
+      <div class="demo-screen-wrap">
+        <div class="demo-screen-bar">
+          <div class="browser-dots"><span></span><span></span><span></span></div>
+          <div class="demo-screen-bar-title">сравнение.xlsx — лист «Сравнение»</div>
+        </div>
+        <div class="demo-screen-img">
+          <img src="screenshot_excel.jpg"
+               alt="Сводная таблица сравнения цен поставщиков в Excel"
+               loading="lazy"
+               style="max-height:480px;object-fit:cover;object-position:top;cursor:zoom-in;"
+               onclick="var lb=document.getElementById('uniLightbox');document.getElementById('uniLightboxImg').src='screenshot_excel.jpg';lb.style.display='flex';"
+               onerror="this.parentNode.innerHTML='<div style=\'aspect-ratio:16/7;background:linear-gradient(135deg,#EEF2FF,#F0F8FF);display:flex;align-items:center;justify-content:center;gap:10px;color:var(--text-muted);font-size:13px;\'>📊 Сводная таблица Excel</div>'">
+        </div>
+      </div>
+
+      <!-- Callout annotations -->
+      <div class="demo-callouts">
+        <div class="demo-callout">
+          <div class="demo-callout-dot dot-blue">1</div>
+          <div class="demo-callout-text">
+            <div class="demo-callout-title">Штрихкод — главный ключ</div>
+            <div class="demo-callout-desc">Сопоставление по EAN/штрихкоду. Один товар — одна строка, даже если у поставщиков разные коды</div>
+          </div>
+        </div>
+        <div class="demo-callout">
+          <div class="demo-callout-dot dot-green">2</div>
+          <div class="demo-callout-text">
+            <div class="demo-callout-title">Столбцы по каждому поставщику</div>
+            <div class="demo-callout-desc">Цена нал и бн — в отдельных столбцах. Название файла — в заголовке. Сколько угодно поставщиков</div>
+          </div>
+        </div>
+        <div class="demo-callout">
+          <div class="demo-callout-dot dot-amber">3</div>
+          <div class="demo-callout-text">
+            <div class="demo-callout-title">Минимум выделен красным жирным</div>
+            <div class="demo-callout-desc">В каждой строке минимальная цена среди поставщиков выделена автоматически — нал и бн отдельно</div>
+          </div>
+        </div>
+        <div class="demo-callout">
+          <div class="demo-callout-dot dot-red">4</div>
+          <div class="demo-callout-text">
+            <div class="demo-callout-title">Готово к работе в Excel</div>
+            <div class="demo-callout-desc">Шапка заморожена, колонки штрихкодов поставщиков скрыты в группе — таблица компактна и удобна</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ЧТО УМЕЕТ — FEATURES GRID
+══════════════════════════════════════════════ -->
+<section class="features-section" id="features" aria-labelledby="featuresTitle">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal">
+<h2 class="section-title" id="featuresTitle">Всё, что вы делаете вручную в Excel — <span class="hl">в программе происходит автоматически</span></h2>
+      <p class="section-sub">Восемь ключевых возможностей, которые закрывают полный цикл — от загрузки до оформления заказа.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card-icon fi-blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="feature-card-title">Сравнение по штрихкодам</div>
+        <div class="feature-card-desc">Автоматическое сопоставление товаров из любого количества прайсов по штрихкодам. Без ручных формул и сводных таблиц.</div>
+        <span class="feature-card-badge fb-blue">Основная</span>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card-icon fi-green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="feature-card-title">База кросскодов</div>
+        <div class="feature-card-desc">Один товар — разные коды у поставщиков. Свяжите их в базе один раз, и система будет находить совпадения навсегда.</div>
+        <span class="feature-card-badge fb-blue">Основная</span>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card-icon fi-amber">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div class="feature-card-title">Поиск кросскодов</div>
+        <div class="feature-card-desc">Алгоритм сравнивает наименования и предлагает пары с оценкой схожести. Подтвердите или отклоните — одним нажатием.</div>
+        <span class="feature-card-badge fb-new">Beta</span>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-card-icon fi-green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h5a4 4 0 0 1 0 8H8"/><line x1="6" y1="15" x2="17" y2="15"/><line x1="8" y1="3" x2="8" y2="21"/></svg>
+        </div>
+        <div class="feature-card-title">Нал и безнал раздельно</div>
+        <div class="feature-card-desc">Назовите колонки «нал» и «бн» — программа сгруппирует их и найдёт минимальную цену в каждой группе отдельно.</div>
+        <span class="feature-card-badge fb-green">Авто</span>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card-icon fi-blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+        <div class="feature-card-title">Корзина заказов</div>
+        <div class="feature-card-desc">Включите режим заказа — клик по цене добавляет товар в корзину. Задайте наценку и скачайте готовую заявку в Excel.</div>
+        <span class="feature-card-badge fb-blue">Популярная</span>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card-icon fi-amber">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        </div>
+        <div class="feature-card-title">Фильтры и аналитика</div>
+        <div class="feature-card-desc">Большая разница, дельта %, Мой прайс, Поиск новинок, фильтр по категории и бренду — гибкий анализ без лишних кликов.</div>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card-icon fi-green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="feature-card-title">Экспорт в Excel</div>
+        <div class="feature-card-desc">«Мой прайс», «Всё», «Текущий вид» или полный ZIP-архив сессии одним файлом — выгружайте в нужном формате.</div>
+      </div>
+
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-card-icon fi-red">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="feature-card-title">Файл памяти</div>
+        <div class="feature-card-desc">JSON-файл хранит всю базу: кросскоды, бренды, шаблоны колонок. Загрузите в следующей сессии — восстановится за секунды.</div>
+        <span class="feature-card-badge fb-green">Ключевая</span>
+      </div>
+
+    </div><!-- /features-grid -->
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     КОМУ ПОДХОДИТ
+══════════════════════════════════════════════ -->
+<section class="who-section" id="who" aria-labelledby="whoTitle">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal">
+<h2 class="section-title" id="whoTitle">Сводите прайсы в Excel? <span class="hl">Вы попали по адресу</span></h2>
+      <p class="section-sub">Программа создана для тех, кто регулярно работает с несколькими поставщиками и хочет тратить на это минуты, а не часы.</p>
+    </div>
+
+    <div class="who-grid">
+
+      <div class="who-card reveal reveal-delay-1">
+        <div class="who-card-left">
+          <div class="who-card-avatar" style="background:#EEF2FF;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+        </div>
+        <div class="who-card-right">
+          <div class="who-card-role">Закупки и снабжение</div>
+          <div class="who-card-title">Менеджер по закупкам</div>
+          <div class="who-card-desc">Получаете прайсы от 3–10 поставщиков каждую неделю и вручную сводите их в Excel? Программа делает это автоматически — находит лучшую цену по каждому товару за секунды.</div>
+          <div class="who-card-tags">
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Несколько поставщиков
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Регулярный мониторинг
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Формирование заказов
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="who-card reveal reveal-delay-2">
+        <div class="who-card-left">
+          <div class="who-card-avatar" style="background:#F0FDF4;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          </div>
+        </div>
+        <div class="who-card-right">
+          <div class="who-card-role">Розница и опт</div>
+          <div class="who-card-title">Владелец магазина или оптовик</div>
+          <div class="who-card-desc">Нужно держать конкурентную цену, не теряя маржу? Загрузите прайсы конкурентов рядом с поставщиками — сразу видно, где ваша цена выше рыночной и где есть запас.</div>
+          <div class="who-card-tags">
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Анализ конкурентов
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Контроль маржи
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Расширение ассортимента
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="who-card reveal reveal-delay-3">
+        <div class="who-card-left">
+          <div class="who-card-avatar" style="background:#EEF2FF;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          </div>
+        </div>
+        <div class="who-card-right">
+          <div class="who-card-role">Дистрибуция</div>
+          <div class="who-card-title">Дистрибьютор или торговый представитель</div>
+          <div class="who-card-desc">Большой ассортимент, сложные прайсы с разными артикулами у каждого поставщика? Используйте артикулы как кросскоды — сопоставление заработает для любой номенклатуры.</div>
+          <div class="who-card-tags">
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Большой ассортимент
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Разные артикулы
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Нал и безнал
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="who-card reveal reveal-delay-4">
+        <div class="who-card-left">
+          <div class="who-card-avatar" style="background:#EEF2FF;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="2"/><path d="M12 2C8 2 5 6 5 10c0 6 7 12 7 12s7-6 7-12c0-4-3-8-7-8z"/></svg>
+          </div>
+        </div>
+        <div class="who-card-right">
+          <div class="who-card-role">Малый бизнес</div>
+          <div class="who-card-title">Малый бизнес и ИП</div>
+          <div class="who-card-desc">Нет времени разбираться в сложных инструментах? Программа работает в браузере, не требует IT-специалиста и установки — 14 990 ₽ разово.</div>
+          <div class="who-card-tags">
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              14 990 ₽ разово
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Без установки
+            </span>
+            <span class="who-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Просто и быстро
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /who-grid -->
+
+    <!-- Benefits / боли закрыты -->
+    <div class="who-benefits reveal" style="margin-top:40px;">
+      <div class="who-benefits-label">Закрывает главные боли закупщиков</div>
+      <div class="who-benefits-grid">
+        <div class="who-benefit-item">
+          <div class="wbi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="wbi-text">Больше не надо вручную сводить Excel — программа делает это за секунды</div>
+        </div>
+        <div class="who-benefit-item">
+          <div class="wbi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="wbi-text">Нал и безнал не смешиваются — каждый тип цены в своей группе</div>
+        </div>
+        <div class="who-benefit-item">
+          <div class="wbi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="wbi-text">Разные артикулы и штрихкоды у поставщиков — кросскоды решают проблему</div>
+        </div>
+        <div class="who-benefit-item">
+          <div class="wbi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="wbi-text">Ни один прайс не уйдёт на сервер — данные только на вашем компьютере</div>
+        </div>
+        <div class="who-benefit-item">
+          <div class="wbi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="wbi-text">Один клик — товар в корзину заказа, выгрузка в Excel за секунду</div>
+        </div>
+        <div class="who-benefit-item">
+          <div class="wbi-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="wbi-text">Разово 14 990 ₽ — никаких подписок, абонентской платы и скрытых условий</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     MICROTASK 3 STYLES
+══════════════════════════════════════════════ -->
+
+
+<!-- ══════════════════════════════════════════════
+     СРАВНЕНИЕ vs EXCEL vs ОБЛАКО
+══════════════════════════════════════════════ -->
+<section class="compare-section" id="compare" aria-labelledby="compareTitle">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal">
+<h2 class="section-title" id="compareTitle">Почему Excel и облака <span class="hl">уступают прайс-менеджеру</span></h2>
+      <p class="section-sub">Конкретные задачи мониторинга цен — конкретные причины.</p>
+    </div>
+
+    <div class="compare-table-wrap reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th >Критерий</th>
+            <th class="col-us">
+              <div class="col-us-label">
+                Прайс-менеджер
+              </div>
+            </th>
+            <th >Excel вручную</th>
+            <th >Облачные сервисы</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="row-sep"><td colspan="4">Стоимость</td></tr>
+          <tr>
+            <td>Стоимость</td>
+            <td class="col-us"><div class="cmp-cell">14 990 ₽ разово</div></td>
+            <td><div class="cmp-cell"><span class="cmp-yes">✓</span><span class="cmp-note">Бесплатно</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">Подписка ежемесячно</span></div></td>
+          </tr>
+
+          <tr class="row-sep"><td colspan="4">Скорость</td></tr>
+          <tr>
+            <td>5000 позиций</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> &lt; 30 секунд</div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">2–4 часа</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-yes">✓</span><span class="cmp-note">Быстро</span></div></td>
+          </tr>
+          <tr>
+            <td>Ручные формулы</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> Не нужны</div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">Обязательны</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-yes">✓</span><span class="cmp-note">Не нужны</span></div></td>
+          </tr>
+          <tr>
+            <td>Офлайн-режим</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> PWA</div></td>
+            <td><div class="cmp-cell"><span class="cmp-yes">✓</span><span class="cmp-note">Да</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">Нет</span></div></td>
+          </tr>
+
+          <tr class="row-sep"><td colspan="4">Функции</td></tr>
+          <tr>
+            <td>Кросскоды</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> Автоматически</div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">Вручную</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-part">~</span><span class="cmp-note">Частично</span></div></td>
+          </tr>
+          <tr>
+            <td>Нал и безнал</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> Авто</div></td>
+            <td><div class="cmp-cell"><span class="cmp-part">~</span><span class="cmp-note">Вручную</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-part">~</span><span class="cmp-note">Опционально</span></div></td>
+          </tr>
+          <tr>
+            <td>Корзина + выгрузка Excel</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> Да</div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">Нет</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-part">~</span><span class="cmp-note">Опционально</span></div></td>
+          </tr>
+          <tr>
+            <td>Данные на серверах</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> Только у вас</div></td>
+            <td><div class="cmp-cell"><span class="cmp-yes">✓</span><span class="cmp-note">Только у вас</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">На серверах</span></div></td>
+          </tr>
+          <tr>
+            <td>Регистрация</td>
+            <td class="col-us"><div class="cmp-cell"><span class="cmp-yes">✓</span> Не нужна</div></td>
+            <td><div class="cmp-cell"><span class="cmp-yes">✓</span><span class="cmp-note">Не нужна</span></div></td>
+            <td><div class="cmp-cell"><span class="cmp-no">—</span><span class="cmp-note">Обязательна</span></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!-- /compare-table-wrap -->
+    <div class="compare-summary reveal">
+      <div class="compare-summary-title">Коротко о главном</div>
+      <div class="compare-summary-grid">
+        <div class="cs-item cs-pro">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Разовая оплата — без ежемесячных подписок
+        </div>
+        <div class="cs-item cs-pro">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Данные не покидают ваш компьютер
+        </div>
+        <div class="cs-item cs-pro">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Тысячи позиций за секунды — без формул
+        </div>
+        <div class="cs-item cs-pro">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Нал и безнал автоматически раздельно
+        </div>
+        <div class="cs-item cs-con">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Точность матчинга зависит от актуальности базы кросскодов — её нужно поддерживать
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ВАШИ ДАННЫЕ — ТОЛЬКО У ВАС
+══════════════════════════════════════════════ -->
+<section class="privacy-section" id="privacy" aria-labelledby="privacyTitle">
+  <div class="container">
+    <div class="privacy-inner">
+
+      <!-- Visual: data flow diagram -->
+      <div class="privacy-visual reveal reveal-delay-2">
+        <div class="privacy-diagram">
+          <div class="mem-section-label" style="margin-bottom:14px;">Путь ваших данных</div>
+
+          <div class="priv-row">
+            <div class="priv-row-icon" style="background:var(--accent-bg);color:var(--accent);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="priv-row-text">
+              <div class="priv-row-title">Ваш прайс и прайсы поставщиков</div>
+              <div class="priv-row-desc">xlsx, xls, csv — любой формат</div>
+            </div>
+            <span class="priv-row-status ps-local">Ваш ПК</span>
+          </div>
+
+          <div class="priv-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          </div>
+
+          <div class="priv-row">
+            <div class="priv-row-icon" style="background:#EFF6FF;color:#2563EB;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="priv-row-text">
+              <div class="priv-row-title">Обработка в браузере</div>
+              <div class="priv-row-desc">JavaScript читает файл прямо у вас на устройстве</div>
+            </div>
+            <span class="priv-row-status ps-local">Браузер</span>
+          </div>
+
+          <div class="priv-arrow">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          </div>
+
+          <div class="priv-row">
+            <div class="priv-row-icon" style="background:var(--green-bg);color:var(--green);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="priv-row-text">
+              <div class="priv-row-title">Результат и файл памяти</div>
+              <div class="priv-row-desc">Сравнительная таблица и JSON — только у вас</div>
+            </div>
+            <span class="priv-row-status ps-local">Ваш ПК</span>
+          </div>
+
+          <div class="mem-file-sep"></div>
+
+          <div class="priv-row" style="border-color:#FCA5A5;">
+            <div class="priv-row-icon" style="background:var(--red-bg);color:var(--red);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="priv-row-text">
+              <div class="priv-row-title" style="color:var(--red);">Никаких серверов</div>
+              <div class="priv-row-desc">Ни один байт ваших прайсов не отправляется в интернет</div>
+            </div>
+            <span class="priv-row-status ps-blocked">Заблокировано</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="privacy-content reveal">
+<h2 class="section-title" id="privacyTitle">Коммерческая тайна — <span class="hl">мы её не видим</span></h2>
+
+
+        <div class="privacy-points">
+          <div class="privacy-point">
+            <div class="privacy-point-icon pp-blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="privacy-point-text">
+              <div class="privacy-point-title">Браузер ≠ сервер</div>
+              <div class="privacy-point-desc">Файл открывается через стандартный File API — это то же самое, что открыть его в Excel. Ни один пакет с данными не покидает устройство.</div>
+            </div>
+          </div>
+          <div class="privacy-point">
+            <div class="privacy-point-icon pp-green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div class="privacy-point-text">
+              <div class="privacy-point-title">Нет учётных записей</div>
+              <div class="privacy-point-desc">Никакой регистрации, авторизации и синхронизации с облаком. Нечего взламывать и нечего утекать.</div>
+            </div>
+          </div>
+          <div class="privacy-point">
+            <div class="privacy-point-icon pp-amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="privacy-point-text">
+              <div class="privacy-point-title">Вся «база данных» — это один файл у вас</div>
+              <div class="privacy-point-desc">Файл памяти JSON лежит у вас на диске. Вы контролируете его полностью: копировать, передать коллеге, открыть в блокноте.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ПОЧЕМУ ФАЙЛ ПАМЯТИ, А НЕ БАЗА ДАННЫХ
+══════════════════════════════════════════════ -->
+<section class="memory-section" id="memory" aria-labelledby="memoryTitle">
+  <div class="container">
+    <div class="memory-inner">
+
+      <!-- Visual: file mock -->
+      <div class="memory-visual reveal reveal-delay-2">
+        <div class="memory-file-mock">
+          <div class="mem-file-bar">
+            <div class="mem-file-bar-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="mem-file-bar-name">settings_2025-06-15.json</div>
+            <div class="mem-file-bar-size">48 КБ</div>
+          </div>
+          <div class="mem-file-body">
+            <div class="mem-section-label">Что внутри файла памяти</div>
+
+            <div class="mem-item">
+              <div class="mem-item-icon mi-blue">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              </div>
+              <div class="mem-item-text">
+                <div class="mem-item-title">База кросскодов</div>
+                <div class="mem-item-desc">Группы эквивалентных штрихкодов</div>
+              </div>
+              <div class="mem-item-count">847 групп</div>
+            </div>
+
+            <div class="mem-item">
+              <div class="mem-item-icon mi-green">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              </div>
+              <div class="mem-item-text">
+                <div class="mem-item-title">База брендов</div>
+                <div class="mem-item-desc">Синонимы и антонимы для фильтра</div>
+              </div>
+              <div class="mem-item-count">63 бренда</div>
+            </div>
+
+            <div class="mem-item">
+              <div class="mem-item-icon mi-amber">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              </div>
+              <div class="mem-item-text">
+                <div class="mem-item-title">Шаблоны колонок</div>
+                <div class="mem-item-desc">Ключевые слова для автоопределения</div>
+              </div>
+              <div class="mem-item-count">12 типов</div>
+            </div>
+
+            <div class="mem-item">
+              <div class="mem-item-icon" style="background:var(--accent-bg);color:var(--accent);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <div class="mem-item-text">
+                <div class="mem-item-title">Ключ доступа к приложению</div>
+                <div class="mem-item-desc">Лицензионный ключ коробочной версии</div>
+              </div>
+              <div class="mem-item-count" style="background:var(--green-bg);color:var(--green-dark);">Активен</div>
+            </div>
+
+            <div class="mem-item">
+              <div class="mem-item-icon mi-blue">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              </div>
+              <div class="mem-item-text">
+                <div class="mem-item-title">Категории и настройки</div>
+                <div class="mem-item-desc">Фильтры, список слов-категорий</div>
+              </div>
+              <div class="mem-item-count">Все</div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Content -->
+      <div class="reveal">
+<h2 class="section-title" id="memoryTitle">Без регистрации, без облака —<br><span class="hl">данные только у вас</span></h2>
+        <p style="font-size:15px;color:var(--text-secondary);line-height:1.7;margin-bottom:4px;">
+          Вопрос логичный. Ответ — в приоритетах: конфиденциальность данных важнее удобства облачной синхронизации.
+        </p>
+
+        <div class="memory-why-grid">
+          <div class="memory-why-card">
+            <div class="mwc-icon" style="background:var(--accent-bg);color:var(--accent);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="mwc-title">Нет сервера — нет утечки</div>
+            <div class="mwc-desc">Ваши коммерческие данные не хранятся нигде, кроме вашего устройства.</div>
+          </div>
+
+          <div class="memory-why-card">
+            <div class="mwc-icon" style="background:var(--accent-bg);color:var(--accent);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="mwc-title">Работает без интернета</div>
+            <div class="mwc-desc">Загрузили файл памяти — и можете работать даже в поездке без Wi-Fi.</div>
+          </div>
+
+          <div class="memory-why-card">
+            <div class="mwc-icon" style="background:var(--accent-bg);color:var(--accent);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+            </div>
+            <div class="mwc-title">Вы владеете данными</div>
+            <div class="mwc-desc">Файл можно открыть, скопировать, передать коллеге или прочитать в текстовом редакторе.</div>
+          </div>
+
+          <div class="memory-why-card">
+            <div class="mwc-icon" style="background:var(--accent-bg);color:var(--accent);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h5a4 4 0 0 1 0 8H8"/><line x1="6" y1="15" x2="17" y2="15"/><line x1="8" y1="3" x2="8" y2="21"/></svg>
+            </div>
+            <div class="mwc-title">Нет подписки на хранилище</div>
+            <div class="mwc-desc">Облачные базы данных — это ежемесячные расходы. Ваш JSON — только у вас.</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     КАЛЬКУЛЯТОР ЭКОНОМИИ
+══════════════════════════════════════════════ -->
+<section class="calc-section" id="calc" aria-labelledby="calcTitle">
+  <div class="container">
+    <div class="reveal" style="margin-bottom:48px;">
+<h2 class="section-title" id="calcTitle">Считаем, сколько стоит <span class="hl">ваш ручной мониторинг</span></h2>
+      <p class="section-sub">Укажите ваши данные — и узнайте, сколько часов в год уходит на ручной мониторинг и сколько это стоит.</p>
+    </div>
+
+    <div class="calc-inner">
+      <!-- Inputs -->
+      <div class="calc-form-wrap reveal">
+        <div class="calc-glow-1"></div>
+        <div class="calc-glow-2"></div>
+        <div class="calc-form-title">
+          Калькулятор экономии
+        </div>
+
+        <div class="calc-field">
+          <label>Мониторингов в месяц</label>
+          <div class="calc-range-row">
+            <input type="range" class="calc-range" id="rMonths" min="1" max="20" value="4">
+            <span class="calc-val" id="valMonths">4</span>
+          </div>
+        </div>
+
+        <div class="calc-sep"></div>
+
+        <div class="calc-field">
+          <label>Зарплата менеджера в час</label>
+          <div class="calc-range-row">
+            <input type="range" class="calc-range" id="rSalary" min="100" max="2000" step="25" value="600">
+            <span class="calc-val" id="valSalary">600 ₽</span>
+          </div>
+        </div>
+
+        <div class="calc-field">
+          <label>Часов на один мониторинг</label>
+          <div class="calc-range-row">
+            <input type="range" class="calc-range" id="rMinutes" min="1" max="12" step="1" value="3">
+            <span class="calc-val" id="valMinutes">3 ч</span>
+          </div>
+          <div class="calc-hint">Среднее время одного мониторинга вручную, без автоматизации</div>
+        </div>
+
+      </div>
+
+      <!-- Results -->
+      <div class="calc-results reveal reveal-delay-2">
+        <div class="calc-results-header">
+          <div class="calc-results-eyebrow">Результат расчёта</div>
+          <div class="calc-results-title">Ваша потенциальная экономия</div>
+        </div>
+
+        <div class="calc-res-grid">
+          <div class="calc-res-card calc-res-green" id="cardSavedHours">
+            <div class="calc-res-label">Экономия часов</div>
+            <div class="calc-res-value" id="resSavedHours">—</div>
+            <div class="calc-res-unit">часов в год</div>
+            <div class="calc-res-bar"><div class="calc-res-bar-fill" id="barSavedHours"></div></div>
+          </div>
+          <div class="calc-res-card calc-res-green" id="cardSavedMoney">
+            <div class="calc-res-label">Экономия в рублях</div>
+            <div class="calc-res-value" id="resSavedMoney">—</div>
+            <div class="calc-res-unit">рублей в год</div>
+            <div class="calc-res-bar"><div class="calc-res-bar-fill" id="barSavedMoney"></div></div>
+          </div>
+          <div class="calc-res-card calc-res-blue" id="cardCost">
+            <div class="calc-res-label">Стоимость программы</div>
+            <div class="calc-res-value">14 990 ₽</div>
+            <div class="calc-res-unit">разово, обучение включено</div>
+            <div class="calc-res-bar"><div class="calc-res-bar-fill" style="width:100%"></div></div>
+          </div>
+          <div class="calc-res-card calc-res-blue" id="cardROI">
+            <div class="calc-res-label">Окупаемость</div>
+            <div class="calc-res-value" id="resROI">—</div>
+            <div class="calc-res-unit">месяцев</div>
+            <div class="calc-res-bar"><div class="calc-res-bar-fill" id="barROI"></div></div>
+          </div>
+        </div>
+
+        <!-- hidden for JS compat -->
+        <span id="resHoursNow" style="display:none">—</span>
+        <span id="resHoursNew" style="display:none">—</span>
+
+        <a href="#contact" class="btn calc-cta-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Хочу сэкономить
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FAQ
+══════════════════════════════════════════════ -->
+<section class="faq-section" id="faq" aria-labelledby="faqTitle">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="reveal">
+<h2 class="section-title" id="faqTitle">Всё, что вы хотели <span class="hl">спросить перед покупкой</span></h2>
+      <p class="section-sub">Если не нашли ответ — напишите нам, ответим быстро.</p>
+    </div>
+
+    <div class="faq-grid" id="faqGrid">
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="faq-q-text">Мои данные действительно не попадают на серверы?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Да. Программа использует браузерный File API — это такой же способ открыть файл, как в Excel или Word. Данные читаются локально JavaScript-кодом и нигде не передаются. Можете проверить сами через DevTools → Network — вы не увидите ни одного запроса с вашими данными.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <div class="faq-q-text">Какие форматы прайс-листов поддерживаются?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Поддерживаются .xlsx, .xls и .csv. Структура может быть любой — заголовки в первой строке, объединённые ячейки, пустые строки сверху. При первой загрузке нужно указать, какая колонка — штрихкод, а какая — цена. После этого шаблон сохраняется в файл памяти.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+          <div class="faq-q-text">Что такое файл памяти и зачем его сохранять?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Файл памяти — это JSON-файл, в котором хранятся кросскоды, база брендов, шаблоны колонок и настройки. Браузер не сохраняет данные между сессиями, поэтому при следующем открытии нужно загрузить этот файл — и всё восстановится за секунды. Храните его в надёжном месте: облачный диск или корпоративное хранилище.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h5a4 4 0 0 1 0 8H8"/><line x1="6" y1="15" x2="17" y2="15"/><line x1="8" y1="3" x2="8" y2="21"/></svg></div>
+          <div class="faq-q-text">Какая стоимость и есть ли подписка?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Коробочная версия стоит <strong style="color:var(--accent);font-size:15px;">14&nbsp;990&nbsp;₽</strong> <span style="color:var(--text-muted);text-decoration:line-through;">20&nbsp;000&nbsp;₽</span> — разово, без подписки. В стоимость входит настройка под ваши прайсы (у каждого они уникальные), минимальная кастомизация существующих функций и обучение на всех этапах. Любые дополнительные доработки под ваш бизнес (новые форматы, нестандартные функции) оплачиваются отдельно и обсуждаются индивидуально. Никаких скрытых условий.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="faq-q-text">Сколько поставщиков можно загрузить одновременно?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Ограничений на количество поставщиков нет. Практически проверено на 10+ прайсах одновременно. При очень большом количестве файлов или позиций рекомендуем использовать современный браузер (Chrome, Edge) на компьютере с 8+ ГБ оперативной памяти.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="faq-q-text">Нужна ли установка или регистрация?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Нет. Откройте ссылку в браузере — и сразу можно работать. Можно установить как PWA-приложение на рабочий стол через браузер, чтобы открывать одним кликом. Никакой регистрации, никакого аккаунта.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="21 15 21 19 17 19"/><path d="M21 19L3 5"/><polyline points="3 9 3 5 7 5"/><path d="M3 5l18 14"/></svg></div>
+          <div class="faq-q-text">Что если у поставщика нет штрихкодов — только артикулы?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Назначьте колонку с артикулом как «Штрихкод поставщика», а затем свяжите их с вашими штрихкодами через базу кросскодов вручную или с помощью «Поиска кросскодов». После этого сопоставление будет работать автоматически.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">
+          <div class="faq-q-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+          <div class="faq-q-text">Можно ли доработать программу под мой бизнес?</div>
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Да. Мы делаем доработки под запросы клиентов: новые форматы выгрузок, дополнительные фильтры и аналитику, автоматические наценки. Напишите нам — обсудим задачу и сроки.</div>
+      </div>
+
+    </div><!-- /faq-grid -->
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     ФИНАЛЬНЫЙ CTA
+══════════════════════════════════════════════ -->
+<section class="final-cta" id="cta" aria-labelledby="ctaTitle">
+  <div class="container">
+    <div class="final-cta-inner reveal">
+<h2 id="ctaTitle">Хватит тратить часы на Excel.<br><span style="opacity:.85">Загрузите прайс — получите результат за минуту.</span></h2>
+      <p>Откройте браузер, загрузите прайс — и уже через минуту увидите, у кого дешевле. 14 990 ₽ разово, обучение включено, данные только у вас.</p>
+
+      <div class="final-cta-note">
+        Работает в Chrome, Edge, Firefox, Safari
+        <span>·</span>
+        Без установки
+        <span>·</span>
+        PWA — можно добавить на рабочий стол
+      </div>
+      <div class="final-guarantee">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="g-pulse"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Не подошло — вернём полную сумму в течение 7 дней
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact" aria-labelledby="contactTitle">
+  <div class="contact-bg-anim">
+    <div class="cba-blob cba-blob-1"></div>
+    <div class="cba-blob cba-blob-2"></div>
+  </div>
+  <div class="container">
+    <div class="contact-inner">
+
+      <!-- Info + channels -->
+      <div class="contact-left reveal">
+        <h2 class="contact-info-title" id="contactTitle">Готовы сэкономить<br>десятки часов в месяц?</h2>
+        <p class="contact-info-sub">Свяжитесь с нами — ответим на вопросы, поможем с настройкой и подберём решение под вашу задачу.</p>
+
+        <div class="contact-cta-row">
+          <a href="https://t.me/vorontsov_dmitriy" class="btn btn-primary contact-cta-btn" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Telegram
+          </a>
+          <a href="tel:+79130998250" class="btn btn-primary contact-cta-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            +7 913 099-82-50
+          </a>
+          <a href="https://erofly83-arch.github.io/demo/" class="btn btn-primary contact-cta-btn" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Попробовать
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form-wrap reveal reveal-delay-2">
+        <div class="form-glow-1"></div>
+        <div class="form-glow-2"></div>
+        <div class="contact-form-header">
+          <div class="form-title">Узнайте цену и сроки<br>за 5 минут</div>
+          <div class="form-title-sub">Ответим быстро — обычно в течение часа</div>
+        </div>
+
+        <div id="cForm">
+          <div class="form-field">
+            <input type="tel" class="form-input" id="fPhone" placeholder="+7 900 000-00-00" autocomplete="tel">
+          </div>
+          <button class="form-btn" id="fBtn" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Отправить
+          </button>
+          <div class="form-err" id="fErr">Ошибка при отправке. Напишите нам в Telegram.</div>
+        </div>
+
+        <div class="form-ok" id="formOk">
+          <div class="form-ok-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="form-ok-title">Сообщение отправлено!</div>
+          <div class="form-ok-sub">Telegram отвечаем быстрее — напишите напрямую.</div>
+        </div>
+
+        <div class="contact-stats-row">
+          <div class="cs-stat">
+            <div class="cs-stat-val">~40 ч</div>
+            <div class="cs-stat-lbl">экономии в месяц</div>
+          </div>
+          <div class="cs-stat">
+            <div class="cs-stat-val">< 1 мес</div>
+            <div class="cs-stat-lbl">срок окупаемости</div>
+          </div>
+          <div class="cs-stat">
+            <div class="cs-stat-val">14 990 ₽</div>
+            <div class="cs-stat-lbl">разово, без подписок</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-minimal">
+      <span class="footer-copy">© 2026 Прайс-менеджер. Все права защищены.</span>
+      <span class="footer-tagline">Пока вы занимаетесь рутиной, конкуренты зарабатывают</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
+<script src="app.js"></script>
+</body>
+</html>
